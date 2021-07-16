@@ -7,7 +7,7 @@
 # Based on the previous work of Andrew Cunliffe <andrewmcunliffe@gmail.com>.
 # Contact Glenn Slade glennslade6@gmail.com> and Andrew Cunliffe <andrewmcunliffe@gmail.com>.
 # Point cloud clipping processing in PDAL.
-#
+##########################################################################################################################
 # Import modules
 import os
 import sys
