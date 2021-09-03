@@ -41,9 +41,6 @@ theme_fancy <- function() {
 }
 windowsFonts("Helvetica" = windowsFont("Helvetica")) # Ensure font is mapped correctly
 
-
-
-
 #-------1. Read in data in CSV Files --------
 
 SD <- read_csv("data/Survey_Data.csv",
@@ -54,18 +51,13 @@ SD <- read_csv("data/Survey_Data.csv",
  #                       col_types = cols(TIMESTAMP_START = col_datetime("%Y %m %d %H %M"),
   #                                       TIMESTAMP_END = col_datetime("%Y %m %d %H %M")),
    #                     na = c("", "NA",-9999))
-# dim (SD)
-# summary (SD)
-# head (SD)
-# str(SD)
+
 
 #-------2. Preparing data --------
 
 str (SD)
 # Changing column data types
 SD$Sky_Code <- as.factor(SD$Sky_Code) # Needs to be factor to plot as discrete data
-
-
 
 
 #-----3.   Plotting Data -------
@@ -78,11 +70,11 @@ SD$Sky_Code <- as.factor(SD$Sky_Code) # Needs to be factor to plot as discrete d
               colour = Sky_Code)) + 
   geom_point(aes(colour =Sky_Code )) +
                scale_color_manual(values = c(
-                 "7" = "purple",
-                 "6"= "orange",
-                 "5"="red",
-                 "4"="red",
-                 "0"="red")) +
+                 "7" = "wheat4",
+                 "6"= "wheat2",
+                 "5"="tan1",
+                 "4"="yellow1",
+                 "0"="yellow")) +
    labs(x = "Sun Elevation (degrees)",
         y = expression("Mean Wind speed (m s"^"-1"*")"),
         title = "Survey Distribution") +  
@@ -111,11 +103,11 @@ ggsave(
                colour = Sky_Code)) + 
     geom_point(aes(colour =Sky_Code )) +
     scale_color_manual(values = c(
-      "7" = "purple",
-      "6"= "orange",
-      "5"="red",
-      "4"="red",
-      "0"="red")) +
+      "7" = "wheat4",
+      "6"= "wheat2",
+      "5"="tan1",
+      "4"="yellow1",
+      "0"="yellow")) +
     labs(x = "Sun Elevation (degrees)",
          y = expression("Max Wind speed (m s"^"-1"*")"),
          title = "Survey Distribtuion") +  
@@ -134,11 +126,11 @@ ggsave(
                colour = Sky_Code)) + 
     geom_point(aes(colour =Sky_Code )) +
     scale_color_manual(values = c(
-      "7" = "purple",
-      "6"= "orange",
-      "5"="red",
-      "4"="red",
-      "0"="red")) +
+      "7" = "wheat4",
+      "6"= "wheat2",
+      "5"="tan1",
+      "4"="yellow1",
+      "0"="yellow")) +
     labs(x = "Sun Elevation (degrees)",
          y = expression("Wind speed SD (m s"^"-1"*")"),
          title = "Survey Distribution") +  
@@ -158,11 +150,11 @@ ggsave(
                colour = Sky_Code)) + 
     geom_point(aes(colour =Sky_Code )) +
     scale_color_manual(values = c(
-      "7" = "purple",
-      "6"= "orange",
-      "5"="red",
-      "4"="red",
-      "0"="red")) +
+      "7" = "wheat4",
+      "6"= "wheat2",
+      "5"="tan1",
+      "4"="yellow1",
+      "0"="yellow")) +
     labs(x = "Sun Percentage During Survey (%)",
          y = expression("Mean Wind speed (m s"^"-1"*")"),
          title = "Survey Distribution") +  
@@ -170,7 +162,6 @@ ggsave(
     theme(legend.position = c(0.8, 0.75), legend.box.background = element_rect(colour = "black") )  
   
 )
-
 
 #Histogram
 
@@ -189,6 +180,22 @@ ggsave(
       "0"="red")) +
     labs(x = expression("Mean Wind speed (m s"^"-1"*")",
          y = "Count"),
+         title = "Survey Distribution") +  
+    theme_fancy() +
+    theme(legend.position = c(0.9, 0.75), legend.box.background = element_rect(colour = "black") )  
+  
+)
+
+(figurex <- SD %>% 
+    ggplot(aes(x=Wind_Av,fill = Sky_Code)) + geom_histogram ()+
+    scale_fill_manual(values = c(
+      "7" = "wheat4",
+      "6"= "wheat2",
+      "5"="tan1",
+      "4"="yellow1",
+      "0"="yellow")) +
+    labs(x = expression("Mean Wind speed (m s"^"-1"*")",
+                        y = "Count"),
          title = "Survey Distribution") +  
     theme_fancy() +
     theme(legend.position = c(0.9, 0.75), legend.box.background = element_rect(colour = "black") )  
