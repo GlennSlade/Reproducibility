@@ -110,7 +110,7 @@ ggsave(
       "0"="red")) +
     labs(x = "Sun Elevation (degrees)",
          y = expression("Max Wind speed (m s"^"-1"*")"),
-         title = "Survey Distribtuion") +  
+         title = "Survey Distribution") +  
     theme_fancy() +
     theme(legend.position = c(0.1, 0.8), legend.box.background = element_rect(colour = "black"))  
   
