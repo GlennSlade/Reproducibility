@@ -41,9 +41,6 @@ theme_fancy <- function() {
 }
 windowsFonts("Helvetica" = windowsFont("Helvetica")) # Ensure font is mapped correctly
 
-
-
-
 #-------1. Read in data in CSV Files --------
 
 SD <- read_csv("data/Survey_Data.csv",
@@ -54,18 +51,13 @@ SD <- read_csv("data/Survey_Data.csv",
  #                       col_types = cols(TIMESTAMP_START = col_datetime("%Y %m %d %H %M"),
   #                                       TIMESTAMP_END = col_datetime("%Y %m %d %H %M")),
    #                     na = c("", "NA",-9999))
-# dim (SD)
-# summary (SD)
-# head (SD)
-# str(SD)
+
 
 #-------2. Preparing data --------
 
 str (SD)
 # Changing column data types
 SD$Sky_Code <- as.factor(SD$Sky_Code) # Needs to be factor to plot as discrete data
-
-
 
 
 #-----3.   Plotting Data -------
@@ -171,7 +163,6 @@ ggsave(
   
 )
 
-
 #Histogram
 
 #SD2 %>% ggplot(aes(x=Wind_Av)) + geom_histogram(binwidth=0.5)
@@ -194,4 +185,5 @@ ggsave(
     theme(legend.position = c(0.9, 0.75), legend.box.background = element_rect(colour = "black") )  
   
 )
+
 
