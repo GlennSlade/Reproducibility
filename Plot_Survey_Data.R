@@ -71,9 +71,10 @@ SD$Sky_Code <- as.factor(SD$Sky_Code) # Needs to be factor to plot as discrete d
   geom_point(aes(colour =Sky_Code )) +
                scale_color_manual(values = c(
                  "7" = "purple",
-                 "6"= "orange",
-                 "5"="red",
-                 "4"="red",
+                 "6"= "blue",
+                 "5"="pink",
+                 "4"="yellow",
+                 "2"="orange",
                  "0"="red")) +
    labs(x = "Sun Elevation (degrees)",
         y = expression("Mean Wind speed (m s"^"-1"*")"),
@@ -89,14 +90,13 @@ ggsave(
   # filename = "/plots/test.png",
   filename = "plots/test_wind_vs_elevation.png",
   width = 16,
-  height = 16,
+  height = 10,
   units = "cm"
 )
   
 
 #Max wind speed vs Sun Elevation
-#SD %>% ggplot(aes (x=Sun_Elev_calc, y=Wind_Max, colour = Sky_Code))+ geom_point((aes (colour =Sky_Code )) + scale_color_manual(values = c("7" = "purple",6"= "orange",
-#                                                                                                                                           "5"="red")) ) 
+                                                                                                                                         "5"="red")) ) 
 (figurex <- SD %>% 
     ggplot(aes(x=Sun_Elev_calc,
                y=Wind_Max,
@@ -104,9 +104,10 @@ ggsave(
     geom_point(aes(colour =Sky_Code )) +
     scale_color_manual(values = c(
       "7" = "purple",
-      "6"= "orange",
-      "5"="red",
-      "4"="red",
+      "6"= "blue",
+      "5"="pink",
+      "4"="yellow",
+      "2"="orange",
       "0"="red")) +
     labs(x = "Sun Elevation (degrees)",
          y = expression("Max Wind speed (m s"^"-1"*")"),
@@ -117,9 +118,7 @@ ggsave(
 )
 
 #SD wind speed vs Sun Elevation
-#SD %>% ggplot(aes (x=Sun_Elev_calc, y=Wind_SD, colour = Sky_Code))+ geom_point((aes (colour =Sky_Code )) + scale_color_manual(values = c("7" = "purple",
-#                                                                                                                                          "6"= "orange",
-#                                                                                                                                          "5"="red")) ) 
+                                                                                                                                         "5"="red")) ) 
 (figurex <- SD %>% 
     ggplot(aes(x=Sun_Elev_calc,
                y=Wind_SD,
@@ -127,9 +126,10 @@ ggsave(
     geom_point(aes(colour =Sky_Code )) +
     scale_color_manual(values = c(
       "7" = "purple",
-      "6"= "orange",
-      "5"="red",
-      "4"="red",
+      "6"= "blue",
+      "5"="pink",
+      "4"="yellow",
+      "2"="orange",
       "0"="red")) +
     labs(x = "Sun Elevation (degrees)",
          y = expression("Wind speed SD (m s"^"-1"*")"),
@@ -141,9 +141,7 @@ ggsave(
 
 
 # Average Wind Speed vs Percentage Sun
-#SD %>% ggplot(aes (x=Sun_Percent, y=Wind_Av, colour = Sky_Code))+ geom_point(aes (colour =Sky_Code )) + scale_color_manual(values = c("7" = "purple",
-#                              "6"= "orange",
-#                                "5"="red", "0"="red","4"="red")) 
+ 
 (figurex <- SD %>% 
     ggplot(aes(x=Sun_Percent,
                y=Wind_Av,
@@ -151,11 +149,12 @@ ggsave(
     geom_point(aes(colour =Sky_Code )) +
     scale_color_manual(values = c(
       "7" = "purple",
-      "6"= "orange",
-      "5"="red",
-      "4"="red",
+      "6"= "blue",
+      "5"="pink",
+      "4"="yellow",
+      "2"="orange",
       "0"="red")) +
-    labs(x = "Sun Percentage During Survey (%)",
+    labs(x = "Unobscured Sunlight Percentage During Survey (%)",
          y = expression("Mean Wind speed (m s"^"-1"*")"),
          title = "Survey Distribution") +  
     theme_fancy() +
@@ -163,27 +162,49 @@ ggsave(
   
 )
 
+
+
+
+ggsave(
+  figurex,
+  # filename = "/plots/test.png",
+  filename = "plots/test_wind_vs_sun_percent.png",
+  width = 16,
+  height = 10,
+  units = "cm"
+)
+
+
+
+
+
 #Histogram
-
-#SD2 %>% ggplot(aes(x=Wind_Av)) + geom_histogram(binwidth=0.5)
-
-#SD %>% ggplot(aes(x=Wind_Av, fill=Sky_Code)) + geom_histogram ()
-
 
 (figurex <- SD %>% 
     ggplot(aes(x=Wind_Av,fill = Sky_Code)) + geom_histogram ()+
     scale_fill_manual(values = c(
       "7" = "purple",
-      "6"= "orange",
-      "5"="red",
-      "4"="red",
+      "6"= "blue",
+      "5"="pink",
+      "4"="yellow",
+      "2"="orange",
       "0"="red")) +
     labs(x = expression("Mean Wind speed (m s"^"-1"*")",
-         y = "Count"),
+         y = "Number of Surveys"),
          title = "Survey Distribution") +  
     theme_fancy() +
     theme(legend.position = c(0.9, 0.75), legend.box.background = element_rect(colour = "black") )  
   
 )
 
+
+
+ggsave(
+  figurex,
+  # filename = "/plots/test.png",
+  filename = "plots/test_wind_histogram.png",
+  width = 16,
+  height = 10,
+  units = "cm"
+)
 

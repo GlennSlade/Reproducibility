@@ -9,8 +9,8 @@ library (tidyverse)
 #---------- 1. Read Data, clean columns and assign headers----
 
 # reading wind and environmental data exported from Kestrel Weather station
-headers = read.csv("C:/Workspace/Reproducibility/Wind/S49_wind_data.csv", skip = 3, header = F, nrows = 1, as.is = T)
-df = read.csv("C:/Workspace/Reproducibility/Wind/S49_wind_data.csv", skip = 5, header = F)
+headers = read.csv("C:/Workspace/Reproducibility/Wind/S61_wind_data.csv", skip = 3, header = F, nrows = 1, as.is = T)
+df = read.csv("C:/Workspace/Reproducibility/Wind/S61_wind_data.csv", skip = 5, header = F)
 colnames(df)= headers
 #view (df)
 #str (df)
