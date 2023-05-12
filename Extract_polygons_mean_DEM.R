@@ -19,6 +19,7 @@ library(dplyr)
 library(remotes)
 library(cowplot)
 library(reshape2)
+library(readxl)
 
 #----1. Read in files for DEM ----
 
@@ -28,21 +29,27 @@ S2 <- rast("E:/Glenn/Reproducibility/Processed/DEM/S2_DEM.tif")
 S3 <- rast("E:/Glenn/Reproducibility/Processed/DEM/S3_DEM.tif")
 S4 <- rast("E:/Glenn/Reproducibility/Processed/DEM/S4_DEM.tif")
 S5 <- rast("E:/Glenn/Reproducibility/Processed/DEM/S5_DEM.tif")
+S6 <- rast("E:/Glenn/Reproducibility/Processed/DEM/S6_DEM.tif")
 #S5 <-terra::project(S5, y="EPSG:7405")
 
 
 #Plots - read in the shapefile of 64 polygons
 plots <- read_sf(dsn = "E:/Glenn/Reproducibility/Plot", layer = "plot_polygons")
-#plots <- vect(plots)
-#plots  <-terra::project(plots, y="EPSG:7405")
 plots
 # Tidy up Sf table
-
 plots <-plots%>%dplyr:: select (-c(2,3))
 plot(plots)
 
+P45_sf <- read_sf(dsn = "E:/Glenn/Reproducibility/Plot", layer = "P45")
+P45_vect = vect(P45_sf)
+S1_P45rast = crop(S1,P45_vect)
+plot (S1_P45rast)
+#Read in plot data 
 
-#write_xlsx(Data_DF, path = "E:/Glenn/Reproducibility/test.xlsx" )
+plot_data <- read_xlsx("E:/Glenn/Reproducibility/Plot/Plot_Data.xlsx")
+
+
+
 
 # Extract Data
 
@@ -73,7 +80,22 @@ Data <- exact_extract(S5,plots,"mean" )
 names(Data) <- c('S5')
 Data_DF <- dplyr::mutate(Data_DF, "S5" = Data)
 
-Data_DF <-Data_DF%>%dplyr:: select (-c(3))
+Data <- exact_extract(S6,plots,"mean" )
+names(Data) <- c('S6')
+Data_DF <- dplyr::mutate(Data_DF, "S6" = Data)
+
+#### Move to end of script when all surveys processed
+
+Data_DF <-Data_DF%>%dplyr:: select (-c(3))#removes unwanted column
+
+#DF_Final <- Data_DF %>% full_join(plot_data, by = join_by(Plot == Plot))
+
+DF_Final <- Data_DF %>% full_join(plot_data)# joins with field plot data
+
+write_xlsx(Data_DF, path = "E:/Glenn/Reproducibility/test_2.xlsx" )
+
+
+
 
 
 
