@@ -3,17 +3,18 @@
 #This script merges three csv files containing SfM Canopy Height Metrics, Survey Data and Plot data into one data frame (R_data)
 
 #---------- 0. Setup Environment----
-library (tidyverse)   
+library (tidyverse)  
+library(readxl)
 
 #---------- 1. Read Data ----
-Plot_data <- read_csv ("C:/Workspace/Reproducibility/Plot_Data.csv") # Plot Species, AGB and coordinate data
+Plot_data <- read_xlsx ("E:/Glenn/Reproducibility/Plot/Plot_Data.xlsx") # Plot Species, AGB and coordinate data
 
 # Plot_data <- read_csv ("C:/Workspace/Reproducibility/Plot_Data.csv",
 #                        col_types = cols(PlotGenus = col_character))
 
 str(Plot_data)
 
-Survey_data <- read_csv ("C:/Workspace/Reproducibility/Survey_Data.csv") # Survey Date, Time, Wind and illumination Conditions
+Survey_data <- read_xlsx ("E:/Glenn/Reproducibility/Survey/Survey_Data.xlsx") # Survey Date, Time, Wind and illumination Conditions
 
 SfM_data <- read_csv ("C:/Workspace/Reproducibility/SfM_CH_Data.csv") # Reconstructed Canopy Height Metrics for each plot calculated from .las files from each survey
 # as_tibble(Plot_data) #turns data frame into tidy tibble

@@ -99,15 +99,15 @@ def script_setup():
     #  The relative altitiude is then added to the known absolute altitude of the take of point(defined through input file line 38) to give a new value of z in the absolute altitude of the camers used by Metashape
     #  This portion of the script needs to be checked to see how it interacts with non DJI drone data
     
-    alt = float(altitude_adjustment) #MSCHANGE
-
-    for camera in chunk.cameras:  #MSCHANGE
-        if not camera.reference.location:
-            continue
-        if ("DJI/RelativeAltitude" in camera.photo.meta.keys()) and camera.reference.location and revise_altitude == "TRUE":  #MSCHANGE
-            z = float(camera.photo.meta["DJI/RelativeAltitude"])
-            camera.reference.location = (camera.reference.location.x, camera.reference.location.y, z + alt)
-
+    # alt = float(altitude_adjustment) #MSCHANGE
+    # 
+    # for camera in chunk.cameras:  #MSCHANGE
+    #     if not camera.reference.location:
+    #         continue
+    #     if ("DJI/RelativeAltitude" in camera.photo.meta.keys()) and camera.reference.location and revise_altitude == "TRUE":  #MSCHANGE
+    #         z = float(camera.photo.meta["DJI/RelativeAltitude"])
+    #         camera.reference.location = (camera.reference.location.x, camera.reference.location.y, z + alt)
+    # 
 
 
     # Optional import of markers if desired...
@@ -156,7 +156,7 @@ def preprocess(Est_img_qual, img_qual_thresh, chunk):
     # Estimating Image Quality and excluding poor images
     if Est_img_qual == "TRUE":
         print ("running image quality filter...")
-        chunk.analyzePhotos()  # MSCHANGE
+        chunk.analyzeImages()  # changed from analyzePhotos() in Metashape 2.0
 
         qual = float(img_qual_thresh)
 

@@ -29,6 +29,7 @@ library(tictoc)
 
 P1_sf <- read_sf(dsn = "E:/Glenn/Reproducibility/Plot", layer = "P1")
 P45_sf <- read_sf(dsn = "E:/Glenn/Reproducibility/Plot", layer = "P45")
+P45_sf_w <- read_sf(dsn = "E:/Glenn/Reproducibility/Plot", layer = "P45_w")
 
 plots_sf <- read_sf(dsn = "E:/Glenn/Reproducibility/Plot", layer = "plot_polygons")
 
@@ -37,21 +38,25 @@ plots_sf <- read_sf(dsn = "E:/Glenn/Reproducibility/Plot", layer = "plot_polygon
 
 
 # seems to take a while....
-S1_laz= readLAS("E:/Glenn/Reproducibility/Processed/LAS/S1.laz")
-S1_las= readLAS("E:/Glenn/Reproducibility/Processed/LAS/S1.las")
+S1_laz= readLAS("E:/Glenn/Reproducibility/Processed/LAZ/S1_dpc_export.laz")
+#S1_las= readLAS("E:/Glenn/Reproducibility/Processed/LAS/S1.las")
 
 
 # crop out the sample area
-S1_P1 = clip_roi(S1_las, P1_sf)
-S1_P45 = clip_roi(S1_las, P45_sf)
-plot(S1_P1)
+#S1_P1 = clip_roi(S1_las, P1_sf)
+S1_P45 = clip_roi(S1_laz, P45_sf)
+S1_P45_w = clip_roi(S1_laz, P45_sf_w)
+#plot(S1_P1)
 plot(S1_P45)
+plot(S1_P45_w)
+
 
 
 #write P1 las file
 
-writeLAS(S1_P1, "E:/Glenn/Reproducibility/Processed/LAS/Plots/S1_P1.las")
-writeLAS(S1_P45, "E:/Glenn/Reproducibility/Processed/LAS/Plots/S1_P45.las")
+#writeLAS(S1_P1, "E:/Glenn/Reproducibility/Processed/LAS/Plots/S1_P1.las")
+writeLAS(S1_P45, "E:/Glenn/Reproducibility/Processed/LAS/Plots/S1_P45a.laz")
+writeLAS(S1_P45_w, "E:/Glenn/Reproducibility/Processed/LAS/Plots/S1_P45_w.laz")
 
 
 

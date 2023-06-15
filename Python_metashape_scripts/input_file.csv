@@ -1,10 +1,10 @@
 Variable,Input,description
 home,E:/Glenn/Reproducibility,# the project folder full path make sure to use forward slash
 document_title,S8,# name of the project (do not add extension)
-data_directory,E:/Glenn/Reproducibility/Drone_raw_data/,# the directory where all images are being stored NB put an additional forward slash to make sure the python os.path.join command uses the correct / 
+data_directory,E:/Glenn/Reproducibility/Drone_raw_data/S8/,# the directory where all images are being stored NB put an additional forward slash to make sure the python os.path.join command uses the correct / 
 coordinate_system,EPSG:: 7405,# the coordinate system EPSG code (OSGB- EPSG:: 27700) EPSG::27700
-marker_coordinates_file,E:/Glenn/Reproducibility/GNSS_data/GCP.csv,"# marker coordinates - Not essential. If not desired enter ""NONE"""
-marker_coord_system,EPSG:: 27700,# enter the EPSG code for the crs that the marker coordinates are measures in.
+marker_coordinates_file,NONE,#E:/Glenn/Reproducibility/GNSS_data/GCP.csv,"# marker coordinates - Not essential. If not desired enter ""NONE"""
+marker_coord_system,EPSG:: 7405,# enter the EPSG code for the crs that the marker coordinates are measures in.
 Export_Folder,E:/Glenn/Reproducibility/Processed,# The name of an export folder (no need to create this - if it doesn't exist it will be created)
 Estimate_Image_Quality,TRUE,# either TRUE or FALSE for the following options (must be in caps)
 Image_Quality_Threshold,0.5,# The PhotoScan image quality threshold - 0.5 as default
