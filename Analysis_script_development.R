@@ -4,13 +4,14 @@ library(viridis)
 library(readxl)
 library(writexl)
 library(DescTools)
+#library(ggsave2)
 
 #----1. Import data -----
 
 # Import environmental data for each survey: wind sun elevation etc
 survey <- read_xlsx("C:/Workspace/R_Scripts/Reproducibility/data/Survey_Data.xlsx")
 # Import reconstructed canopy height estimates for each plot and each survey  
-CHM <- read_xlsx("C:/Workspace/R_Scripts/Reproducibility/data/plot_chm_metrics_temp3.xlsx")
+CHM <- read_xlsx("C:/Workspace/R_Scripts/Reproducibility/data/plot_chm_metrics_temp10.xlsx")
 # Import plot data: species, plot measurements etc
 plot <- read_xlsx("C:/Workspace/R_Scripts/Reproducibility/data/Plot_Data.xlsx")
 
@@ -68,7 +69,7 @@ windowsFonts("Helvetica" = windowsFont("Helvetica")) # Ensure font is mapped cor
 
 # loop through each plot number - generating graph
 
-for (i in 1:3) {
+for (i in 1:64) {
 
 #Filter master df for plot number i 
 df<- filter(master_df,plot == i)
@@ -96,7 +97,8 @@ r2val <- summary(lmres)$r.squared
 
 #Plot the graph
 
-(paste0("P",i,"_w")) <- ggplot(df_temp) +
+#(paste0("P",i,"_w")) <- ggplot(df_temp) +
+P1 <- ggplot(df_temp) +
   geom_smooth(aes(x, y,col='black',weight=0.01),method='lm',formula=y ~ x,se=FALSE) +
   geom_point(aes(x, y), alpha=0.3, size = 1) +
   #add the statistics
@@ -114,16 +116,16 @@ r2val <- summary(lmres)$r.squared
   ylab('Mean Canopy Height (m)')
   #coord_equal(ratio=1)
   #coord_fixed(xlim=c(0,0.8),ylim=c(0,0.8))
-plot(  (paste0("P",i,"_w")))
-
-# ggsave(
-#   P1,
-#   # filename = "/plots/test.png",
-#   filename = paste0("C:/Workspace/R_Scripts/Reproducibility/output_data/plots/P",i,"_wind_chm.png"),
-#   width = 10,
-#   height = 10,
-#   units = "cm"
-# )
+#plot(  (paste0("P",i,"_w")))
+plot(P1)
+ ggplot2::ggsave(
+  P1,
+  # filename = "/plots/test.png",
+  filename = paste0("C:/Workspace/R_Scripts/Reproducibility/output_data/plots/P",i,"_wind_chm.jpg"),
+  width = 10,
+  height = 10,
+  units = "cm"
+)
 
   
   next
