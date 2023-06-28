@@ -11,7 +11,7 @@ library(DescTools)
 # Import environmental data for each survey: wind sun elevation etc
 survey <- read_xlsx("C:/Workspace/R_Scripts/Reproducibility/data/Survey_Data.xlsx")
 # Import reconstructed canopy height estimates for each plot and each survey  
-CHM <- read_xlsx("C:/Workspace/R_Scripts/Reproducibility/data/plot_chm_metrics_temp10.xlsx")
+CHM <- read_xlsx("C:/Workspace/R_Scripts/Reproducibility/data/plot_chm_metrics_temp20.xlsx")
 # Import plot data: species, plot measurements etc
 plot <- read_xlsx("C:/Workspace/R_Scripts/Reproducibility/data/Plot_Data.xlsx")
 
@@ -66,6 +66,9 @@ theme_fancy <- function() {
 }
 windowsFonts("Helvetica" = windowsFont("Helvetica")) # Ensure font is mapped correctly
 
+# make empty data fram for statistics
+
+df_all <- data.frame(plot = integer(),Mean_chm = double(),R2 = double(),MAD= double(),Slope= double())
 
 # loop through each plot number - generating graph
 
@@ -94,6 +97,16 @@ MADval <- mean(abs(x-y))
 MADrel <- MADval/mean(x)*100
 lmres <- lm(y~x)
 r2val <- summary(lmres)$r.squared
+
+Mean_chm <- mean(df$Mn_chm)
+
+# Prepare statistics for summary table
+
+# make data frame row for plot level statistics
+df_p<-data.frame (plot = c(i), Mean_chm = c(Mean_chm),R2 = c(r2val),MAD= c(MADval),Slope = c(tls_slp))
+#add the plot data row to the master df for all plots and all surveys
+df_all <- rbind(df_all,df_p)
+
 
 #Plot the graph
 
@@ -131,10 +144,19 @@ plot(P1)
   next
 }
 
+write_xlsx(df_all,"C:/Workspace/R_Scripts/Reproducibility/data/plot_statistics_wind.xlsx")
+
 
 #-----4. Sun elevation Simple analysis -------
 
+
+df_all_sun <- data.frame(plot = integer(),Mean_chm = double(),R2 = double(),MAD= double(),Slope= double())
+
+
+
 # loop through each plot number - generating graph
+
+
 
 for (i in 1:64) {
   
@@ -161,6 +183,16 @@ for (i in 1:64) {
   MADrel <- MADval/mean(x)*100
   lmres <- lm(y~x)
   r2val <- summary(lmres)$r.squared
+  
+  Mean_chm <- mean(df$Mn_chm)
+  
+  # make data frame row for plot level statistics
+  df_p<-data.frame (plot = c(i), Mean_chm = c(Mean_chm),R2 = c(r2val),MAD= c(MADval),Slope = c(tls_slp))
+  #add the plot data row to the master df for all plots and all surveys
+  df_all_sun <- rbind(df_all_sun,df_p)
+  
+  
+  
   
   #Plot the graph
   
@@ -197,6 +229,10 @@ for (i in 1:64) {
   
   next
 }
+
+write_xlsx(df_all_sun,"C:/Workspace/R_Scripts/Reproducibility/data/plot_statistics_sun.xlsx")
+
+
 
 #------5. Is there covariance or multi-collinearity between sun. wind or cloud cover ?-----
 
@@ -385,3 +421,4 @@ for (i in 1:64) {
   
   next
 }
+

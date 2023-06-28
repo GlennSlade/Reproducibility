@@ -63,18 +63,18 @@ survey_df <- full_join(CHM, survey, by = "survey")
 master_df <- full_join(survey_df,plot, by = "plot")
 
 
-# filter for the Ulex Genus
-#df<- filter(master_df,PlotGenus == "Betula")
-df2<- filter(master_df,PlotGenus == "Ulex europaeus")
-#df<- filter(master_df,PlotGenus == "Salix aurita")
-#df<- filter(master_df,PlotGenus == "Festuca arundinacea")
+# filter for the betula Genus
+#df2<- filter(master_df,PlotGenus == "Betula")
+#df2<- filter(master_df,PlotGenus == "Ulex europaeus")
+#df2<- filter(master_df,PlotGenus == "Salix aurita")
+df2<- filter(master_df,PlotGenus == "Festuca arundinacea")
 
 #Filter master df for plot number i 
-df<- filter(df2,plot == 17)
+df<- filter(df2,plot == 8)
 
 {# Assign Average wind to X and Mean Canopy height to Y
 
-x <- as.vector(df$Wind_Av)
+x <- as.vector(df$Sun_Elev_calc)
 y <- as.vector(df$Mn_chm)
 df_temp <- data.frame(x = x, y = y,
                       d = densCols(x, y, colramp = colorRampPalette(rev(c('yellow','orange','turquoise4','dodgerblue4')))))#colorRampPalette(rev(rainbow(10, end = 4/6)))))
@@ -93,35 +93,38 @@ MADrel <- MADval/mean(x)*100
 lmres <- lm(y~x)
 r2val <- summary(lmres)$r.squared
 
+
+
+
 #Plot the graph
 
 #(paste0("P",i,"_w")) <- ggplot(df_temp) +
-P17 <- ggplot(df_temp) +
+P8 <- ggplot(df_temp) +
   geom_smooth(aes(x, y,col='black',weight=0.01),method='lm',formula=y ~ x,se=FALSE) +
   geom_point(aes(x, y), alpha=0.3, size = 1) +
   #add the statistics
   #geom_text(aes(x=0.0,y=0.5),label=paste0('MAD: ',round(MADval,3)),hjust='left',size=2.0)+
-  #geom_text(aes(x=0.0,y=0.47),label=paste0('R2: ',round(r2val,2)),hjust='left',size=2.0)+
-  #geom_text(aes(x=0.0,y=0.44),label=ccc,hjust='left', size=2.0)+
-  #geom_text(aes(x=0.0,y=0.41),label=equation,hjust='left', size=2.0)+
-  #theme(text = element_text(size=20))+
+  #geom_text(aes(x=0.0,y=0.2),label=paste0('R2: ',round(r2val,2)),hjust='left',size=2.0)+
+  #geom_text(aes(x=0.0,y=0.9),label=ccc,hjust='left', size=2.0)+
+  #geom_text(aes(x=0.0,y=0.4),label=equation,hjust='left', size=2.0)+
+  #theme(text = element_text(size=6))+
   scale_color_identity() +
   theme_fancy() +
   #add title and labels
-  ggtitle(paste0("Plot 17"))+
+  ggtitle(paste0("Plot 8"))+
   #theme(aspect.ratio=1)+
-  xlab('Wind Speed (m/s)')+
-  ylab('Mean Canopy Height (m)')+
+  xlab('Sun Elevation (dgerees)')+
+  ylab('Mean Canopy Height (m)')
 #coord_equal(ratio=1)
-coord_fixed(xlim=c(0.39,2.55),ylim=c(0,1.2))
+#coord_fixed(xlim=c(0.2,2.55),ylim=c(0,0.6))
 #plot(  (paste0("P",i,"_w")))
-plot(P17)
+plot(P8)
 }
-df<- filter(df2,plot == 18)
+df<- filter(df2,plot == 16)
 
 {# Assign Average wind to X and Mean Canopy height to Y
   
-  x <- as.vector(df$Wind_Av)
+  x <- as.vector(df$Sun_Elev_calc)
   y <- as.vector(df$Mn_chm)
   df_temp <- data.frame(x = x, y = y,
                         d = densCols(x, y, colramp = colorRampPalette(rev(c('yellow','orange','turquoise4','dodgerblue4')))))#colorRampPalette(rev(rainbow(10, end = 4/6)))))
@@ -143,32 +146,32 @@ df<- filter(df2,plot == 18)
   #Plot the graph
   
   #(paste0("P",i,"_w")) <- ggplot(df_temp) +
-  P18 <- ggplot(df_temp) +
+  P16 <- ggplot(df_temp) +
     geom_smooth(aes(x, y,col='black',weight=0.01),method='lm',formula=y ~ x,se=FALSE) +
     geom_point(aes(x, y), alpha=0.3, size = 1) +
     #add the statistics
     #geom_text(aes(x=0.0,y=0.5),label=paste0('MAD: ',round(MADval,3)),hjust='left',size=2.0)+
-    #geom_text(aes(x=0.0,y=0.47),label=paste0('R2: ',round(r2val,2)),hjust='left',size=2.0)+
-    #geom_text(aes(x=0.0,y=0.44),label=ccc,hjust='left', size=2.0)+
-    #geom_text(aes(x=0.0,y=0.41),label=equation,hjust='left', size=2.0)+
-    #theme(text = element_text(size=20))+
+    #geom_text(aes(x=0.0,y=0.2),label=paste0('R2: ',round(r2val,2)),hjust='left',size=2.0)+
+    #geom_text(aes(x=0.0,y=0.9),label=ccc,hjust='left', size=2.0)+
+    #geom_text(aes(x=0.0,y=0.4),label=equation,hjust='left', size=2.0)+
+    #theme(text = element_text(size=6))+
     scale_color_identity() +
     theme_fancy() +
     #add title and labels
-    ggtitle(paste0("Plot 18"))+
+    ggtitle(paste0("Plot 16"))+
     #theme(aspect.ratio=1)+
-    xlab('Wind Speed (m/s)')+
-    ylab('Mean Canopy Height (m)')+
+    xlab('Sun Elevation (dgerees)')+
+    ylab('Mean Canopy Height (m)')
   #coord_equal(ratio=1)
-  coord_fixed(xlim=c(0.39,2.55),ylim=c(0,1.2))
+ #coord_fixed(xlim=c(0.2,2.55),ylim=c(0,0.6))
   #plot(  (paste0("P",i,"_w")))
-  plot(P18)
+  plot(P16)
 }
-df<- filter(df2,plot == 19)
+df<- filter(df2,plot == 15)
 
 {# Assign Average wind to X and Mean Canopy height to Y
   
-  x <- as.vector(df$Wind_Av)
+  x <- as.vector(df$Sun_Elev_calc)
   y <- as.vector(df$Mn_chm)
   df_temp <- data.frame(x = x, y = y,
                         d = densCols(x, y, colramp = colorRampPalette(rev(c('yellow','orange','turquoise4','dodgerblue4')))))#colorRampPalette(rev(rainbow(10, end = 4/6)))))
@@ -190,32 +193,32 @@ df<- filter(df2,plot == 19)
   #Plot the graph
   
   #(paste0("P",i,"_w")) <- ggplot(df_temp) +
-  P19 <- ggplot(df_temp) +
+  P15 <- ggplot(df_temp) +
     geom_smooth(aes(x, y,col='black',weight=0.01),method='lm',formula=y ~ x,se=FALSE) +
     geom_point(aes(x, y), alpha=0.3, size = 1) +
     #add the statistics
     #geom_text(aes(x=0.0,y=0.5),label=paste0('MAD: ',round(MADval,3)),hjust='left',size=2.0)+
-    #geom_text(aes(x=0.0,y=0.47),label=paste0('R2: ',round(r2val,2)),hjust='left',size=2.0)+
-    #geom_text(aes(x=0.0,y=0.44),label=ccc,hjust='left', size=2.0)+
-    #geom_text(aes(x=0.0,y=0.41),label=equation,hjust='left', size=2.0)+
-    #theme(text = element_text(size=20))+
+    #geom_text(aes(x=0.0,y=0.2),label=paste0('R2: ',round(r2val,2)),hjust='left',size=2.0)+
+    #geom_text(aes(x=0.0,y=0.9),label=ccc,hjust='left', size=2.0)+
+    #geom_text(aes(x=0.0,y=0.4),label=equation,hjust='left', size=2.0)+
+    #theme(text = element_text(size=6))+
     scale_color_identity() +
     theme_fancy() +
     #add title and labels
-    ggtitle(paste0("Plot 19"))+
+    ggtitle(paste0("Plot 15"))+
     #theme(aspect.ratio=1)+
-    xlab('Wind Speed (m/s)')+
-    ylab('Mean Canopy Height (m)')+
+    xlab('Sun Elevation (dgerees)')+
+    ylab('Mean Canopy Height (m)')
   #coord_equal(ratio=1)
-  coord_fixed(xlim=c(0.39,2.55),ylim=c(0,1.2))
+ #coord_fixed(xlim=c(0.2,2.55),ylim=c(0,0.6))
   #plot(  (paste0("P",i,"_w")))
-  plot(P19)
+  plot(P15)
 }
-df<- filter(df2,plot == 20)
+df<- filter(df2,plot == 6)
 
 {# Assign Average wind to X and Mean Canopy height to Y
   
-  x <- as.vector(df$Wind_Av)
+  x <- as.vector(df$Sun_Elev_calc)
   y <- as.vector(df$Mn_chm)
   df_temp <- data.frame(x = x, y = y,
                         d = densCols(x, y, colramp = colorRampPalette(rev(c('yellow','orange','turquoise4','dodgerblue4')))))#colorRampPalette(rev(rainbow(10, end = 4/6)))))
@@ -237,32 +240,32 @@ df<- filter(df2,plot == 20)
   #Plot the graph
   
   #(paste0("P",i,"_w")) <- ggplot(df_temp) +
-  P20 <- ggplot(df_temp) +
+  P6 <- ggplot(df_temp) +
     geom_smooth(aes(x, y,col='black',weight=0.01),method='lm',formula=y ~ x,se=FALSE) +
     geom_point(aes(x, y), alpha=0.3, size = 1) +
     #add the statistics
     #geom_text(aes(x=0.0,y=0.5),label=paste0('MAD: ',round(MADval,3)),hjust='left',size=2.0)+
-    #geom_text(aes(x=0.0,y=0.47),label=paste0('R2: ',round(r2val,2)),hjust='left',size=2.0)+
-    #geom_text(aes(x=0.0,y=0.44),label=ccc,hjust='left', size=2.0)+
-    #geom_text(aes(x=0.0,y=0.41),label=equation,hjust='left', size=2.0)+
-    #theme(text = element_text(size=20))+
+    #geom_text(aes(x=0.0,y=0.2),label=paste0('R2: ',round(r2val,2)),hjust='left',size=2.0)+
+    #geom_text(aes(x=0.0,y=0.9),label=ccc,hjust='left', size=2.0)+
+    #geom_text(aes(x=0.0,y=0.4),label=equation,hjust='left', size=2.0)+
+    #theme(text = element_text(size=6))+
     scale_color_identity() +
     theme_fancy() +
     #add title and labels
-    ggtitle(paste0("Plot 20"))+
+    ggtitle(paste0("Plot 6"))+
     #theme(aspect.ratio=1)+
-    xlab('Wind Speed (m/s)')+
-    ylab('Mean Canopy Height (m)')+
+    xlab('Sun Elevation (dgerees)')+
+    ylab('Mean Canopy Height (m)')
   #coord_equal(ratio=1)
-  coord_fixed(xlim=c(0.39,2.55),ylim=c(0,1.2))
+ #coord_fixed(xlim=c(0.2,2.55),ylim=c(0,0.6))
   #plot(  (paste0("P",i,"_w")))
-  plot(P20)
+  plot(P6)
 }
-df<- filter(df2,plot == 21)
+df<- filter(df2,plot == 1)
 
 {# Assign Average wind to X and Mean Canopy height to Y
   
-  x <- as.vector(df$Wind_Av)
+  x <- as.vector(df$Sun_Elev_calc)
   y <- as.vector(df$Mn_chm)
   df_temp <- data.frame(x = x, y = y,
                         d = densCols(x, y, colramp = colorRampPalette(rev(c('yellow','orange','turquoise4','dodgerblue4')))))#colorRampPalette(rev(rainbow(10, end = 4/6)))))
@@ -284,33 +287,33 @@ df<- filter(df2,plot == 21)
   #Plot the graph
   
   #(paste0("P",i,"_w")) <- ggplot(df_temp) +
-  P21 <- ggplot(df_temp) +
+  P1 <- ggplot(df_temp) +
     geom_smooth(aes(x, y,col='black',weight=0.01),method='lm',formula=y ~ x,se=FALSE) +
     geom_point(aes(x, y), alpha=0.3, size = 1) +
     #add the statistics
     #geom_text(aes(x=0.0,y=0.5),label=paste0('MAD: ',round(MADval,3)),hjust='left',size=2.0)+
-    #geom_text(aes(x=0.0,y=0.47),label=paste0('R2: ',round(r2val,2)),hjust='left',size=2.0)+
-    #geom_text(aes(x=0.0,y=0.44),label=ccc,hjust='left', size=2.0)+
-    #geom_text(aes(x=0.0,y=0.41),label=equation,hjust='left', size=2.0)+
-    #theme(text = element_text(size=21))+
+    #geom_text(aes(x=0.0,y=0.2),label=paste0('R2: ',round(r2val,2)),hjust='left',size=2.0)+
+    #geom_text(aes(x=0.0,y=0.9),label=ccc,hjust='left', size=2.0)+
+    #geom_text(aes(x=0.0,y=0.4),label=equation,hjust='left', size=2.0)+
+    #theme(text = element_text(size=1))+
     scale_color_identity() +
     theme_fancy() +
     #add title and labels
-    ggtitle(paste0("Plot 21"))+
+    ggtitle(paste0("Plot 1"))+
     #theme(aspect.ratio=1)+
-    xlab('Wind Speed (m/s)')+
-    ylab('Mean Canopy Height (m)')+
+    xlab('Sun Elevation (dgerees)')+
+    ylab('Mean Canopy Height (m)')
   #coord_equal(ratio=1)
-  coord_fixed(xlim=c(0.39,2.55),ylim=c(0,1.2))
+ #coord_fixed(xlim=c(0.2,2.55),ylim=c(0,0.6))
   #plot(  (paste0("P",i,"_w")))
-  plot(P21)
+  plot(P1)
 }
 
-df<- filter(df2,plot == 22)
+df<- filter(df2,plot == 7)
 
 {# Assign Average wind to X and Mean Canopy height to Y
   
-  x <- as.vector(df$Wind_Av)
+  x <- as.vector(df$Sun_Elev_calc)
   y <- as.vector(df$Mn_chm)
   df_temp <- data.frame(x = x, y = y,
                         d = densCols(x, y, colramp = colorRampPalette(rev(c('yellow','orange','turquoise4','dodgerblue4')))))#colorRampPalette(rev(rainbow(10, end = 4/6)))))
@@ -332,32 +335,32 @@ df<- filter(df2,plot == 22)
   #Plot the graph
   
   #(paste0("P",i,"_w")) <- ggplot(df_temp) +
-  P22 <- ggplot(df_temp) +
+  P7 <- ggplot(df_temp) +
     geom_smooth(aes(x, y,col='black',weight=0.01),method='lm',formula=y ~ x,se=FALSE) +
     geom_point(aes(x, y), alpha=0.3, size = 1) +
     #add the statistics
     #geom_text(aes(x=0.0,y=0.5),label=paste0('MAD: ',round(MADval,3)),hjust='left',size=2.0)+
-    #geom_text(aes(x=0.0,y=0.47),label=paste0('R2: ',round(r2val,2)),hjust='left',size=2.0)+
-    #geom_text(aes(x=0.0,y=0.44),label=ccc,hjust='left', size=2.0)+
-    #geom_text(aes(x=0.0,y=0.41),label=equation,hjust='left', size=2.0)+
-    #theme(text = element_text(size=22))+
+    #geom_text(aes(x=0.0,y=0.2),label=paste0('R2: ',round(r2val,2)),hjust='left',size=2.0)+
+    #geom_text(aes(x=0.0,y=0.9),label=ccc,hjust='left', size=2.0)+
+    #geom_text(aes(x=0.0,y=0.4),label=equation,hjust='left', size=2.0)+
+    #theme(text = element_text(size=7))+
     scale_color_identity() +
     theme_fancy() +
     #add title and labels
-    ggtitle(paste0("Plot 22"))+
+    ggtitle(paste0("Plot 7"))+
     #theme(aspect.ratio=1)+
-    xlab('Wind Speed (m/s)')+
-    ylab('Mean Canopy Height (m)')+
+    xlab('Sun Elevation (dgerees)')+
+    ylab('Mean Canopy Height (m)')
   #coord_equal(ratio=1)
-  coord_fixed(xlim=c(0.39,2.55),ylim=c(0,1.2))
+ #coord_fixed(xlim=c(0.2,2.55),ylim=c(0,0.6))
   #plot(  (paste0("P",i,"_w")))
-  plot(P22)
+  plot(P7)
 }
-df<- filter(df2,plot == 23)
+df<- filter(df2,plot == 9)
 
 {# Assign Average wind to X and Mean Canopy height to Y
   
-  x <- as.vector(df$Wind_Av)
+  x <- as.vector(df$Sun_Elev_calc)
   y <- as.vector(df$Mn_chm)
   df_temp <- data.frame(x = x, y = y,
                         d = densCols(x, y, colramp = colorRampPalette(rev(c('yellow','orange','turquoise4','dodgerblue4')))))#colorRampPalette(rev(rainbow(10, end = 4/6)))))
@@ -379,32 +382,32 @@ df<- filter(df2,plot == 23)
   #Plot the graph
   
   #(paste0("P",i,"_w")) <- ggplot(df_temp) +
-  P23 <- ggplot(df_temp) +
+  P9 <- ggplot(df_temp) +
     geom_smooth(aes(x, y,col='black',weight=0.01),method='lm',formula=y ~ x,se=FALSE) +
     geom_point(aes(x, y), alpha=0.3, size = 1) +
     #add the statistics
     #geom_text(aes(x=0.0,y=0.5),label=paste0('MAD: ',round(MADval,3)),hjust='left',size=2.0)+
-    #geom_text(aes(x=0.0,y=0.47),label=paste0('R2: ',round(r2val,2)),hjust='left',size=2.0)+
-    #geom_text(aes(x=0.0,y=0.44),label=ccc,hjust='left', size=2.0)+
-    #geom_text(aes(x=0.0,y=0.41),label=equation,hjust='left', size=2.0)+
-    #theme(text = element_text(size=23))+
+    #geom_text(aes(x=0.0,y=0.2),label=paste0('R2: ',round(r2val,2)),hjust='left',size=2.0)+
+    #geom_text(aes(x=0.0,y=0.9),label=ccc,hjust='left', size=2.0)+
+    #geom_text(aes(x=0.0,y=0.4),label=equation,hjust='left', size=2.0)+
+    #theme(text = element_text(size=9))+
     scale_color_identity() +
     theme_fancy() +
     #add title and labels
-    ggtitle(paste0("Plot 23"))+
+    ggtitle(paste0("Plot 9"))+
     #theme(aspect.ratio=1)+
-    xlab('Wind Speed (m/s)')+
-    ylab('Mean Canopy Height (m)')+
+    xlab('Sun Elevation (dgerees)')+
+    ylab('Mean Canopy Height (m)')
   #coord_equal(ratio=1)
-  coord_fixed(xlim=c(0.39,2.55),ylim=c(0,1.2))
+ #coord_fixed(xlim=c(0.2,2.55),ylim=c(0,0.6))
   #plot(  (paste0("P",i,"_w")))
-  plot(P23)
+  plot(P9)
 }
-df<- filter(df2,plot == 24)
+df<- filter(df2,plot == 12)
 
 {# Assign Average wind to X and Mean Canopy height to Y
   
-  x <- as.vector(df$Wind_Av)
+  x <- as.vector(df$Sun_Elev_calc)
   y <- as.vector(df$Mn_chm)
   df_temp <- data.frame(x = x, y = y,
                         d = densCols(x, y, colramp = colorRampPalette(rev(c('yellow','orange','turquoise4','dodgerblue4')))))#colorRampPalette(rev(rainbow(10, end = 4/6)))))
@@ -426,32 +429,32 @@ df<- filter(df2,plot == 24)
   #Plot the graph
   
   #(paste0("P",i,"_w")) <- ggplot(df_temp) +
-  P24 <- ggplot(df_temp) +
+  P12 <- ggplot(df_temp) +
     geom_smooth(aes(x, y,col='black',weight=0.01),method='lm',formula=y ~ x,se=FALSE) +
     geom_point(aes(x, y), alpha=0.3, size = 1) +
     #add the statistics
     #geom_text(aes(x=0.0,y=0.5),label=paste0('MAD: ',round(MADval,3)),hjust='left',size=2.0)+
-    #geom_text(aes(x=0.0,y=0.47),label=paste0('R2: ',round(r2val,2)),hjust='left',size=2.0)+
-    #geom_text(aes(x=0.0,y=0.44),label=ccc,hjust='left', size=2.0)+
-    #geom_text(aes(x=0.0,y=0.41),label=equation,hjust='left', size=2.0)+
-    #theme(text = element_text(size=24))+
+    #geom_text(aes(x=0.0,y=0.2),label=paste0('R2: ',round(r2val,2)),hjust='left',size=2.0)+
+    #geom_text(aes(x=0.0,y=0.9),label=ccc,hjust='left', size=2.0)+
+    #geom_text(aes(x=0.0,y=0.4),label=equation,hjust='left', size=2.0)+
+    #theme(text = element_text(size=12))+
     scale_color_identity() +
     theme_fancy() +
     #add title and labels
-    ggtitle(paste0("Plot 24"))+
+    ggtitle(paste0("Plot 12"))+
     #theme(aspect.ratio=1)+
-    xlab('Wind Speed (m/s)')+
-    ylab('Mean Canopy Height (m)')+
+    xlab('Sun Elevation (dgerees)')+
+    ylab('Mean Canopy Height (m)')
   #coord_equal(ratio=1)
-  coord_fixed(xlim=c(0.39,2.55),ylim=c(0,1.2))
+ #coord_fixed(xlim=c(0.2,2.55),ylim=c(0,0.6))
   #plot(  (paste0("P",i,"_w")))
-  plot(P24)
+  plot(P12)
 }
-df<- filter(df2,plot == 25)
+df<- filter(df2,plot == 2)
 
 {# Assign Average wind to X and Mean Canopy height to Y
   
-  x <- as.vector(df$Wind_Av)
+  x <- as.vector(df$Sun_Elev_calc)
   y <- as.vector(df$Mn_chm)
   df_temp <- data.frame(x = x, y = y,
                         d = densCols(x, y, colramp = colorRampPalette(rev(c('yellow','orange','turquoise4','dodgerblue4')))))#colorRampPalette(rev(rainbow(10, end = 4/6)))))
@@ -473,32 +476,32 @@ df<- filter(df2,plot == 25)
   #Plot the graph
   
   #(paste0("P",i,"_w")) <- ggplot(df_temp) +
-  P25 <- ggplot(df_temp) +
+  P2 <- ggplot(df_temp) +
     geom_smooth(aes(x, y,col='black',weight=0.01),method='lm',formula=y ~ x,se=FALSE) +
     geom_point(aes(x, y), alpha=0.3, size = 1) +
     #add the statistics
     #geom_text(aes(x=0.0,y=0.5),label=paste0('MAD: ',round(MADval,3)),hjust='left',size=2.0)+
-    #geom_text(aes(x=0.0,y=0.47),label=paste0('R2: ',round(r2val,2)),hjust='left',size=2.0)+
-    #geom_text(aes(x=0.0,y=0.44),label=ccc,hjust='left', size=2.0)+
-    #geom_text(aes(x=0.0,y=0.41),label=equation,hjust='left', size=2.0)+
-    #theme(text = element_text(size=25))+
+    #geom_text(aes(x=0.0,y=0.2),label=paste0('R2: ',round(r2val,2)),hjust='left',size=2.0)+
+    #geom_text(aes(x=0.0,y=0.9),label=ccc,hjust='left', size=2.0)+
+    #geom_text(aes(x=0.0,y=0.4),label=equation,hjust='left', size=2.0)+
+    #theme(text = element_text(size=2))+
     scale_color_identity() +
     theme_fancy() +
     #add title and labels
-    ggtitle(paste0("Plot 25"))+
+    ggtitle(paste0("Plot 2"))+
     #theme(aspect.ratio=1)+
-    xlab('Wind Speed (m/s)')+
-    ylab('Mean Canopy Height (m)')+
+    xlab('Sun Elevation (dgerees)')+
+    ylab('Mean Canopy Height (m)')
   #coord_equal(ratio=1)
-  coord_fixed(xlim=c(0.39,2.55),ylim=c(0,1.2))
+ #coord_fixed(xlim=c(0.2,2.55),ylim=c(0,0.6))
   #plot(  (paste0("P",i,"_w")))
-  plot(P25)
+  plot(P2)
 }
-df<- filter(df2,plot == 26)
+df<- filter(df2,plot == 11)
 
 {# Assign Average wind to X and Mean Canopy height to Y
   
-  x <- as.vector(df$Wind_Av)
+  x <- as.vector(df$Sun_Elev_calc)
   y <- as.vector(df$Mn_chm)
   df_temp <- data.frame(x = x, y = y,
                         d = densCols(x, y, colramp = colorRampPalette(rev(c('yellow','orange','turquoise4','dodgerblue4')))))#colorRampPalette(rev(rainbow(10, end = 4/6)))))
@@ -520,33 +523,33 @@ df<- filter(df2,plot == 26)
   #Plot the graph
   
   #(paste0("P",i,"_w")) <- ggplot(df_temp) +
-  P26 <- ggplot(df_temp) +
+  P11 <- ggplot(df_temp) +
     geom_smooth(aes(x, y,col='black',weight=0.01),method='lm',formula=y ~ x,se=FALSE) +
     geom_point(aes(x, y), alpha=0.3, size = 1) +
     #add the statistics
     #geom_text(aes(x=0.0,y=0.5),label=paste0('MAD: ',round(MADval,3)),hjust='left',size=2.0)+
-    #geom_text(aes(x=0.0,y=0.47),label=paste0('R2: ',round(r2val,2)),hjust='left',size=2.0)+
-    #geom_text(aes(x=0.0,y=0.44),label=ccc,hjust='left', size=2.0)+
-    #geom_text(aes(x=0.0,y=0.41),label=equation,hjust='left', size=2.0)+
-    #theme(text = element_text(size=26))+
+    #geom_text(aes(x=0.0,y=0.2),label=paste0('R2: ',round(r2val,2)),hjust='left',size=2.0)+
+    #geom_text(aes(x=0.0,y=0.9),label=ccc,hjust='left', size=2.0)+
+    #geom_text(aes(x=0.0,y=0.4),label=equation,hjust='left', size=2.0)+
+    #theme(text = element_text(size=11))+
     scale_color_identity() +
     theme_fancy() +
     #add title and labels
-    ggtitle(paste0("Plot 26"))+
+    ggtitle(paste0("Plot 11"))+
     #theme(aspect.ratio=1)+
-    xlab('Wind Speed (m/s)')+
-    ylab('Mean Canopy Height (m)')+
+    xlab('Sun Elevation (dgerees)')+
+    ylab('Mean Canopy Height (m)')
   #coord_equal(ratio=1)
-  coord_fixed(xlim=c(0.39,2.55),ylim=c(0,1.2))
+ #coord_fixed(xlim=c(0.2,2.55),ylim=c(0,0.6))
   #plot(  (paste0("P",i,"_w")))
-  plot(P26)
+  plot(P11)
 }
 
-df<- filter(df2,plot == 27)
+df<- filter(df2,plot == 13)
 
 {# Assign Average wind to X and Mean Canopy height to Y
   
-  x <- as.vector(df$Wind_Av)
+  x <- as.vector(df$Sun_Elev_calc)
   y <- as.vector(df$Mn_chm)
   df_temp <- data.frame(x = x, y = y,
                         d = densCols(x, y, colramp = colorRampPalette(rev(c('yellow','orange','turquoise4','dodgerblue4')))))#colorRampPalette(rev(rainbow(10, end = 4/6)))))
@@ -568,32 +571,32 @@ df<- filter(df2,plot == 27)
   #Plot the graph
   
   #(paste0("P",i,"_w")) <- ggplot(df_temp) +
-  P27 <- ggplot(df_temp) +
+  P13 <- ggplot(df_temp) +
     geom_smooth(aes(x, y,col='black',weight=0.01),method='lm',formula=y ~ x,se=FALSE) +
     geom_point(aes(x, y), alpha=0.3, size = 1) +
     #add the statistics
     #geom_text(aes(x=0.0,y=0.5),label=paste0('MAD: ',round(MADval,3)),hjust='left',size=2.0)+
-    #geom_text(aes(x=0.0,y=0.47),label=paste0('R2: ',round(r2val,2)),hjust='left',size=2.0)+
-    #geom_text(aes(x=0.0,y=0.44),label=ccc,hjust='left', size=2.0)+
-    #geom_text(aes(x=0.0,y=0.41),label=equation,hjust='left', size=2.0)+
-    #theme(text = element_text(size=27))+
+    #geom_text(aes(x=0.0,y=0.2),label=paste0('R2: ',round(r2val,2)),hjust='left',size=2.0)+
+    #geom_text(aes(x=0.0,y=0.9),label=ccc,hjust='left', size=2.0)+
+    #geom_text(aes(x=0.0,y=0.4),label=equation,hjust='left', size=2.0)+
+    #theme(text = element_text(size=13))+
     scale_color_identity() +
     theme_fancy() +
     #add title and labels
-    ggtitle(paste0("Plot 27"))+
+    ggtitle(paste0("Plot 13"))+
     #theme(aspect.ratio=1)+
-    xlab('Wind Speed (m/s)')+
-    ylab('Mean Canopy Height (m)')+
+    xlab('Sun Elevation (dgerees)')+
+    ylab('Mean Canopy Height (m)')
   #coord_equal(ratio=1)
-  coord_fixed(xlim=c(0.39,2.55),ylim=c(0,1.2))
+ #coord_fixed(xlim=c(0.2,2.55),ylim=c(0,0.6))
   #plot(  (paste0("P",i,"_w")))
-  plot(P27)
+  plot(P13)
 }
-df<- filter(df2,plot == 28)
+df<- filter(df2,plot == 10)
 
 {# Assign Average wind to X and Mean Canopy height to Y
   
-  x <- as.vector(df$Wind_Av)
+  x <- as.vector(df$Sun_Elev_calc)
   y <- as.vector(df$Mn_chm)
   df_temp <- data.frame(x = x, y = y,
                         d = densCols(x, y, colramp = colorRampPalette(rev(c('yellow','orange','turquoise4','dodgerblue4')))))#colorRampPalette(rev(rainbow(10, end = 4/6)))))
@@ -615,32 +618,32 @@ df<- filter(df2,plot == 28)
   #Plot the graph
   
   #(paste0("P",i,"_w")) <- ggplot(df_temp) +
-  P28 <- ggplot(df_temp) +
+  P10 <- ggplot(df_temp) +
     geom_smooth(aes(x, y,col='black',weight=0.01),method='lm',formula=y ~ x,se=FALSE) +
     geom_point(aes(x, y), alpha=0.3, size = 1) +
     #add the statistics
     #geom_text(aes(x=0.0,y=0.5),label=paste0('MAD: ',round(MADval,3)),hjust='left',size=2.0)+
-    #geom_text(aes(x=0.0,y=0.47),label=paste0('R2: ',round(r2val,2)),hjust='left',size=2.0)+
-    #geom_text(aes(x=0.0,y=0.44),label=ccc,hjust='left', size=2.0)+
-    #geom_text(aes(x=0.0,y=0.41),label=equation,hjust='left', size=2.0)+
-    #theme(text = element_text(size=28))+
+    #geom_text(aes(x=0.0,y=0.2),label=paste0('R2: ',round(r2val,2)),hjust='left',size=2.0)+
+    #geom_text(aes(x=0.0,y=0.9),label=ccc,hjust='left', size=2.0)+
+    #geom_text(aes(x=0.0,y=0.4),label=equation,hjust='left', size=2.0)+
+    #theme(text = element_text(size=10))+
     scale_color_identity() +
     theme_fancy() +
     #add title and labels
-    ggtitle(paste0("Plot 28"))+
+    ggtitle(paste0("Plot 10"))+
     #theme(aspect.ratio=1)+
-    xlab('Wind Speed (m/s)')+
-    ylab('Mean Canopy Height (m)')+
+    xlab('Sun Elevation (dgerees)')+
+    ylab('Mean Canopy Height (m)')
   #coord_equal(ratio=1)
-  coord_fixed(xlim=c(0.39,2.55),ylim=c(0,1.2))
+ #coord_fixed(xlim=c(0.2,2.55),ylim=c(0,0.6))
   #plot(  (paste0("P",i,"_w")))
-  plot(P28)
+  plot(P10)
 }
-df<- filter(df2,plot == 29)
+df<- filter(df2,plot == 14)
 
 {# Assign Average wind to X and Mean Canopy height to Y
   
-  x <- as.vector(df$Wind_Av)
+  x <- as.vector(df$Sun_Elev_calc)
   y <- as.vector(df$Mn_chm)
   df_temp <- data.frame(x = x, y = y,
                         d = densCols(x, y, colramp = colorRampPalette(rev(c('yellow','orange','turquoise4','dodgerblue4')))))#colorRampPalette(rev(rainbow(10, end = 4/6)))))
@@ -662,32 +665,32 @@ df<- filter(df2,plot == 29)
   #Plot the graph
   
   #(paste0("P",i,"_w")) <- ggplot(df_temp) +
-  P29 <- ggplot(df_temp) +
+  P14 <- ggplot(df_temp) +
     geom_smooth(aes(x, y,col='black',weight=0.01),method='lm',formula=y ~ x,se=FALSE) +
     geom_point(aes(x, y), alpha=0.3, size = 1) +
     #add the statistics
     #geom_text(aes(x=0.0,y=0.5),label=paste0('MAD: ',round(MADval,3)),hjust='left',size=2.0)+
-    #geom_text(aes(x=0.0,y=0.47),label=paste0('R2: ',round(r2val,2)),hjust='left',size=2.0)+
-    #geom_text(aes(x=0.0,y=0.44),label=ccc,hjust='left', size=2.0)+
-    #geom_text(aes(x=0.0,y=0.41),label=equation,hjust='left', size=2.0)+
-    #theme(text = element_text(size=29))+
+    #geom_text(aes(x=0.0,y=0.2),label=paste0('R2: ',round(r2val,2)),hjust='left',size=2.0)+
+    #geom_text(aes(x=0.0,y=0.9),label=ccc,hjust='left', size=2.0)+
+    #geom_text(aes(x=0.0,y=0.4),label=equation,hjust='left', size=2.0)+
+    #theme(text = element_text(size=14))+
     scale_color_identity() +
     theme_fancy() +
     #add title and labels
-    ggtitle(paste0("Plot 29"))+
+    ggtitle(paste0("Plot 14"))+
     #theme(aspect.ratio=1)+
-    xlab('Wind Speed (m/s)')+
-    ylab('Mean Canopy Height (m)')+
+    xlab('Sun Elevation (dgerees)')+
+    ylab('Mean Canopy Height (m)')
   #coord_equal(ratio=1)
-  coord_fixed(xlim=c(0.39,2.55),ylim=c(0,1.2))
+ #coord_fixed(xlim=c(0.2,2.55),ylim=c(0,0.6))
   #plot(  (paste0("P",i,"_w")))
-  plot(P29)
+  plot(P14)
 }
-df<- filter(df2,plot == 30)
+df<- filter(df2,plot == 5)
 
 {# Assign Average wind to X and Mean Canopy height to Y
   
-  x <- as.vector(df$Wind_Av)
+  x <- as.vector(df$Sun_Elev_calc)
   y <- as.vector(df$Mn_chm)
   df_temp <- data.frame(x = x, y = y,
                         d = densCols(x, y, colramp = colorRampPalette(rev(c('yellow','orange','turquoise4','dodgerblue4')))))#colorRampPalette(rev(rainbow(10, end = 4/6)))))
@@ -709,32 +712,32 @@ df<- filter(df2,plot == 30)
   #Plot the graph
   
   #(paste0("P",i,"_w")) <- ggplot(df_temp) +
-  P30 <- ggplot(df_temp) +
+  P5 <- ggplot(df_temp) +
     geom_smooth(aes(x, y,col='black',weight=0.01),method='lm',formula=y ~ x,se=FALSE) +
     geom_point(aes(x, y), alpha=0.3, size = 1) +
     #add the statistics
     #geom_text(aes(x=0.0,y=0.5),label=paste0('MAD: ',round(MADval,3)),hjust='left',size=2.0)+
-    #geom_text(aes(x=0.0,y=0.47),label=paste0('R2: ',round(r2val,2)),hjust='left',size=2.0)+
-    #geom_text(aes(x=0.0,y=0.44),label=ccc,hjust='left', size=2.0)+
-    #geom_text(aes(x=0.0,y=0.41),label=equation,hjust='left', size=2.0)+
-    #theme(text = element_text(size=30))+
+    #geom_text(aes(x=0.0,y=0.2),label=paste0('R2: ',round(r2val,2)),hjust='left',size=2.0)+
+    #geom_text(aes(x=0.0,y=0.9),label=ccc,hjust='left', size=2.0)+
+    #geom_text(aes(x=0.0,y=0.4),label=equation,hjust='left', size=2.0)+
+    #theme(text = element_text(size=5))+
     scale_color_identity() +
     theme_fancy() +
     #add title and labels
-    ggtitle(paste0("Plot 30"))+
+    ggtitle(paste0("Plot 5"))+
     #theme(aspect.ratio=1)+
-    xlab('Wind Speed (m/s)')+
-    ylab('Mean Canopy Height (m)')+
+    xlab('Sun Elevation (dgerees)')+
+    ylab('Mean Canopy Height (m)')
   #coord_equal(ratio=1)
-  coord_fixed(xlim=c(0.39,2.55),ylim=c(0,1.2))
+ #coord_fixed(xlim=c(0.2,2.55),ylim=c(0,0.6))
   #plot(  (paste0("P",i,"_w")))
-  plot(P30)
+  plot(P5)
 }
-df<- filter(df2,plot == 31)
+df<- filter(df2,plot == 3)
 
 {# Assign Average wind to X and Mean Canopy height to Y
   
-  x <- as.vector(df$Wind_Av)
+  x <- as.vector(df$Sun_Elev_calc)
   y <- as.vector(df$Mn_chm)
   df_temp <- data.frame(x = x, y = y,
                         d = densCols(x, y, colramp = colorRampPalette(rev(c('yellow','orange','turquoise4','dodgerblue4')))))#colorRampPalette(rev(rainbow(10, end = 4/6)))))
@@ -756,32 +759,32 @@ df<- filter(df2,plot == 31)
   #Plot the graph
   
   #(paste0("P",i,"_w")) <- ggplot(df_temp) +
-  P31 <- ggplot(df_temp) +
+  P3 <- ggplot(df_temp) +
     geom_smooth(aes(x, y,col='black',weight=0.01),method='lm',formula=y ~ x,se=FALSE) +
     geom_point(aes(x, y), alpha=0.3, size = 1) +
     #add the statistics
     #geom_text(aes(x=0.0,y=0.5),label=paste0('MAD: ',round(MADval,3)),hjust='left',size=2.0)+
-    #geom_text(aes(x=0.0,y=0.47),label=paste0('R2: ',round(r2val,2)),hjust='left',size=2.0)+
-    #geom_text(aes(x=0.0,y=0.44),label=ccc,hjust='left', size=2.0)+
-    #geom_text(aes(x=0.0,y=0.41),label=equation,hjust='left', size=2.0)+
-    #theme(text = element_text(size=31))+
+    #geom_text(aes(x=0.0,y=0.2),label=paste0('R2: ',round(r2val,2)),hjust='left',size=2.0)+
+    #geom_text(aes(x=0.0,y=0.9),label=ccc,hjust='left', size=2.0)+
+    #geom_text(aes(x=0.0,y=0.4),label=equation,hjust='left', size=2.0)+
+    #theme(text = element_text(size=3))+
     scale_color_identity() +
     theme_fancy() +
     #add title and labels
-    ggtitle(paste0("Plot 31"))+
+    ggtitle(paste0("Plot 3"))+
     #theme(aspect.ratio=1)+
-    xlab('Wind Speed (m/s)')+
-    ylab('Mean Canopy Height (m)')+
+    xlab('Sun Elevation (dgerees)')+
+    ylab('Mean Canopy Height (m)')
   #coord_equal(ratio=1)
-  coord_fixed(xlim=c(0.39,2.55),ylim=c(0,1.2))
+ #coord_fixed(xlim=c(0.2,2.55),ylim=c(0,0.6))
   #plot(  (paste0("P",i,"_w")))
-  plot(P31)
+  plot(P3)
 }
-df<- filter(df2,plot == 32)
+df<- filter(df2,plot == 4)
 
 {# Assign Average wind to X and Mean Canopy height to Y
   
-  x <- as.vector(df$Wind_Av)
+  x <- as.vector(df$Sun_Elev_calc)
   y <- as.vector(df$Mn_chm)
   df_temp <- data.frame(x = x, y = y,
                         d = densCols(x, y, colramp = colorRampPalette(rev(c('yellow','orange','turquoise4','dodgerblue4')))))#colorRampPalette(rev(rainbow(10, end = 4/6)))))
@@ -803,35 +806,38 @@ df<- filter(df2,plot == 32)
   #Plot the graph
   
   #(paste0("P",i,"_w")) <- ggplot(df_temp) +
-  P32 <- ggplot(df_temp) +
+  P4 <- ggplot(df_temp) +
     geom_smooth(aes(x, y,col='black',weight=0.01),method='lm',formula=y ~ x,se=FALSE) +
     geom_point(aes(x, y), alpha=0.3, size = 1) +
     #add the statistics
     #geom_text(aes(x=0.0,y=0.5),label=paste0('MAD: ',round(MADval,3)),hjust='left',size=2.0)+
-    #geom_text(aes(x=0.0,y=0.47),label=paste0('R2: ',round(r2val,2)),hjust='left',size=2.0)+
-    #geom_text(aes(x=0.0,y=0.44),label=ccc,hjust='left', size=2.0)+
-    #geom_text(aes(x=0.0,y=0.41),label=equation,hjust='left', size=2.0)+
-    #theme(text = element_text(size=32))+
+    #geom_text(aes(x=0.0,y=0.2),label=paste0('R2: ',round(r2val,2)),hjust='left',size=2.0)+
+    #geom_text(aes(x=0.0,y=0.9),label=ccc,hjust='left', size=2.0)+
+    #geom_text(aes(x=0.0,y=0.4),label=equation,hjust='left', size=2.0)+
+    #theme(text = element_text(size=4))+
     scale_color_identity() +
     theme_fancy() +
     #add title and labels
-    ggtitle(paste0("Plot 32"))+
+    ggtitle(paste0("Plot 4"))+
     #theme(aspect.ratio=1)+
-    xlab('Wind Speed (m/s)')+
-    ylab('Mean Canopy Height (m)')+
+    xlab('Sun Elevation (dgerees)')+
+    ylab('Mean Canopy Height (m)')
   #coord_equal(ratio=1)
-  coord_fixed(xlim=c(0.39,2.55),ylim=c(0,1.2))
+ #coord_fixed(xlim=c(0.2,2.55),ylim=c(0,0.6))
   #plot(  (paste0("P",i,"_w")))
-  plot(P32)
+  plot(P4)
 }
 
-P_All16 <- ggarrange(P32,P30,P25,P31,P18,P20,P22,P19,P21,P23,P29, P24,P26,P17,P27,P28, ncol = 4, nrow = 4)
-plot(P_All16)
+# P_All16_n <- ggarrange(P4,P5,P2,P3,P16,P6,P7,P15,P1,P9,P14, P12,P11,P8,P13,P10, ncol = 4, nrow = 4)
+# plot(P_All16_n)
+P_All16_n <- ggarrange(P14,P13,P11,P10,P7,P15,P5,P3,P4,P12,P9,P1, P6,P8,P2,P16, ncol = 4, nrow = 4)
+plot(P_All16_n)
+
 
 ggsave(
-  P_All16,
+  P_All16_n,
   # filename = "/plots/test.png",
-  filename = "output_data/plots/ulex_16_plots_fixed_scale.png",
+  filename = "output_data/plots/Sun/Festuca_16_plots_sun.png",
   width = 16,
   height = 16,
   units = "cm"

@@ -74,7 +74,7 @@ df<- filter(df2,plot == 17)
 
 {# Assign Average wind to X and Mean Canopy height to Y
 
-x <- as.vector(df$Wind_Av)
+x <- as.vector(df$Sun_Elev_calc)
 y <- as.vector(df$Mn_chm)
 df_temp <- data.frame(x = x, y = y,
                       d = densCols(x, y, colramp = colorRampPalette(rev(c('yellow','orange','turquoise4','dodgerblue4')))))#colorRampPalette(rev(rainbow(10, end = 4/6)))))
@@ -110,10 +110,10 @@ P17 <- ggplot(df_temp) +
   #add title and labels
   ggtitle(paste0("Plot 17"))+
   #theme(aspect.ratio=1)+
-  xlab('Wind Speed (m/s)')+
-  ylab('Mean Canopy Height (m)')+
+  xlab('Sun Elevation (degrees)')+
+  ylab('Mean Canopy Height (m)')
 #coord_equal(ratio=1)
-coord_fixed(xlim=c(0.39,2.55),ylim=c(0,1.2))
+#coord_fixed(xlim=c(0.39,2.55),ylim=c(0,1.2))
 #plot(  (paste0("P",i,"_w")))
 plot(P17)
 }
@@ -121,7 +121,7 @@ df<- filter(df2,plot == 18)
 
 {# Assign Average wind to X and Mean Canopy height to Y
   
-  x <- as.vector(df$Wind_Av)
+  x <- as.vector(df$Sun_Elev_calc)
   y <- as.vector(df$Mn_chm)
   df_temp <- data.frame(x = x, y = y,
                         d = densCols(x, y, colramp = colorRampPalette(rev(c('yellow','orange','turquoise4','dodgerblue4')))))#colorRampPalette(rev(rainbow(10, end = 4/6)))))
@@ -157,10 +157,10 @@ df<- filter(df2,plot == 18)
     #add title and labels
     ggtitle(paste0("Plot 18"))+
     #theme(aspect.ratio=1)+
-    xlab('Wind Speed (m/s)')+
-    ylab('Mean Canopy Height (m)')+
+    xlab('Sun Elevation (degrees)')+
+    ylab('Mean Canopy Height (m)')
   #coord_equal(ratio=1)
-  coord_fixed(xlim=c(0.39,2.55),ylim=c(0,1.2))
+#  coord_fixed(xlim=c(0.39,2.55),ylim=c(0,1.2))
   #plot(  (paste0("P",i,"_w")))
   plot(P18)
 }
@@ -168,7 +168,7 @@ df<- filter(df2,plot == 19)
 
 {# Assign Average wind to X and Mean Canopy height to Y
   
-  x <- as.vector(df$Wind_Av)
+  x <- as.vector(df$Sun_Elev_calc)
   y <- as.vector(df$Mn_chm)
   df_temp <- data.frame(x = x, y = y,
                         d = densCols(x, y, colramp = colorRampPalette(rev(c('yellow','orange','turquoise4','dodgerblue4')))))#colorRampPalette(rev(rainbow(10, end = 4/6)))))
@@ -204,10 +204,10 @@ df<- filter(df2,plot == 19)
     #add title and labels
     ggtitle(paste0("Plot 19"))+
     #theme(aspect.ratio=1)+
-    xlab('Wind Speed (m/s)')+
-    ylab('Mean Canopy Height (m)')+
+    xlab('Sun Elevation (degrees)')+
+    ylab('Mean Canopy Height (m)')
   #coord_equal(ratio=1)
-  coord_fixed(xlim=c(0.39,2.55),ylim=c(0,1.2))
+#  coord_fixed(xlim=c(0.39,2.55),ylim=c(0,1.2))
   #plot(  (paste0("P",i,"_w")))
   plot(P19)
 }
@@ -215,7 +215,7 @@ df<- filter(df2,plot == 20)
 
 {# Assign Average wind to X and Mean Canopy height to Y
   
-  x <- as.vector(df$Wind_Av)
+  x <- as.vector(df$Sun_Elev_calc)
   y <- as.vector(df$Mn_chm)
   df_temp <- data.frame(x = x, y = y,
                         d = densCols(x, y, colramp = colorRampPalette(rev(c('yellow','orange','turquoise4','dodgerblue4')))))#colorRampPalette(rev(rainbow(10, end = 4/6)))))
@@ -251,10 +251,10 @@ df<- filter(df2,plot == 20)
     #add title and labels
     ggtitle(paste0("Plot 20"))+
     #theme(aspect.ratio=1)+
-    xlab('Wind Speed (m/s)')+
-    ylab('Mean Canopy Height (m)')+
+    xlab('Sun Elevation (degrees)')+
+    ylab('Mean Canopy Height (m)')
   #coord_equal(ratio=1)
-  coord_fixed(xlim=c(0.39,2.55),ylim=c(0,1.2))
+#  coord_fixed(xlim=c(0.39,2.55),ylim=c(0,1.2))
   #plot(  (paste0("P",i,"_w")))
   plot(P20)
 }
@@ -262,7 +262,7 @@ df<- filter(df2,plot == 21)
 
 {# Assign Average wind to X and Mean Canopy height to Y
   
-  x <- as.vector(df$Wind_Av)
+  x <- as.vector(df$Sun_Elev_calc)
   y <- as.vector(df$Mn_chm)
   df_temp <- data.frame(x = x, y = y,
                         d = densCols(x, y, colramp = colorRampPalette(rev(c('yellow','orange','turquoise4','dodgerblue4')))))#colorRampPalette(rev(rainbow(10, end = 4/6)))))
@@ -298,10 +298,10 @@ df<- filter(df2,plot == 21)
     #add title and labels
     ggtitle(paste0("Plot 21"))+
     #theme(aspect.ratio=1)+
-    xlab('Wind Speed (m/s)')+
-    ylab('Mean Canopy Height (m)')+
+    xlab('Sun Elevation (degrees)')+
+    ylab('Mean Canopy Height (m)')
   #coord_equal(ratio=1)
-  coord_fixed(xlim=c(0.39,2.55),ylim=c(0,1.2))
+#  coord_fixed(xlim=c(0.39,2.55),ylim=c(0,1.2))
   #plot(  (paste0("P",i,"_w")))
   plot(P21)
 }
@@ -310,7 +310,7 @@ df<- filter(df2,plot == 22)
 
 {# Assign Average wind to X and Mean Canopy height to Y
   
-  x <- as.vector(df$Wind_Av)
+  x <- as.vector(df$Sun_Elev_calc)
   y <- as.vector(df$Mn_chm)
   df_temp <- data.frame(x = x, y = y,
                         d = densCols(x, y, colramp = colorRampPalette(rev(c('yellow','orange','turquoise4','dodgerblue4')))))#colorRampPalette(rev(rainbow(10, end = 4/6)))))
@@ -346,10 +346,10 @@ df<- filter(df2,plot == 22)
     #add title and labels
     ggtitle(paste0("Plot 22"))+
     #theme(aspect.ratio=1)+
-    xlab('Wind Speed (m/s)')+
-    ylab('Mean Canopy Height (m)')+
+    xlab('Sun Elevation (degrees)')+
+    ylab('Mean Canopy Height (m)')
   #coord_equal(ratio=1)
-  coord_fixed(xlim=c(0.39,2.55),ylim=c(0,1.2))
+#  coord_fixed(xlim=c(0.39,2.55),ylim=c(0,1.2))
   #plot(  (paste0("P",i,"_w")))
   plot(P22)
 }
@@ -357,7 +357,7 @@ df<- filter(df2,plot == 23)
 
 {# Assign Average wind to X and Mean Canopy height to Y
   
-  x <- as.vector(df$Wind_Av)
+  x <- as.vector(df$Sun_Elev_calc)
   y <- as.vector(df$Mn_chm)
   df_temp <- data.frame(x = x, y = y,
                         d = densCols(x, y, colramp = colorRampPalette(rev(c('yellow','orange','turquoise4','dodgerblue4')))))#colorRampPalette(rev(rainbow(10, end = 4/6)))))
@@ -393,10 +393,10 @@ df<- filter(df2,plot == 23)
     #add title and labels
     ggtitle(paste0("Plot 23"))+
     #theme(aspect.ratio=1)+
-    xlab('Wind Speed (m/s)')+
-    ylab('Mean Canopy Height (m)')+
+    xlab('Sun Elevation (degrees)')+
+    ylab('Mean Canopy Height (m)')
   #coord_equal(ratio=1)
-  coord_fixed(xlim=c(0.39,2.55),ylim=c(0,1.2))
+#  coord_fixed(xlim=c(0.39,2.55),ylim=c(0,1.2))
   #plot(  (paste0("P",i,"_w")))
   plot(P23)
 }
@@ -404,7 +404,7 @@ df<- filter(df2,plot == 24)
 
 {# Assign Average wind to X and Mean Canopy height to Y
   
-  x <- as.vector(df$Wind_Av)
+  x <- as.vector(df$Sun_Elev_calc)
   y <- as.vector(df$Mn_chm)
   df_temp <- data.frame(x = x, y = y,
                         d = densCols(x, y, colramp = colorRampPalette(rev(c('yellow','orange','turquoise4','dodgerblue4')))))#colorRampPalette(rev(rainbow(10, end = 4/6)))))
@@ -440,10 +440,10 @@ df<- filter(df2,plot == 24)
     #add title and labels
     ggtitle(paste0("Plot 24"))+
     #theme(aspect.ratio=1)+
-    xlab('Wind Speed (m/s)')+
-    ylab('Mean Canopy Height (m)')+
+    xlab('Sun Elevation (degrees)')+
+    ylab('Mean Canopy Height (m)')
   #coord_equal(ratio=1)
-  coord_fixed(xlim=c(0.39,2.55),ylim=c(0,1.2))
+#  coord_fixed(xlim=c(0.39,2.55),ylim=c(0,1.2))
   #plot(  (paste0("P",i,"_w")))
   plot(P24)
 }
@@ -451,7 +451,7 @@ df<- filter(df2,plot == 25)
 
 {# Assign Average wind to X and Mean Canopy height to Y
   
-  x <- as.vector(df$Wind_Av)
+  x <- as.vector(df$Sun_Elev_calc)
   y <- as.vector(df$Mn_chm)
   df_temp <- data.frame(x = x, y = y,
                         d = densCols(x, y, colramp = colorRampPalette(rev(c('yellow','orange','turquoise4','dodgerblue4')))))#colorRampPalette(rev(rainbow(10, end = 4/6)))))
@@ -487,10 +487,10 @@ df<- filter(df2,plot == 25)
     #add title and labels
     ggtitle(paste0("Plot 25"))+
     #theme(aspect.ratio=1)+
-    xlab('Wind Speed (m/s)')+
-    ylab('Mean Canopy Height (m)')+
+    xlab('Sun Elevation (degrees)')+
+    ylab('Mean Canopy Height (m)')
   #coord_equal(ratio=1)
-  coord_fixed(xlim=c(0.39,2.55),ylim=c(0,1.2))
+#  coord_fixed(xlim=c(0.39,2.55),ylim=c(0,1.2))
   #plot(  (paste0("P",i,"_w")))
   plot(P25)
 }
@@ -498,7 +498,7 @@ df<- filter(df2,plot == 26)
 
 {# Assign Average wind to X and Mean Canopy height to Y
   
-  x <- as.vector(df$Wind_Av)
+  x <- as.vector(df$Sun_Elev_calc)
   y <- as.vector(df$Mn_chm)
   df_temp <- data.frame(x = x, y = y,
                         d = densCols(x, y, colramp = colorRampPalette(rev(c('yellow','orange','turquoise4','dodgerblue4')))))#colorRampPalette(rev(rainbow(10, end = 4/6)))))
@@ -534,10 +534,10 @@ df<- filter(df2,plot == 26)
     #add title and labels
     ggtitle(paste0("Plot 26"))+
     #theme(aspect.ratio=1)+
-    xlab('Wind Speed (m/s)')+
-    ylab('Mean Canopy Height (m)')+
+    xlab('Sun Elevation (degrees)')+
+    ylab('Mean Canopy Height (m)')
   #coord_equal(ratio=1)
-  coord_fixed(xlim=c(0.39,2.55),ylim=c(0,1.2))
+#  coord_fixed(xlim=c(0.39,2.55),ylim=c(0,1.2))
   #plot(  (paste0("P",i,"_w")))
   plot(P26)
 }
@@ -546,7 +546,7 @@ df<- filter(df2,plot == 27)
 
 {# Assign Average wind to X and Mean Canopy height to Y
   
-  x <- as.vector(df$Wind_Av)
+  x <- as.vector(df$Sun_Elev_calc)
   y <- as.vector(df$Mn_chm)
   df_temp <- data.frame(x = x, y = y,
                         d = densCols(x, y, colramp = colorRampPalette(rev(c('yellow','orange','turquoise4','dodgerblue4')))))#colorRampPalette(rev(rainbow(10, end = 4/6)))))
@@ -582,10 +582,10 @@ df<- filter(df2,plot == 27)
     #add title and labels
     ggtitle(paste0("Plot 27"))+
     #theme(aspect.ratio=1)+
-    xlab('Wind Speed (m/s)')+
-    ylab('Mean Canopy Height (m)')+
+    xlab('Sun Elevation (degrees)')+
+    ylab('Mean Canopy Height (m)')
   #coord_equal(ratio=1)
-  coord_fixed(xlim=c(0.39,2.55),ylim=c(0,1.2))
+#  coord_fixed(xlim=c(0.39,2.55),ylim=c(0,1.2))
   #plot(  (paste0("P",i,"_w")))
   plot(P27)
 }
@@ -593,7 +593,7 @@ df<- filter(df2,plot == 28)
 
 {# Assign Average wind to X and Mean Canopy height to Y
   
-  x <- as.vector(df$Wind_Av)
+  x <- as.vector(df$Sun_Elev_calc)
   y <- as.vector(df$Mn_chm)
   df_temp <- data.frame(x = x, y = y,
                         d = densCols(x, y, colramp = colorRampPalette(rev(c('yellow','orange','turquoise4','dodgerblue4')))))#colorRampPalette(rev(rainbow(10, end = 4/6)))))
@@ -629,10 +629,10 @@ df<- filter(df2,plot == 28)
     #add title and labels
     ggtitle(paste0("Plot 28"))+
     #theme(aspect.ratio=1)+
-    xlab('Wind Speed (m/s)')+
-    ylab('Mean Canopy Height (m)')+
+    xlab('Sun Elevation (degrees)')+
+    ylab('Mean Canopy Height (m)')
   #coord_equal(ratio=1)
-  coord_fixed(xlim=c(0.39,2.55),ylim=c(0,1.2))
+#  coord_fixed(xlim=c(0.39,2.55),ylim=c(0,1.2))
   #plot(  (paste0("P",i,"_w")))
   plot(P28)
 }
@@ -640,7 +640,7 @@ df<- filter(df2,plot == 29)
 
 {# Assign Average wind to X and Mean Canopy height to Y
   
-  x <- as.vector(df$Wind_Av)
+  x <- as.vector(df$Sun_Elev_calc)
   y <- as.vector(df$Mn_chm)
   df_temp <- data.frame(x = x, y = y,
                         d = densCols(x, y, colramp = colorRampPalette(rev(c('yellow','orange','turquoise4','dodgerblue4')))))#colorRampPalette(rev(rainbow(10, end = 4/6)))))
@@ -676,10 +676,10 @@ df<- filter(df2,plot == 29)
     #add title and labels
     ggtitle(paste0("Plot 29"))+
     #theme(aspect.ratio=1)+
-    xlab('Wind Speed (m/s)')+
-    ylab('Mean Canopy Height (m)')+
+    xlab('Sun Elevation (degrees)')+
+    ylab('Mean Canopy Height (m)')
   #coord_equal(ratio=1)
-  coord_fixed(xlim=c(0.39,2.55),ylim=c(0,1.2))
+#  coord_fixed(xlim=c(0.39,2.55),ylim=c(0,1.2))
   #plot(  (paste0("P",i,"_w")))
   plot(P29)
 }
@@ -687,7 +687,7 @@ df<- filter(df2,plot == 30)
 
 {# Assign Average wind to X and Mean Canopy height to Y
   
-  x <- as.vector(df$Wind_Av)
+  x <- as.vector(df$Sun_Elev_calc)
   y <- as.vector(df$Mn_chm)
   df_temp <- data.frame(x = x, y = y,
                         d = densCols(x, y, colramp = colorRampPalette(rev(c('yellow','orange','turquoise4','dodgerblue4')))))#colorRampPalette(rev(rainbow(10, end = 4/6)))))
@@ -723,10 +723,10 @@ df<- filter(df2,plot == 30)
     #add title and labels
     ggtitle(paste0("Plot 30"))+
     #theme(aspect.ratio=1)+
-    xlab('Wind Speed (m/s)')+
-    ylab('Mean Canopy Height (m)')+
+    xlab('Sun Elevation (degrees)')+
+    ylab('Mean Canopy Height (m)')
   #coord_equal(ratio=1)
-  coord_fixed(xlim=c(0.39,2.55),ylim=c(0,1.2))
+#  coord_fixed(xlim=c(0.39,2.55),ylim=c(0,1.2))
   #plot(  (paste0("P",i,"_w")))
   plot(P30)
 }
@@ -734,7 +734,7 @@ df<- filter(df2,plot == 31)
 
 {# Assign Average wind to X and Mean Canopy height to Y
   
-  x <- as.vector(df$Wind_Av)
+  x <- as.vector(df$Sun_Elev_calc)
   y <- as.vector(df$Mn_chm)
   df_temp <- data.frame(x = x, y = y,
                         d = densCols(x, y, colramp = colorRampPalette(rev(c('yellow','orange','turquoise4','dodgerblue4')))))#colorRampPalette(rev(rainbow(10, end = 4/6)))))
@@ -770,10 +770,10 @@ df<- filter(df2,plot == 31)
     #add title and labels
     ggtitle(paste0("Plot 31"))+
     #theme(aspect.ratio=1)+
-    xlab('Wind Speed (m/s)')+
-    ylab('Mean Canopy Height (m)')+
+    xlab('Sun Elevation (degrees)')+
+    ylab('Mean Canopy Height (m)')
   #coord_equal(ratio=1)
-  coord_fixed(xlim=c(0.39,2.55),ylim=c(0,1.2))
+#  coord_fixed(xlim=c(0.39,2.55),ylim=c(0,1.2))
   #plot(  (paste0("P",i,"_w")))
   plot(P31)
 }
@@ -781,7 +781,7 @@ df<- filter(df2,plot == 32)
 
 {# Assign Average wind to X and Mean Canopy height to Y
   
-  x <- as.vector(df$Wind_Av)
+  x <- as.vector(df$Sun_Elev_calc)
   y <- as.vector(df$Mn_chm)
   df_temp <- data.frame(x = x, y = y,
                         d = densCols(x, y, colramp = colorRampPalette(rev(c('yellow','orange','turquoise4','dodgerblue4')))))#colorRampPalette(rev(rainbow(10, end = 4/6)))))
@@ -817,21 +817,21 @@ df<- filter(df2,plot == 32)
     #add title and labels
     ggtitle(paste0("Plot 32"))+
     #theme(aspect.ratio=1)+
-    xlab('Wind Speed (m/s)')+
-    ylab('Mean Canopy Height (m)')+
+    xlab('Sun Elevation (degrees)')+
+    ylab('Mean Canopy Height (m)')
   #coord_equal(ratio=1)
-  coord_fixed(xlim=c(0.39,2.55),ylim=c(0,1.2))
+#  coord_fixed(xlim=c(0.39,2.55),ylim=c(0,1.2))
   #plot(  (paste0("P",i,"_w")))
   plot(P32)
 }
 
-P_All16 <- ggarrange(P32,P30,P25,P31,P18,P20,P22,P19,P21,P23,P29, P24,P26,P17,P27,P28, ncol = 4, nrow = 4)
-plot(P_All16)
+P_All16_n <- ggarrange(P32,P30,P25,P31,P18,P20,P22,P19,P21,P23,P29, P24,P26,P17,P27,P28, ncol = 4, nrow = 4)
+plot(P_All16_n)
 
 ggsave(
-  P_All16,
+  P_All16_n,
   # filename = "/plots/test.png",
-  filename = "output_data/plots/ulex_16_plots_fixed_scale.png",
+  filename = "output_data/plots/Sun/ulex_16_plots_sun_no_fix.png",
   width = 16,
   height = 16,
   units = "cm"
