@@ -2,4 +2,6 @@
 .Rhistory
 .RData
 .Ruserdata
+output_data
 /output_data
+*.jpg
