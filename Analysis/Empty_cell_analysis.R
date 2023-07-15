@@ -54,7 +54,7 @@ windowsFonts("Helvetica" = windowsFont("Helvetica")) # Ensure font is mapped cor
 # Import environmental data for each survey: wind sun elevation etc
 survey <- read_xlsx("C:/Workspace/R_Scripts/Reproducibility/data/Survey_Data.xlsx")
 # Import reconstructed canopy height estimates for each plot and each survey  
-CHM <- read_xlsx("C:/Workspace/R_Scripts/Reproducibility/data/plot_chm_metrics_temp10.xlsx")
+CHM <- read_xlsx("C:/Workspace/R_Scripts/Reproducibility/data/plot_chm_metrics_temp30.xlsx")
 # Import plot data: species, plot measurements etc
 plot <- read_xlsx("C:/Workspace/R_Scripts/Reproducibility/data/Plot_Data.xlsx")
 
@@ -117,7 +117,7 @@ Pcompare <- ggplot(df_temp2) +
   scale_color_identity() +
   theme_fancy() +
   #add title and labels
-  ggtitle(paste0("Intercomparison of wind and proportion of plot with no reconstructed points"))+
+  ggtitle(paste0("Intercomparison of wind and \n proportion of plot with no reconstructed points"))+
   theme(aspect.ratio=1)+
   xlab('Wind speed (m/s')+
   ylab('Proportion of plot without reconstructed points')+

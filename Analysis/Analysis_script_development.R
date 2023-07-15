@@ -11,7 +11,7 @@ library(DescTools)
 # Import environmental data for each survey: wind sun elevation etc
 survey <- read_xlsx("C:/Workspace/R_Scripts/Reproducibility/data/Survey_Data.xlsx")
 # Import reconstructed canopy height estimates for each plot and each survey  
-CHM <- read_xlsx("C:/Workspace/R_Scripts/Reproducibility/data/plot_chm_metrics_temp20.xlsx")
+CHM <- read_xlsx("C:/Workspace/R_Scripts/Reproducibility/data/plot_chm_metrics_temp30.xlsx")
 # Import plot data: species, plot measurements etc
 plot <- read_xlsx("C:/Workspace/R_Scripts/Reproducibility/data/Plot_Data.xlsx")
 
@@ -123,7 +123,7 @@ P1 <- ggplot(df_temp) +
   scale_color_identity() +
   theme_fancy() +
   #add title and labels
-  ggtitle(paste0("Plot ",i,": Comparison of Canopy Height estimated from surveys with different wind speeds"))+
+  ggtitle(paste0("Plot ",i,": Comparison of Canopy Height estimated \n from surveys with different wind speeds"))+
   #theme(aspect.ratio=1)+
   xlab('Wind Speed (m/s)')+
   ylab('Mean Canopy Height (m)')
@@ -209,7 +209,7 @@ for (i in 1:64) {
     scale_color_identity() +
     theme_fancy() +
     #add title and labels
-    ggtitle(paste0("Plot ",i,": Comparison of Canopy Height estimated from surveys with different survey sun elevations"))+
+    ggtitle(paste0("Plot ",i,": Comparison of Canopy Height estimated from \n surveys with different survey sun elevations"))+
     #theme(aspect.ratio=1)+
     xlab('Sun Elevation (degrees)')+
     ylab('Mean Canopy Height (m)')
@@ -275,7 +275,7 @@ P1 <- ggplot(df_temp) +
   scale_color_identity() +
   theme_fancy() +
   #add title and labels
-  ggtitle(paste0("Comparison of Wind speed and sun elevation from surveys"))+
+  ggtitle(paste0("Comparison of Wind speed and sun \n elevation from surveys"))+
   #theme(aspect.ratio=1)+
   xlab('Sun Elevation (degrees)')+
   ylab('Wind Speed (m/s)')
@@ -335,7 +335,7 @@ for (i in 1:64) {
     scale_color_identity() +
     theme_fancy() +
     #add title and labels
-    ggtitle(paste0("Plot ",i,": Comparison of Interploated Canopy Height estimated from surveys with different wind speeds"))+
+    ggtitle(paste0("Plot ",i,": Comparison of Interploated Canopy Height estimated  \n from surveys with different wind speeds"))+
     #theme(aspect.ratio=1)+
     xlab('Wind Speed (m/s)')+
     ylab('Mean Canopy Height (m)')
@@ -401,7 +401,7 @@ for (i in 1:64) {
     scale_color_identity() +
     theme_fancy() +
     #add title and labels
-    ggtitle(paste0("Plot ",i,": Comparison of Interpolated Canopy Height estimated from surveys with different survey sun elevations"))+
+    ggtitle(paste0("Plot ",i,": Comparison of Interpolated Canopy Height estimated  \n from surveys with different survey sun elevations"))+
     #theme(aspect.ratio=1)+
     xlab('Sun Elevation (degrees)')+
     ylab('Mean Canopy Height (m)')
