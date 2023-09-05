@@ -22,7 +22,7 @@ library(gridExtra)
 library(DescTools)
 library(sf)
 library(exactextractr)
-
+library(writexl)
 library (raster)
 library(dplyr)
 library(remotes)
@@ -41,7 +41,7 @@ tic()
 
 #Read in Survey 
 
-for (x in 11:20) {
+for (x in 31:42) {
 
 S_laz = readLAS(paste0("/raid/home/gs558/share/Reproducibility/Processed//LAZ/S",x,"_dpc_export.laz"))
 
