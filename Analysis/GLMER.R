@@ -25,7 +25,7 @@ library(see)
 # Import environmental data for each survey: wind sun elevation etc
 survey <- read_xlsx("C:/Workspace/R_Scripts/Reproducibility/data/Survey_Data.xlsx")
 # Import reconstructed canopy height estimates for each plot and each survey  
-CHM <- read_xlsx("C:/Workspace/R_Scripts/Reproducibility/data/plot_chm_metrics_temp42.xlsx")# needs to be updated with latest survey data
+CHM <- read_xlsx("C:/Workspace/R_Scripts/Reproducibility/data/plot_chm_metrics_temp30.xlsx")# needs to be updated with latest survey data
 # Import plot data: species, plot measurements etc
 plot <- read_xlsx("C:/Workspace/R_Scripts/Reproducibility/data/Plot_Data.xlsx")
 
@@ -89,6 +89,46 @@ performance::check_model(wind_model1)  # Evaluate model performence
 summary(wind_model)  # See model summary
 
 
+### 
+
+wind_model1 <-lme4::glmer(Mn_chm ~  Wind_Av *  Sun_Elev_calc * PlotGenus.x +(1|plot),
+                          data = df_wind,
+                          family = gaussian(link = "log"))
+
+performance::check_model(wind_model1)  # Evaluate model performence
+summary(wind_model)
+
+###
+
+wind_model1 <-lme4::glmer(Mn_chm ~ Wind_Av + Sun_Elev_calc +(1|plot)+(1|PlotGenus.x),
+                          data = df_wind
+                          ,family = Gamma(link = "identity")
+                          )
+
+performance::check_model(wind_model1)  # Evaluate model performence
+summary(wind_model1)
+marginal_means(wind_model1, variables = c( "Wind_Av"))
+predictions(wind_model1,newdata = data_grid())
+slopes(wind_model1)
+avg_slopes(wind_model1)
+plot_slopes(wind_model1,variables = c( "Wind_Av"), condition = ("PlotGenus.x") )
+
+hist(df_wind$Sun_Elev_calc)
+
+hist(df_wind$Wind_Av)
+### randomised slope - intercept of sun elev for each plot
+wind_model1 <-lme4::glmer(Mn_chm ~ Wind_Av +(1+Sun_Elev_calc |plot),
+                          data = df_wind
+                          ,family = Gamma(link = "identity")
+)
+
+performance::check_model(wind_model1)  # Evaluate model performence
+summary(wind_model1)
+marginal_means(wind_model1, variables = c( "Wind_Av"))
+predictions(wind_model1,newdata = data_grid())
+slopes(wind_model1)
+avg_slopes(wind_model1)
+plot_slopes(wind_model1,variables = c( "Wind_Av"), condition = ("PlotGenus.x") )
 
 # 3. Fixed Effect Wind_Av and Sun Elevation (when sunny) Random effect Genus - filetred for sunny data only
 

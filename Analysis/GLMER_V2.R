@@ -1,0 +1,198 @@
+# Develpoment script for GLMM
+
+library(tidyverse)
+library(viridis)
+library(readxl)
+library(writexl)
+library(DescTools)
+library(lme4)
+library(nlme)
+library(arm)
+library(dplyr)
+library(ggeffects)
+library(splines)
+library(emmeans)
+library(qqplotr)
+library(marginaleffects)
+library(see)
+
+#GLMM development
+
+#----1. Data Prep------
+
+#read in data
+
+# Import environmental data for each survey: wind sun elevation etc
+survey <- read_xlsx("C:/Workspace/R_Scripts/Reproducibility/data/Survey_Data.xlsx")
+# Import reconstructed canopy height estimates for each plot and each survey  
+CHM <- read_xlsx("C:/Workspace/R_Scripts/Reproducibility/data/plot_chm_metrics_temp30.xlsx")# needs to be updated with latest survey data
+# Import plot data: species, plot measurements etc
+plot <- read_xlsx("C:/Workspace/R_Scripts/Reproducibility/data/Plot_Data.xlsx")
+
+#
+plot_statistics <- read_xlsx("C:/Workspace/R_Scripts/Reproducibility/output_data/summary_plot_statistics.xlsx")# script needs to be run to generate this. 
+# Select Mean of all plot heights (proxy for plant height) and % Variance
+statistics <- plot_statistics
+
+# Join the survey and chm tables - for each plot CHM measurement you now have sun elevation wind speed etc 
+survey_df <- full_join(CHM, survey, by = "survey")
+# Now join with plot characteristics 
+master<- full_join(survey_df,plot, by = "plot")
+
+# join with plot statistics
+master_df <- full_join(master,statistics, by = "plot")
+
+#calculate empty cells
+
+df4 <- master_df %>% mutate(empty = Ct_dtm - Ct_chm)# number of empty cells
+df4 <- df4 %>% mutate(empty_prop = empty/Ct_dtm)# proportion of plot that is empty cells
+
+#Calculate relative difference in canopy height from Max height recorded for plot (any survey)
+df4 <- df4 %>% mutate(RDCHM = CHM_MAX - Mn_chm)# GLMER Gamma needs positive numbers hence Max - chm
+
+# Fudge for now - GLMER gamma does not support non positive values which includes zero
+# adding a small amount to RDCHM to ensure all values non zero
+df4 <- df4 %>% mutate(RDCHM = RDCHM+0.00001)
+
+
+# 3 class illumination  0=  diffuse light no shadows 1= varied shadow mixed conditions 2= direct light strong shadows 
+df4 <- df4 %>% mutate(illumination = case_when(Sun_Percent <= 20 ~ 0,
+                                         (Sun_Percent > 20 &  Sun_Percent <80 )~ 1, Sun_Percent >= 80 ~ 2,
+                            TRUE ~ NA_real_))
+
+# binary sky code 1= sun 0 = cloudy
+df4 <- df4  %>% mutate(binary_skycode = case_when(Sky_Code <= 5 ~ 1,
+                                                Sky_Code > 5 ~ 0,
+                                                TRUE ~ NA_real_))
+
+# df %>% mutate(g = case_when(a == 2 | a == 5 | a == 7 | (a == 1 & b == 4) ~ 2,
+#                             a == 0 | a == 1 | a == 4 | a == 3 |  c == 4 ~ 3,
+#                             TRUE ~ NA_real_))
+
+
+df_wind <- df4 %>% dplyr::select (survey,plot,Mn_chm,Wind_Av,Sun_Elev_calc, Sun_Percent, empty_prop, PlotGenus.x,RDCHM,illumination,binary_skycode)
+
+
+df_wind <- df_wind %>% na.omit(df_wind)# get rid of any na rows belonging to surveys not processed yet
+
+
+
+
+# 1. Fixed Effect Wind_Av Random effect PlotGenus
+
+
+wind_model1 <-lme4::glmer(RDCHM ~  Wind_Av  +(1|PlotGenus.x),
+                         data = df_wind,
+                         family = Gamma(link = "identity"))
+
+performance::check_model(wind_model1)  # Evaluate model performence
+summary(wind_model)  # See model summary
+
+
+### 
+
+wind_model1 <-lme4::glmer(Mn_chm ~  Wind_Av *  Sun_Elev_calc * PlotGenus.x +(1|plot),
+                          data = df_wind,
+                          family = gaussian(link = "log"))
+
+performance::check_model(wind_model1)  # Evaluate model performence
+summary(wind_model)
+
+###
+
+wind_model1 <-lme4::glmer(Mn_chm ~ Wind_Av + Sun_Elev_calc +(1|plot)+(1|PlotGenus.x),
+                          data = df_wind
+                          ,family = Gamma(link = "identity")
+                          )
+
+performance::check_model(wind_model1)  # Evaluate model performence
+summary(wind_model1)
+marginal_means(wind_model1, variables = c( "Wind_Av"))
+predictions(wind_model1,newdata = data_grid())
+slopes(wind_model1)
+avg_slopes(wind_model1)
+plot_slopes(wind_model1,variables = c( "Wind_Av"), condition = ("PlotGenus.x") )
+
+hist(df_wind$Sun_Elev_calc)
+
+hist(df_wind$Wind_Av)
+### randomised slope - intercept of sun elev for each plot
+wind_model1 <-lme4::glmer(Mn_chm ~ Wind_Av +(1+Sun_Elev_calc |plot),
+                          data = df_wind
+                          ,family = Gamma(link = "identity")
+)
+
+performance::check_model(wind_model1)  # Evaluate model performence
+summary(wind_model1)
+marginal_means(wind_model1, variables = c( "Wind_Av"))
+predictions(wind_model1,newdata = data_grid())
+slopes(wind_model1)
+avg_slopes(wind_model1)
+plot_slopes(wind_model1,variables = c( "Wind_Av"), condition = ("PlotGenus.x") )
+
+# 3. Fixed Effect Wind_Av and Sun Elevation (when sunny) Random effect Genus - filetred for sunny data only
+
+df_wind_sunny <- filter(df_wind,Sun_Percent > 50)
+
+  
+  
+wind_model3 <-lme4::glmer(RDCHM ~  Wind_Av  *  Sun_Elev_calc + (1|PlotGenus.x),
+                         data = df_wind_sunny,
+                         family = Gamma(link = "identity"))
+
+performance::check_model(wind_model3)  # Evaluate model performence
+summary(wind_model3)  # See model summary
+
+
+# 4. Fixed Effect Wind_Av (when no sun) Random effect Genus filtered for cloudy data only
+
+df_wind_no_sun <- filter(df_wind,Sun_Percent <10)
+
+
+
+wind_model4 <-lme4::glmer(RDCHM ~  Wind_Av + (1|PlotGenus.x),
+                          data = df_wind_no_sun,
+                          family = Gamma(link = "identity"))
+
+performance::check_model(wind_model4)  # Evaluate model performence
+summary(wind_model4)  # See model summary
+
+
+
+#7. Nested random effects - plot genus and plot number - doesnt work with identity
+
+wind_model7 <-lme4::glmer(RDCHM ~  Wind_Av + (1|PlotGenus.x:plot),
+                         data = df_wind,
+                         family = Gamma())
+
+performance::check_model(wind_model7)  # Evaluate model performence
+summary(wind_model7)  # See model summary
+
+
+#8. Fixed effect Wind with Sun_Elev_Calc - illumination random effect 
+
+wind_model8 <-lme4::glmer(RDCHM ~  Wind_Av * Sun_Elev_calc + (1|illumination),
+                          data = df_wind,
+                          family = Gamma(link = "identity"))
+
+performance::check_model(wind_model8)  # Evaluate model performence
+summary(wind_model8)
+
+
+#9. Fixed effect Wind  - illumination and Plot Genus random effect 
+
+wind_model9 <-lme4::glmer(RDCHM ~  Wind_Av  + (1|illumination) + (1|PlotGenus.x),
+                          data = df_wind,
+                          family = Gamma(link = "identity"))
+
+performance::check_model(wind_model9)  # Evaluate model performence
+summary(wind_model9)
+
+#10. Fixed effect Wind and Sun_Elev_Calc - illumination  and plot genus random effect 
+
+wind_model10 <-lme4::glmer(RDCHM ~  Wind_Av + Sun_Elev_calc + (1|illumination)+ (1|PlotGenus.x),
+                          data = df_wind,
+                          family = Gamma(link = "identity"))
+
+performance::check_model(wind_model8)  # Evaluate model performence
+summary(wind_model10)
