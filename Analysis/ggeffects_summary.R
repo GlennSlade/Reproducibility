@@ -11,11 +11,11 @@ library(splines)
 #----1. Import data -----
 
 # Import environmental data for each survey: wind sun elevation etc
-survey <- read_xlsx("C:/Workspace/R_Scripts/Reproducibility/data/Survey_Data.xlsx")
+survey <- read_xlsx("data/Survey_Data.xlsx")
 # Import reconstructed canopy height estimates for each plot and each survey  
-CHM <- read_xlsx("C:/Workspace/R_Scripts/Reproducibility/data/plot_chm_metrics_temp61.xlsx")
+CHM <- read_xlsx("data/plot_chm_metrics_temp61.xlsx")
 # Import plot data: species, plot measurements etc
-plot <- read_xlsx("C:/Workspace/R_Scripts/Reproducibility/data/Plot_Data.xlsx")
+plot <- read_xlsx("data/Plot_Data.xlsx")
 
 # -----2. Join data tables and summarise ------
 
@@ -25,7 +25,7 @@ survey_df <- full_join(CHM, survey, by = "survey")
 master_df <- full_join(survey_df,plot, by = "plot")
 
 #save the master_df for use in other scripts
-#write_xlsx(master_df,"C:/Workspace/R_Scripts/Reproducibility/data/master_df.xlsx")
+#write_xlsx(master_df,"data/master_df.xlsx")
 
 df4 <- master_df %>% mutate(empty = Ct_dtm - Ct_chm)# number of empty cells
 df4 <- df4 %>% mutate(empty_prop = empty/Ct_dtm)# proportion of plot that is empty cells
@@ -130,31 +130,13 @@ plot(P1)
 ggplot2::ggsave(
   P1,
   # filename = "/plots/test.png",
-  filename = paste0("C:/Workspace/R_Scripts/Reproducibility/output_data/summary_wind_species.jpg"),
+  filename = paste0("output_data/summary_wind_species.jpg"),
   width = 10,
   height = 10,
   units = "cm"
 ) 
 
-# fit linear model for different species wind against canopy height and 
-
-mod <- lm(CHM~ Wind,data = df)
-summary(mod)
-P2 <-ggpredict(mod, 
-          terms = "Wind") |>  plot()
-P2
-
-ggplot2::ggsave(
-  P2,
-  # filename = "/plots/test.png",
-  filename = paste0("C:/Workspace/R_Scripts/Reproducibility/output_data/summary_wind_ggeffect.jpg"),
-  width = 10,
-  height = 10,
-  units = "cm"
-) 
-
-
-
+##GGeffects summary - all species
 mod1 <- lm(CHM~ Wind * PlotGenus,data = df)
 summary(mod1)
 P3 <-ggpredict(mod1, 
@@ -164,7 +146,7 @@ P3
 ggplot2::ggsave(
   P3,
   # filename = "/plots/test.png",
-  filename = paste0("C:/Workspace/R_Scripts/Reproducibility/output_data/summary_wind_species_ggeffect.jpg"),
+  filename = paste0("output_data/summary_wind_species_ggeffect.jpg"),
   width = 16,
   height = 10,
   units = "cm"
@@ -174,6 +156,8 @@ ggplot2::ggsave(
 
 df5 <- filter(df2,PlotGenus == "Betula")
 
+df5 <- as.data.frame(df5)
+
 mod2 <- lm(Mn_chm~ Wind_Av,data = df5)
 summary(mod2)
 P4 <-ggpredict(mod2, 
@@ -182,7 +166,7 @@ P4
 ggplot2::ggsave(
   P4,
   # filename = "/plots/test.png",
-  filename = paste0("C:/Workspace/R_Scripts/Reproducibility/output_data/summary_wind_betula_ggeffect.jpg"),
+  filename = paste0("output_data/summary_wind_betula_ggeffect.jpg"),
   width = 16,
   height = 10,
   units = "cm"
@@ -191,7 +175,7 @@ ggplot2::ggsave(
 # For salix aurita all data 
 
 df6 <- filter(df2,PlotGenus == "Salix aurita")
-
+df6 <- as.data.frame(df6)
 mod2 <- lm(Mn_chm~ Wind_Av,data = df6)
 summary(mod2)
 P5 <-ggpredict(mod2, 
@@ -200,7 +184,7 @@ P5
 ggplot2::ggsave(
   P5,
   # filename = "/plots/test.png",
-  filename = paste0("C:/Workspace/R_Scripts/Reproducibility/output_data/summary_wind_salix_ggeffect.jpg"),
+  filename = paste0("output_data/summary_wind_salix_ggeffect.jpg"),
   width = 16,
   height = 10,
   units = "cm"
@@ -215,6 +199,8 @@ df_U <- filter(master_df,PlotGenus == "Ulex europaeus")
 df_S <- filter(master_df,PlotGenus == "Salix aurita")
 df_F <- filter(master_df,PlotGenus == "Festuca arundinacea") 
 
+
+df_U <- as.data.frame(df_U)
 mod2 <- lm(Mn_chm~ Wind_Av,data = df_U)
 summary(mod2)
 P5 <-ggpredict(mod2, 
@@ -223,13 +209,15 @@ P5
 ggplot2::ggsave(
   P5,
   # filename = "/plots/test.png",
-  filename = paste0("C:/Workspace/R_Scripts/Reproducibility/output_data/summary_wind_ulex_ggeffect.jpg"),
+  filename = paste0("output_data/summary_wind_ulex_ggeffect.jpg"),
   width = 16,
   height = 10,
   units = "cm"
 ) 
 
 #For Festuca
+
+df_F <- as.data.frame(df_F)
 
 mod2 <- lm(Mn_chm~ Wind_Av,data = df_F)
 summary(mod2)
@@ -239,7 +227,7 @@ P5
 ggplot2::ggsave(
   P5,
   # filename = "/plots/test.png",
-  filename = paste0("C:/Workspace/R_Scripts/Reproducibility/output_data/summary_wind_Festuca_ggeffect.jpg"),
+  filename = paste0("output_data/summary_wind_Festuca_ggeffect.jpg"),
   width = 16,
   height = 10,
   units = "cm"
@@ -259,7 +247,7 @@ P2
 ggplot2::ggsave(
   P2,
   # filename = "/plots/test.png",
-  filename = paste0("C:/Workspace/R_Scripts/Reproducibility/output_data/summary_sun_ggeffect.jpg"),
+  filename = paste0("output_data/summary_sun_ggeffect.jpg"),
   width = 10,
   height = 10,
   units = "cm"
@@ -278,7 +266,7 @@ P3
 ggplot2::ggsave(
   P3,
   # filename = "/plots/test.png",
-  filename = paste0("C:/Workspace/R_Scripts/Reproducibility/output_data/summary_sun_species_ggeffect.jpg"),
+  filename = paste0("output_data/summary_sun_species_ggeffect.jpg"),
   width = 16,
   height = 10,
   units = "cm"
