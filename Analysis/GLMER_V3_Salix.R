@@ -23,14 +23,14 @@ library(see)
 #read in data
 
 # Import environmental data for each survey: wind sun elevation etc
-survey <- read_xlsx("C:/Workspace/R_Scripts/Reproducibility/data/Survey_Data.xlsx")
+survey <- read_xlsx("data/Survey_Data.xlsx")
 # Import reconstructed canopy height estimates for each plot and each survey  
-CHM <- read_xlsx("C:/Workspace/R_Scripts/Reproducibility/data/plot_chm_metrics_temp61.xlsx")# needs to be updated with latest survey data
+CHM <- read_xlsx("data/plot_chm_metrics_temp61.xlsx")# needs to be updated with latest survey data
 # Import plot data: species, plot measurements etc
-plot <- read_xlsx("C:/Workspace/R_Scripts/Reproducibility/data/Plot_Data.xlsx")
+plot <- read_xlsx("data/Plot_Data.xlsx")
 
 #
-plot_statistics <- read_xlsx("C:/Workspace/R_Scripts/Reproducibility/output_data/summary_plot_statistics.xlsx")# script needs to be run to generate this. 
+plot_statistics <- read_xlsx("output_data/summary_plot_statistics.xlsx")# script needs to be run to generate this. 
 # Select Mean of all plot heights (proxy for plant height) and % Variance
 statistics <- plot_statistics
 
@@ -79,8 +79,42 @@ df_wind <- df_wind %>% na.omit(df_wind)# get rid of any na rows belonging to sur
 df_wind<- filter(df_wind,PlotGenus.x == "Salix aurita")
 
 
-### Towards a  model for Betula
-###
+# 0. Linear model Wind vs Mean CHM
+
+
+df5 <- as.data.frame(df_wind)
+
+mod2 <- lm(Mn_chm~ Wind_Av,data = df5)
+summary(mod2)
+PLM <-ggpredict(mod2, 
+                terms = c("Wind_Av")) |>  plot()
+PLM
+ggplot2::ggsave(
+  PLM,
+  # filename = "/plots/test.png",
+  filename = paste0("output_data/summary_wind_salix_ggeffect_Mn_CHM.jpg"),
+  width = 16,
+  height = 10,
+  units = "cm"
+) 
+
+
+mod3 <- lm(RDCHM~ Wind_Av,data = df5)
+summary(mod3)
+PLMRD <-ggpredict(mod3, 
+                  terms = c("Wind_Av")) |>  plot()
+PLMRD
+ggplot2::ggsave(
+  PLMRD,
+  # filename = "/plots/test.png",
+  filename = paste0("output_data/summary_wind_salix_ggeffect_RDCHM.jpg"),
+  width = 16,
+  height = 10,
+  units = "cm"
+) 
+
+
+
 
 ###1 Response = RDCHM,  Fixed effect = wind, Random effect plot
 
@@ -92,12 +126,20 @@ performance::check_model(wind_model1)  # Evaluate model performance
 performance::r2(wind_model1)
 summary(wind_model1)
 
+P1 <-ggpredict(wind_model1 , 
+               terms = c("Wind_Av", "plot")) |>  plot()
+P1
+
 ###1b Response = RDCHM,  Fixed effect = wind +  Plant Height, Random effect= plot
 
 wind_model1b <-lme4::glmer(RDCHM ~  Wind_Av + CHM_MEAN +(1|plot),
-                            data = df_wind,
-                            family = gaussian(link = "log"))
+                           data = df_wind,
+                           family = gaussian(link = "log"))
 
+
+P1b <-ggpredict(wind_model1b , 
+                terms = c("Wind_Av", "CHM_MEAN")) |>  plot()
+P1b
 
 performance::check_model(wind_model1b)  # Evaluate model performance
 performance::r2(wind_model1b)
@@ -109,6 +151,11 @@ df_wind_sunny <- filter(df_wind,Sun_Percent >80)
 wind_model2 <-lme4::glmer(RDCHM ~  Wind_Av +  Sun_Elev_calc  + (1|plot),
                           data = df_wind_sunny,
                           family = gaussian(link = "log"))
+
+P2 <-ggpredict(wind_model2 , 
+               terms = c("Wind_Av", "Sun_Elev_calc")) |>  plot()
+P2
+
 performance::check_model(wind_model2)  # Evaluate model performance
 performance::r2(wind_model2)
 summary(wind_model2)
@@ -118,6 +165,10 @@ summary(wind_model2)
 wind_model3 <-lme4::glmer(RDCHM ~  Wind_Av +  Sun_Elev_calc  + CHM_MEAN +(1|plot),
                           data = df_wind_sunny,
                           family = gaussian(link = "log"))
+
+P3 <-ggpredict(wind_model3 , 
+               terms = c("Wind_Av", "Sun_Elev_calc","CHM_MEAN")) |>  plot()
+P3
 
 performance::check_model(wind_model3)  # Evaluate model performance
 performance::r2(wind_model3)
@@ -130,6 +181,10 @@ wind_model4 <-lme4::glmer(RDCHM ~  Wind_Av +  Sun_Elev_calc  + CHM_MEAN +(1|plot
                           data = df_wind,
                           family = gaussian(link = "log"))
 
+P4 <-ggpredict(wind_model4 , 
+               terms = c("Wind_Av", "Sun_Elev_calc","CHM_MEAN")) |>  plot()
+P4
+
 performance::check_model(wind_model4)  # Evaluate model performance
 performance::r2(wind_model4)
 summary(wind_model4)
@@ -139,6 +194,10 @@ summary(wind_model4)
 wind_model5 <-lme4::glmer(RDCHM ~  Wind_Av +  Sun_Elev_calc  + CHM_MEAN +(1|illumination),
                           data = df_wind,
                           family = gaussian(link = "log"))
+P5 <-ggpredict(wind_model5 , 
+               terms = c("Wind_Av", "Sun_Elev_calc","CHM_MEAN")) |>  plot()
+P5
+
 
 performance::check_model(wind_model5)  # Evaluate model performance
 performance::r2(wind_model5)
@@ -146,4 +205,60 @@ summary(wind_model5)
 
 
 
+### 6 Wind model fixed effect wind interaction effect sun elevation - sunny conditions only
 
+
+
+wind_model6 <-lme4::glmer(RDCHM ~  Wind_Av *  Sun_Elev_calc  + (1|plot),
+                          data = df_wind_sunny,
+                          family = gaussian(link = "log"))
+
+performance::check_model(wind_model6)  # Evaluate model performance
+performance::r2(wind_model6)
+summary(wind_model6)
+
+P6 <-ggpredict(wind_model6 , 
+               terms = c("Wind_Av","Sun_Elev_calc")) |>  plot()
+P6
+
+### 7 Wind model fixed effect wind interaction effect illumination
+
+wind_model7 <-lme4::glmer(RDCHM ~  Wind_Av *  Sun_Percent  + (1|plot),
+                          data = df_wind,
+                          family = gaussian(link = "log"))
+
+performance::check_model(wind_model7)  # Evaluate model performance
+performance::r2(wind_model7)
+summary(wind_model7)
+
+P7 <-ggpredict(wind_model7 , 
+               terms = c("Wind_Av","Sun_Percent")) |>  plot()
+P7
+
+### 8 Wind model fixed effect wind and illumination
+
+
+wind_model8 <-lme4::glmer(RDCHM ~  Wind_Av +  Sun_Percent  + (1|plot),
+                          data = df_wind,
+                          family = gaussian(link = "log"))
+
+P8 <-ggpredict(wind_model8 , 
+               terms = c("Wind_Av","Sun_Percent")) |>  plot()
+P8
+performance::check_model(wind_model8)  # Evaluate model performance
+performance::r2(wind_model8)
+summary(wind_model8)
+
+### 9 Wind model fixed effect wind and illumination interacting with sun elevation
+
+
+wind_model9 <-lme4::glmer(RDCHM ~  Wind_Av +  Sun_Percent * Sun_Elev_calc  + (1|plot),
+                          data = df_wind,
+                          family = gaussian(link = "log"))
+
+P9 <-ggpredict(wind_model9 , 
+               terms = c("Wind_Av","Sun_Percent","Sun_Elev_calc")) |>  plot()
+P9
+performance::check_model(wind_model9)  # Evaluate model performance
+performance::r2(wind_model9)
+summary(wind_model9)

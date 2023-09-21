@@ -76,11 +76,10 @@ df_wind <- df4 %>% dplyr::select (survey,plot,Mn_chm,Wind_Av,Sun_Elev_calc, Sun_
 df_wind <- df_wind %>% na.omit(df_wind)# get rid of any na rows belonging to surveys not processed yet
 
 
-df_wind<- filter(df_wind,PlotGenus.x == "Betula")
+#df_wind<- filter(df_wind,PlotGenus.x == "Betula")
 
 
-### Towards a  model for Betula
-###
+
 
 # 0. Linear model Wind vs Mean CHM
 
@@ -95,7 +94,7 @@ PLM
 ggplot2::ggsave(
   PLM,
   # filename = "/plots/test.png",
-  filename = paste0("output_data/summary_wind_betula_ggeffect_Mn_CHM.jpg"),
+  filename = paste0("output_data/summary_wind_All_ggeffect_Mn_CHM.jpg"),
   width = 16,
   height = 10,
   units = "cm"
@@ -110,7 +109,7 @@ PLMRD
 ggplot2::ggsave(
   PLMRD,
   # filename = "/plots/test.png",
-  filename = paste0("output_data/summary_wind_betula_ggeffect_RDCHM.jpg"),
+  filename = paste0("output_data/summary_All_ggeffect_RDCHM.jpg"),
   width = 16,
   height = 10,
   units = "cm"
@@ -121,7 +120,7 @@ ggplot2::ggsave(
 
 ###1 Response = RDCHM,  Fixed effect = wind, Random effect plot
 
-wind_model1 <-lme4::glmer(RDCHM ~  Wind_Av +(1|plot),
+wind_model1 <-lme4::glmer(RDCHM ~  Wind_Av + PlotGenus.x +(1|plot),
                           data = df_wind,
                           family = gaussian(link = "log"))
 
@@ -130,18 +129,18 @@ performance::r2(wind_model1)
 summary(wind_model1)
 
 P1 <-ggpredict(wind_model1 , 
-               terms = c("Wind_Av", "plot")) |>  plot()
+               terms = c("Wind_Av", "PlotGenus.x")) |>  plot()
 P1
 
 ###1b Response = RDCHM,  Fixed effect = wind +  Plant Height, Random effect= plot
 
-wind_model1b <-lme4::glmer(RDCHM ~  Wind_Av + CHM_MEAN +(1|plot),
+wind_model1b <-lme4::glmer(RDCHM ~  Wind_Av + PlotGenus.x + CHM_MEAN +(1|plot),
                             data = df_wind,
                             family = gaussian(link = "log"))
 
 
 P1b <-ggpredict(wind_model1b , 
-               terms = c("Wind_Av", "CHM_MEAN")) |>  plot()
+               terms = c("Wind_Av", "CHM_MEAN","PlotGenus.x")) |>  plot()
 P1b
 
 performance::check_model(wind_model1b)  # Evaluate model performance
