@@ -117,7 +117,7 @@ plot(Pcompare)
 ggsave(
   Pcompare,
   # filename = "/plots/test.png",
-  filename = "output_data/plots/comparison_chm_idw.png",
+  filename = "output_data/plots/comparison_chm_idw_v2.png",
   width = 10,
   height = 10,
   units = "cm"
@@ -410,7 +410,7 @@ geom_text(aes(x=0.0,y=3),label=paste0('MAD: ',round(MADval,3)),hjust='left',size
   ggsave(
     Panel4,
     # filename = "/plots/test.png",
-    filename = "output_data/plots/chm_vs_idw_species.png",
+    filename = "output_data/plots/chm_vs_idw_species_v2.png",
     width = 16,
     height = 16,
     units = "cm"

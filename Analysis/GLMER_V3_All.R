@@ -147,6 +147,8 @@ performance::check_model(wind_model1b)  # Evaluate model performance
 performance::r2(wind_model1b)
 summary(wind_model1b)
 
+
+
 ###2 Response = RDCHM,  Fixed effect = wind + Sun Elevation (filtered for sunny conditions) Random effect= plant height
 df_wind_sunny <- filter(df_wind,Sun_Percent >80)
 

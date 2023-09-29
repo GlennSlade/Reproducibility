@@ -54,7 +54,7 @@ windowsFonts("Helvetica" = windowsFont("Helvetica")) # Ensure font is mapped cor
 # Import environmental data for each survey: wind sun elevation etc
 survey <- read_xlsx("C:/Workspace/R_Scripts/Reproducibility/data/Survey_Data.xlsx")
 # Import reconstructed canopy height estimates for each plot and each survey  
-CHM <- read_xlsx("C:/Workspace/R_Scripts/Reproducibility/data/plot_chm_metrics_temp30.xlsx")
+CHM <- read_xlsx("C:/Workspace/R_Scripts/Reproducibility/data/plot_chm_metrics_temp61.xlsx")
 # Import plot data: species, plot measurements etc
 plot <- read_xlsx("C:/Workspace/R_Scripts/Reproducibility/data/Plot_Data.xlsx")
 
@@ -129,12 +129,72 @@ plot(Pcompare)
 ggsave(
   Pcompare,
   # filename = "/plots/test.png",
-  filename = "output_data/plots/comparison_wind_empty.png",
+  filename = "output_data/plots/comparison_wind_empty_v2.png",
   width = 10,
   height = 10,
   units = "cm"
 )
 
 
+# ---5. Simple plot of Reconstructed proportion by wind speed
 
+
+x <- as.vector(df$Wind_Av)
+#x <- na.omit(x)
+y <- as.vector(df$empty_prop)
+#y <- na.omit(y)
+df_temp3 <- data.frame(x = x, y = 1-y,
+                       d = densCols(x, y, colramp = colorRampPalette(rev(c('yellow','orange','turquoise4','dodgerblue4')))))#colorRampPalette(rev(rainbow(10, end = 4/6)))))
+
+
+#df_temp <- na.omit(df_temp2)
+
+# Calculate Total Least Squares Regression (extracted from base-R PCA function)
+
+pca <- prcomp(~x+y,df_temp3)
+tls_slp <- with(pca, rotation[2,1] / rotation[1,1]) # compute slope
+tls_int <- with(pca, center[2] - tls_slp*center[1]) # compute y-intercept
+equation <- paste("y = ", round(tls_int, 3), "+", round(tls_slp, 3), "x") # equation for printing
+
+# Compute the Lin's  correlation concordance coefficient
+ccc_result <- CCC(x, y, ci = "z-transform",conf.level = 0.95)
+ccc <- paste("CCC = ", round(ccc_result$rho.c[1], 3))
+
+MADval <- mean(abs(x-y))
+MADrel <- MADval/mean(x)*100
+lmres <- lm(y~x)
+r2val <- summary(lmres)$r.squared
+
+#Plot the graph
+
+#(paste0("P",i,"_w")) <- ggplot(df_temp) +
+Pcompare2 <- ggplot(df_temp3) +
+  geom_smooth(aes(x, y,col='black',weight=0.01),method='lm',formula=y ~ x,se=FALSE) +
+  geom_point(aes(x, y), alpha=0.3, size = 1) +
+  #  add the statistics
+  geom_text(aes(x=0.0,y=3),label=paste0('MAD: ',round(MADval,3)),hjust='left',size=3.0)+
+  geom_text(aes(x=0.0,y=2.8),label=paste0('R2: ',round(r2val,2)),hjust='left',size=3.0)+
+  geom_text(aes(x=0.0,y=2.6),label=ccc,hjust='left', size=3.0)+
+  geom_text(aes(x=0.0,y=2.4),label=equation,hjust='left', size=3.0)+
+  theme(text = element_text(size=36))+
+  scale_color_identity() +
+  theme_fancy() +
+  #add title and labels
+  ggtitle(paste0("Intercomparison of wind and \n proportion of plot reconstructed"))+
+  theme(aspect.ratio=1)+
+  xlab('Wind speed (m/s')+
+  ylab('Proportion of plot reconstructed')+
+  coord_equal(ratio=1)
+#coord_fixed(xlim=c(0.39,2.55),ylim=c(0,1.2))
+#plot(  (paste0("P",i,"_w")))
+plot(Pcompare2)
+
+ggsave(
+  Pcompare2,
+  # filename = "/plots/test.png",
+  filename = "output_data/plots/comparison_wind_proportion_reconstructed_v2.png",
+  width = 10,
+  height = 10,
+  units = "cm"
+)
 

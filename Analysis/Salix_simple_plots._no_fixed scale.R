@@ -51,7 +51,7 @@ windowsFonts("Helvetica" = windowsFont("Helvetica")) # Ensure font is mapped cor
 # Import environmental data for each survey: wind sun elevation etc
 survey <- read_xlsx("C:/Workspace/R_Scripts/Reproducibility/data/Survey_Data.xlsx")
 # Import reconstructed canopy height estimates for each plot and each survey  
-CHM <- read_xlsx("C:/Workspace/R_Scripts/Reproducibility/data/plot_chm_metrics_temp30.xlsx")
+CHM <- read_xlsx("C:/Workspace/R_Scripts/Reproducibility/data/plot_chm_metrics_temp61.xlsx")
 # Import plot data: species, plot measurements etc
 plot <- read_xlsx("C:/Workspace/R_Scripts/Reproducibility/data/Plot_Data.xlsx")
 
@@ -72,7 +72,7 @@ df2<- filter(master_df,PlotGenus == "Salix aurita")
 #Filter master df for plot number i 
 df<- filter(df2,plot == 51)
 
-{# Assign Average wind to X and Mean Canopy height to Y
+{# Assign Average wind to X and MCH to Y
 
 x <- as.vector(df$Wind_Av)
 y <- as.vector(df$Mn_chm)
@@ -114,7 +114,7 @@ P51 <- ggplot(df_temp) +
   ggtitle(paste0("Plot 51"))+
   #theme(aspect.ratio=1)+
   xlab('Wind Speed (m/s)')+
-  ylab('Mean Canopy Height (m)')
+  ylab('MCH (m)')
 #coord_equal(ratio=1)
 #coord_fixed(xlim=c(0.39,2.55),ylim=c(0,1.2))
 #plot(  (paste0("P",i,"_w")))
@@ -122,7 +122,7 @@ plot(P51)
 }
 df<- filter(df2,plot == 64)
 
-{# Assign Average wind to X and Mean Canopy height to Y
+{# Assign Average wind to X and MCH to Y
   
   x <- as.vector(df$Wind_Av)
   y <- as.vector(df$Mn_chm)
@@ -161,7 +161,7 @@ df<- filter(df2,plot == 64)
     ggtitle(paste0("Plot 64"))+
     #theme(aspect.ratio=1)+
     xlab('Wind Speed (m/s)')+
-    ylab('Mean Canopy Height (m)')
+    ylab('MCH (m)')
   #coord_equal(ratio=1)
 #  coord_fixed(xlim=c(0.39,2.55),ylim=c(0,1.2))
   #plot(  (paste0("P",i,"_w")))
@@ -169,7 +169,7 @@ df<- filter(df2,plot == 64)
 }
 df<- filter(df2,plot == 60)
 
-{# Assign Average wind to X and Mean Canopy height to Y
+{# Assign Average wind to X and MCH to Y
   
   x <- as.vector(df$Wind_Av)
   y <- as.vector(df$Mn_chm)
@@ -208,7 +208,7 @@ df<- filter(df2,plot == 60)
     ggtitle(paste0("Plot 60"))+
     #theme(aspect.ratio=1)+
     xlab('Wind Speed (m/s)')+
-    ylab('Mean Canopy Height (m)')
+    ylab('MCH (m)')
   #coord_equal(ratio=1)
 #  coord_fixed(xlim=c(0.39,2.55),ylim=c(0,1.2))
   #plot(  (paste0("P",i,"_w")))
@@ -216,7 +216,7 @@ df<- filter(df2,plot == 60)
 }
 df<- filter(df2,plot == 46)
 
-{# Assign Average wind to X and Mean Canopy height to Y
+{# Assign Average wind to X and MCH to Y
   
   x <- as.vector(df$Wind_Av)
   y <- as.vector(df$Mn_chm)
@@ -255,7 +255,7 @@ df<- filter(df2,plot == 46)
     ggtitle(paste0("Plot 46"))+
     #theme(aspect.ratio=1)+
     xlab('Wind Speed (m/s)')+
-    ylab('Mean Canopy Height (m)')
+    ylab('MCH (m)')
   #coord_equal(ratio=1)
 #  coord_fixed(xlim=c(0.39,2.55),ylim=c(0,1.2))
   #plot(  (paste0("P",i,"_w")))
@@ -263,7 +263,7 @@ df<- filter(df2,plot == 46)
 }
 df<- filter(df2,plot == 38)
 
-{# Assign Average wind to X and Mean Canopy height to Y
+{# Assign Average wind to X and MCH to Y
   
   x <- as.vector(df$Wind_Av)
   y <- as.vector(df$Mn_chm)
@@ -302,7 +302,7 @@ df<- filter(df2,plot == 38)
     ggtitle(paste0("Plot 38"))+
     #theme(aspect.ratio=1)+
     xlab('Wind Speed (m/s)')+
-    ylab('Mean Canopy Height (m)')
+    ylab('MCH (m)')
   #coord_equal(ratio=1)
 #  coord_fixed(xlim=c(0.39,2.55),ylim=c(0,1.2))
   #plot(  (paste0("P",i,"_w")))
@@ -311,7 +311,7 @@ df<- filter(df2,plot == 38)
 
 df<- filter(df2,plot == 49)
 
-{# Assign Average wind to X and Mean Canopy height to Y
+{# Assign Average wind to X and MCH to Y
   
   x <- as.vector(df$Wind_Av)
   y <- as.vector(df$Mn_chm)
@@ -350,7 +350,7 @@ df<- filter(df2,plot == 49)
     ggtitle(paste0("Plot 49"))+
     #theme(aspect.ratio=1)+
     xlab('Wind Speed (m/s)')+
-    ylab('Mean Canopy Height (m)')
+    ylab('MCH (m)')
   #coord_equal(ratio=1)
 #  coord_fixed(xlim=c(0.39,2.55),ylim=c(0,1.2))
   #plot(  (paste0("P",i,"_w")))
@@ -358,7 +358,7 @@ df<- filter(df2,plot == 49)
 }
 df<- filter(df2,plot == 53)
 
-{# Assign Average wind to X and Mean Canopy height to Y
+{# Assign Average wind to X and MCH to Y
   
   x <- as.vector(df$Wind_Av)
   y <- as.vector(df$Mn_chm)
@@ -397,7 +397,7 @@ df<- filter(df2,plot == 53)
     ggtitle(paste0("Plot 53"))+
     #theme(aspect.ratio=1)+
     xlab('Wind Speed (m/s)')+
-    ylab('Mean Canopy Height (m)')
+    ylab('MCH (m)')
   #coord_equal(ratio=1)
 #  coord_fixed(xlim=c(0.39,2.55),ylim=c(0,1.2))
   #plot(  (paste0("P",i,"_w")))
@@ -405,7 +405,7 @@ df<- filter(df2,plot == 53)
 }
 df<- filter(df2,plot == 56)
 
-{# Assign Average wind to X and Mean Canopy height to Y
+{# Assign Average wind to X and MCH to Y
   
   x <- as.vector(df$Wind_Av)
   y <- as.vector(df$Mn_chm)
@@ -444,7 +444,7 @@ df<- filter(df2,plot == 56)
     ggtitle(paste0("Plot 56"))+
     #theme(aspect.ratio=1)+
     xlab('Wind Speed (m/s)')+
-    ylab('Mean Canopy Height (m)')
+    ylab('MCH (m)')
   #coord_equal(ratio=1)
 #  coord_fixed(xlim=c(0.39,2.55),ylim=c(0,1.2))
   #plot(  (paste0("P",i,"_w")))
@@ -452,7 +452,7 @@ df<- filter(df2,plot == 56)
 }
 df<- filter(df2,plot == 39)
 
-{# Assign Average wind to X and Mean Canopy height to Y
+{# Assign Average wind to X and MCH to Y
   
   x <- as.vector(df$Wind_Av)
   y <- as.vector(df$Mn_chm)
@@ -491,7 +491,7 @@ df<- filter(df2,plot == 39)
     ggtitle(paste0("Plot 39"))+
     #theme(aspect.ratio=1)+
     xlab('Wind Speed (m/s)')+
-    ylab('Mean Canopy Height (m)')
+    ylab('MCH (m)')
   #coord_equal(ratio=1)
 #  coord_fixed(xlim=c(0.39,2.55),ylim=c(0,1.2))
   #plot(  (paste0("P",i,"_w")))
@@ -499,7 +499,7 @@ df<- filter(df2,plot == 39)
 }
 df<- filter(df2,plot == 55)
 
-{# Assign Average wind to X and Mean Canopy height to Y
+{# Assign Average wind to X and MCH to Y
   
   x <- as.vector(df$Wind_Av)
   y <- as.vector(df$Mn_chm)
@@ -538,7 +538,7 @@ df<- filter(df2,plot == 55)
     ggtitle(paste0("Plot 55"))+
     #theme(aspect.ratio=1)+
     xlab('Wind Speed (m/s)')+
-    ylab('Mean Canopy Height (m)')
+    ylab('MCH (m)')
   #coord_equal(ratio=1)
 #  coord_fixed(xlim=c(0.39,2.55),ylim=c(0,1.2))
   #plot(  (paste0("P",i,"_w")))
@@ -547,7 +547,7 @@ df<- filter(df2,plot == 55)
 
 df<- filter(df2,plot == 57)
 
-{# Assign Average wind to X and Mean Canopy height to Y
+{# Assign Average wind to X and MCH to Y
   
   x <- as.vector(df$Wind_Av)
   y <- as.vector(df$Mn_chm)
@@ -586,7 +586,7 @@ df<- filter(df2,plot == 57)
     ggtitle(paste0("Plot 57"))+
     #theme(aspect.ratio=1)+
     xlab('Wind Speed (m/s)')+
-    ylab('Mean Canopy Height (m)')
+    ylab('MCH (m)')
   #coord_equal(ratio=1)
 #  coord_fixed(xlim=c(0.39,2.55),ylim=c(0,1.2))
   #plot(  (paste0("P",i,"_w")))
@@ -594,7 +594,7 @@ df<- filter(df2,plot == 57)
 }
 df<- filter(df2,plot == 54)
 
-{# Assign Average wind to X and Mean Canopy height to Y
+{# Assign Average wind to X and MCH to Y
   
   x <- as.vector(df$Wind_Av)
   y <- as.vector(df$Mn_chm)
@@ -633,7 +633,7 @@ df<- filter(df2,plot == 54)
     ggtitle(paste0("Plot 54"))+
     #theme(aspect.ratio=1)+
     xlab('Wind Speed (m/s)')+
-    ylab('Mean Canopy Height (m)')
+    ylab('MCH (m)')
   #coord_equal(ratio=1)
 #  coord_fixed(xlim=c(0.39,2.55),ylim=c(0,1.2))
   #plot(  (paste0("P",i,"_w")))
@@ -641,7 +641,7 @@ df<- filter(df2,plot == 54)
 }
 df<- filter(df2,plot == 58)
 
-{# Assign Average wind to X and Mean Canopy height to Y
+{# Assign Average wind to X and MCH to Y
   
   x <- as.vector(df$Wind_Av)
   y <- as.vector(df$Mn_chm)
@@ -680,7 +680,7 @@ df<- filter(df2,plot == 58)
     ggtitle(paste0("Plot 58"))+
     #theme(aspect.ratio=1)+
     xlab('Wind Speed (m/s)')+
-    ylab('Mean Canopy Height (m)')
+    ylab('MCH (m)')
   #coord_equal(ratio=1)
 #  coord_fixed(xlim=c(0.39,2.55),ylim=c(0,1.2))
   #plot(  (paste0("P",i,"_w")))
@@ -688,7 +688,7 @@ df<- filter(df2,plot == 58)
 }
 df<- filter(df2,plot == 42)
 
-{# Assign Average wind to X and Mean Canopy height to Y
+{# Assign Average wind to X and MCH to Y
   
   x <- as.vector(df$Wind_Av)
   y <- as.vector(df$Mn_chm)
@@ -727,7 +727,7 @@ df<- filter(df2,plot == 42)
     ggtitle(paste0("Plot 42"))+
     #theme(aspect.ratio=1)+
     xlab('Wind Speed (m/s)')+
-    ylab('Mean Canopy Height (m)')
+    ylab('MCH (m)')
   #coord_equal(ratio=1)
 #  coord_fixed(xlim=c(0.39,2.55),ylim=c(0,1.2))
   #plot(  (paste0("P",i,"_w")))
@@ -735,7 +735,7 @@ df<- filter(df2,plot == 42)
 }
 df<- filter(df2,plot == 40)
 
-{# Assign Average wind to X and Mean Canopy height to Y
+{# Assign Average wind to X and MCH to Y
   
   x <- as.vector(df$Wind_Av)
   y <- as.vector(df$Mn_chm)
@@ -774,7 +774,7 @@ df<- filter(df2,plot == 40)
     ggtitle(paste0("Plot 40"))+
     #theme(aspect.ratio=1)+
     xlab('Wind Speed (m/s)')+
-    ylab('Mean Canopy Height (m)')
+    ylab('MCH (m)')
   #coord_equal(ratio=1)
 #  coord_fixed(xlim=c(0.39,2.55),ylim=c(0,1.2))
   #plot(  (paste0("P",i,"_w")))
@@ -782,7 +782,7 @@ df<- filter(df2,plot == 40)
 }
 df<- filter(df2,plot == 41)
 
-{# Assign Average wind to X and Mean Canopy height to Y
+{# Assign Average wind to X and MCH to Y
   
   x <- as.vector(df$Wind_Av)
   y <- as.vector(df$Mn_chm)
@@ -821,7 +821,7 @@ df<- filter(df2,plot == 41)
     ggtitle(paste0("Plot 41"))+
     #theme(aspect.ratio=1)+
     xlab('Wind Speed (m/s)')+
-    ylab('Mean Canopy Height (m)')
+    ylab('MCH (m)')
   #coord_equal(ratio=1)
 #  coord_fixed(xlim=c(0.39,2.55),ylim=c(0,1.2))
   #plot(  (paste0("P",i,"_w")))

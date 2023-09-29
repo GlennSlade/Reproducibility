@@ -265,3 +265,25 @@ P9
 performance::check_model(wind_model9)  # Evaluate model performance
 performance::r2(wind_model9)
 summary(wind_model9)
+
+
+### 10 Sun model fixed effect sun elev and illumination interacting with sun elevation
+
+mod10 <- lm(RDCHM~ Sun_Elev_calc,data = df5)
+summary(mod10)
+PLMRD <-ggpredict(mod10, 
+                  terms = c("Sun_Elev_calc")) |>  plot()
+PLMRD
+
+
+
+sun_model10 <-lme4::glmer(RDCHM ~  Sun_Elev_calc *  Sun_Percent    + (1|plot),
+                          data = df_wind,
+                          family = gaussian(link = "log"))
+
+P10 <-ggpredict(sun_model10 , 
+               terms = c("Sun_Elev_calc", "Sun_Percent")) |>  plot()
+P10
+performance::check_model(sun_model10)  # Evaluate model performance
+performance::r2(sun_model10)
+summary(sun_model10)
