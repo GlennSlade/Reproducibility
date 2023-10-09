@@ -71,7 +71,7 @@ master_df <- full_join(survey_df,plot, by = "plot")
 df4 <- master_df %>% mutate(empty = Ct_dtm - Ct_chm)# number of empty cells
 df4 <- df4 %>% mutate(empty_prop = empty/Ct_dtm)# proportion of plot that is empty cells
 
-df2 <- df4 %>% dplyr::select (survey,plot,Mn_chm,Wind_Av,Sun_Elev_calc, Sun_Percent, empty_prop, PlotGenus)
+df2 <- df4 %>% dplyr::select (survey,plot,Mn_chm,Mn_idw,Wind_Av,Sun_Elev_calc, Sun_Percent, empty_prop, PlotGenus)
 
 # summarise by survey and plot genus (giving average canopy height for each species on each survey)
 
@@ -79,7 +79,7 @@ df3<-summarise(group_by(df2, plot),
                CHM_MEAN=mean(Mn_chm),
                CHM_MIN = min(Mn_chm),
                 CHM_MAX = max(Mn_chm),
-               CHM_SD = sd(Mn_chm), CHM_MAD = mad(Mn_chm))              
+               CHM_SD = sd(Mn_chm), CHM_MAD = mad(Mn_chm), IDW_Mean = mean (Mn_idw))              
 
 
 df3 <- df3%>% mutate (CHM_VAR = CHM_MAX - CHM_MIN)

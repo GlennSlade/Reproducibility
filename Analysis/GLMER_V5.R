@@ -139,7 +139,8 @@ P1a <-plot(P1, colors = "orange") +
     x = "Average wind speed (m/s)",
     y = "Reduction in reconstructed canopy height from Max (m)",
     title = "Predicted reduction in reconstructed canopy \n heights with increased wind speed \n all data"
-          )+ theme_fancy()+theme(legend.position = c(0.3, 0.8)) 
+          ) + scale_y_reverse()+
+theme_fancy()+theme(legend.position = c(0.3, 0.8)) 
 P1a
 
 ggplot2::ggsave(
@@ -357,7 +358,7 @@ wind_model8_low <-lme4::glmer(RDCHM ~  Wind_Av *  Sun_Percent  + (1|plot),
                           family = gaussian(link = "log"))
 
 P8_low <-ggpredict(wind_model8_low , 
-               terms = c("Wind_Av","Sun_Percent")) |>  plot()
+               terms = c("Wind_Av","Sun_Percent [0:100, by=25]")) |>  plot()
 
 
 P8_lowa <-plot(P8_low) +
@@ -494,12 +495,56 @@ summary(wind_model10)
 
 
 ##11. Wind interaction sun_elev interaction sunp
-wind_model11 <-lme4::glmer(RDCHM ~  Wind_Av *  Sun_Elev_calc * Sun_Percent + (1|plot),
+# wind_model11 <-lme4::glmer(RDCHM ~  Wind_Av *  Sun_Elev_calc * Sun_Percent + (1|plot),
+#                            data = df_wind,
+#                            family = gaussian(link = "log"))
+
+wind_model11 <-lme4::glmer(RDCHM ~  Wind_Av  + (1+Sun_Elev_calc+Sun_Percent|plot),
                            data = df_wind,
                            family = gaussian(link = "log"))
 
+sun_model11XXX <-lme4::glmer(RDCHM ~   Sun_Elev_calc+Sun_Percent + (1+Wind_Av|plot),
+                           data = df_wind,
+                           family = gaussian(link = "log"))
+P11 <-ggpredict(sun_model11XXX , 
+                terms = c("Sun_Elev_calc","Sun_Percent")) |>  plot()
+P11
+
+# P11 <-ggpredict(wind_model11 , 
+#                 terms = c("Wind_Av","Sun_Elev_calc", "Sun_Percent")) |>  plot()
+# P11
+
+wind_model11 <-lme4::glmer(RDCHM ~  Wind_Av * PlotGenus.x + (1+Sun_Elev_calc+Sun_Percent|plot),
+                           data = df_wind,
+                           family = gaussian(link = "log"),
+                           control=glmerControl(optimizer="bobyqa",optCtrl=list(maxfun=2e5)))
+
+sun_model11XXX <-lme4::glmer(RDCHM ~   Sun_Elev_calc+Sun_Percent * PlotGenus.x + (1+Wind_Av|plot),
+                             data = df_wind,
+                             family = gaussian(link = "log"))
+P11 <-ggpredict(sun_model11XXX , 
+                terms = c("Sun_Elev_calc","Sun_Percent","PlotGenus.x")) |>  plot()
+P11
+(P11 <-ggpredict(wind_model11 , 
+                terms = c("Wind_Av","PlotGenus.x")) |>  plot())
+P11
+
+summary(wind_model11)
+
+
+
+
+
+
+
+
+
+
+
+summary(wind_model11)
+
 P11 <-ggpredict(wind_model11 , 
-                terms = c("Wind_Av","Sun_Elev_calc", "Sun_Percent")) |>  plot()
+                terms = c("Wind_Av")) |>  plot()
 P11
 
 P11a <-plot(P11) +
@@ -510,6 +555,10 @@ P11a <-plot(P11) +
     colour = "Sun Elevation"
   )+theme_fancy()+theme(legend.position = c(0.2, 0.8))
 P11a
+
+performance::check_model(wind_model11)  # Evaluate model performance
+performance::r2(wind_model11)
+summary(wind_model11)
 
 ggplot2::ggsave(
   P11a,
