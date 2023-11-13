@@ -6,6 +6,7 @@ library(writexl)
 library(DescTools)
 library(cowplot)
 library(ggpubr)
+library(patchwork)
 #library(ggsave2)
 
 ## Plotting theme
@@ -97,10 +98,10 @@ Pcompare <- ggplot(df_temp2) +
   geom_smooth(aes(x, y,col='black',weight=0.01),method='lm',formula=y ~ x,se=FALSE) +
   geom_point(aes(x, y), alpha=0.3, size = 1) +
   #  add the statistics
-  geom_text(aes(x=0.0,y=3),label=paste0('MAD: ',round(MADval,3)),hjust='left',size=3.0)+
-  geom_text(aes(x=0.0,y=2.8),label=paste0('R2: ',round(r2val,2)),hjust='left',size=3.0)+
-  geom_text(aes(x=0.0,y=2.6),label=ccc,hjust='left', size=3.0)+
-  geom_text(aes(x=0.0,y=2.4),label=equation,hjust='left', size=3.0)+
+  geom_text(aes(x=0.0,y=3),label=paste0('MAD: ',round(MADval,3)),hjust='left',size=2.5)+
+  geom_text(aes(x=0.0,y=2.8),label=paste0('R2: ',round(r2val,2)),hjust='left',size=2.5)+
+  geom_text(aes(x=0.0,y=2.6),label=ccc,hjust='left', size=2.5)+
+  geom_text(aes(x=0.0,y=2.4),label=equation,hjust='left', size=2.5)+
   theme(text = element_text(size=36))+
   scale_color_identity() +
   theme_fancy() +
@@ -168,10 +169,10 @@ ggsave(
     geom_smooth(aes(x, y,col='black',weight=0.01),method='lm',formula=y ~ x,se=FALSE) +
     
     #  add the statistics
-    geom_text(aes(x=0.0,y=0.7),label=paste0('MAD: ',round(MADval,3)),hjust='left',size=3.0)+
-    geom_text(aes(x=0.0,y=0.65),label=paste0('R2: ',round(r2val,2)),hjust='left',size=3.0)+
-    geom_text(aes(x=0.0,y=0.6),label=ccc,hjust='left', size=3.0)+
-    geom_text(aes(x=0.0,y=0.55),label=equation,hjust='left', size=3.0)+
+    geom_text(aes(x=0.0,y=0.7),label=paste0('MAD: ',round(MADval,3)),hjust='left',size=2.5)+
+    geom_text(aes(x=0.0,y=0.65),label=paste0('R2: ',round(r2val,2)),hjust='left',size=2.5)+
+    geom_text(aes(x=0.0,y=0.6),label=ccc,hjust='left', size=2.5)+
+    geom_text(aes(x=0.0,y=0.55),label=equation,hjust='left', size=2.5)+
     theme(text = element_text(size=36))+
     scale_color_identity() +
     theme_fancy() +
@@ -224,10 +225,10 @@ ggsave(
     geom_smooth(aes(x, y,col='black',weight=0.01),method='lm',formula=y ~ x,se=FALSE) +
     
     #  add the statistics
-    geom_text(aes(x=0.0,y=3),label=paste0('MAD: ',round(MADval,3)),hjust='left',size=3.0)+
-    geom_text(aes(x=0.0,y=2.8),label=paste0('R2: ',round(r2val,2)),hjust='left',size=3.0)+
-    geom_text(aes(x=0.0,y=2.6),label=ccc,hjust='left', size=3.0)+
-    geom_text(aes(x=0.0,y=2.4),label=equation,hjust='left', size=3.0)+
+    geom_text(aes(x=0.0,y=3),label=paste0('MAD: ',round(MADval,3)),hjust='left',size=2.5)+
+    geom_text(aes(x=0.0,y=2.8),label=paste0('R2: ',round(r2val,2)),hjust='left',size=2.5)+
+    geom_text(aes(x=0.0,y=2.6),label=ccc,hjust='left', size=2.5)+
+    geom_text(aes(x=0.0,y=2.4),label=equation,hjust='left', size=2.5)+
     theme(text = element_text(size=36))+
     scale_color_identity() +
     theme_fancy() +
@@ -280,10 +281,10 @@ ggsave(
     geom_smooth(aes(x, y,col='black', weight=0.01),method='lm',formula=y ~ x,se=FALSE) +
     
     #  add the statistics
-    geom_text(aes(x=0.0,y=3),label=paste0('MAD: ',round(MADval,3)),hjust='left',size=3.0)+
-    geom_text(aes(x=0.0,y=2.8),label=paste0('R2: ',round(r2val,2)),hjust='left',size=3.0)+
-    geom_text(aes(x=0.0,y=2.6),label=ccc,hjust='left', size=3.0)+
-    geom_text(aes(x=0.0,y=2.4),label=equation,hjust='left', size=3.0)+
+    geom_text(aes(x=0.0,y=3),label=paste0('MAD: ',round(MADval,3)),hjust='left',size=2.5)+
+    geom_text(aes(x=0.0,y=2.8),label=paste0('R2: ',round(r2val,2)),hjust='left',size=2.5)+
+    geom_text(aes(x=0.0,y=2.6),label=ccc,hjust='left', size=2.5)+
+    geom_text(aes(x=0.0,y=2.4),label=equation,hjust='left', size=2.5)+
     theme(text = element_text(size=36))+
     scale_color_identity() +
     theme_fancy() +
@@ -336,10 +337,10 @@ ggsave(
     geom_smooth(aes(x, y,col='black',weight=0.01),method='lm',formula=y ~ x,se=FALSE) +
     
     #  add the statistics
-    geom_text(aes(x=0.0,y=1.5),label=paste0('MAD: ',round(MADval,3)),hjust='left',size=3.0)+
-    geom_text(aes(x=0.0,y=1.4),label=paste0('R2: ',round(r2val,2)),hjust='left',size=3.0)+
-    geom_text(aes(x=0.0,y=1.3),label=ccc,hjust='left', size=3.0)+
-    geom_text(aes(x=0.0,y=1.2),label=equation,hjust='left', size=3.0)+
+    geom_text(aes(x=0.0,y=1.5),label=paste0('MAD: ',round(MADval,3)),hjust='left',size=2.5)+
+    geom_text(aes(x=0.0,y=1.4),label=paste0('R2: ',round(r2val,2)),hjust='left',size=2.5)+
+    geom_text(aes(x=0.0,y=1.3),label=ccc,hjust='left', size=2.5)+
+    geom_text(aes(x=0.0,y=1.2),label=equation,hjust='left', size=2.5)+
     theme(text = element_text(size=36))+
     scale_color_identity() +
     theme_fancy() +
@@ -410,10 +411,10 @@ ggsave(
     geom_smooth(aes(x, y,col='black',weight=0.01),method='lm',formula=y ~ x,se=FALSE) +
     
     #  add the statistics
-    geom_text(aes(x=0.0,y=1.5),label=paste0('MAD: ',round(MADval,3)),hjust='left',size=3.0)+
-    geom_text(aes(x=0.0,y=1.4),label=paste0('R2: ',round(r2val,2)),hjust='left',size=3.0)+
-    geom_text(aes(x=0.0,y=1.3),label=ccc,hjust='left', size=3.0)+
-    geom_text(aes(x=0.0,y=1.2),label=equation,hjust='left', size=3.0)+
+    geom_text(aes(x=0.0,y=1.5),label=paste0('MAD: ',round(MADval,3)),hjust='left',size=2.5)+
+    geom_text(aes(x=0.0,y=1.4),label=paste0('R2: ',round(r2val,2)),hjust='left',size=2.5)+
+    geom_text(aes(x=0.0,y=1.3),label=ccc,hjust='left', size=2.5)+
+    geom_text(aes(x=0.0,y=1.2),label=equation,hjust='left', size=2.5)+
     theme(text = element_text(size=36))+
     scale_color_identity() +
     theme_fancy() +
@@ -427,4 +428,6 @@ ggsave(
   #plot(  (paste0("P",i,"_w")))
   plot(PcompareMN)  
   
+  
+
   

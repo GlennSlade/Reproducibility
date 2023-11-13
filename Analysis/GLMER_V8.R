@@ -17,6 +17,7 @@ library(marginaleffects)
 library(see)
 library (cowplot)
 library(ggpubr)
+library(patchwork)
 
 #GLMM development
 
@@ -61,7 +62,7 @@ windowsFonts("Helvetica" = windowsFont("Helvetica")) # Ensure font is mapped cor
 
 # Import environmental data for each survey: wind sun elevation etc
 survey <- read_xlsx("data/Survey_Data.xlsx")
-# Import reconstructed canopy height estimates for each plot and each survey  
+# Import RCH estimates for each plot and each survey  
 CHM <- read_xlsx("data/plot_chm_metrics_temp61.xlsx")# needs to be updated with latest survey data
 # Import plot data: species, plot measurements etc
 plot <- read_xlsx("data/Plot_Data.xlsx")
@@ -126,68 +127,9 @@ df_wind_high_elev <- filter(df_wind,Sun_Elev_calc >40)
 
 #### ALL SPECIES
 
-#Basic wind linear model
-df_wind<- as.data.frame(df_wind)
-mod <- lm(RDCHM~ Wind_Av ,data = df_wind)
-#summary(mod)
-P1 <-ggpredict(mod, 
-               terms = c("Wind_Av"))# |>  plot()
+group.colors <- c("Betula" = "purple", "Ulex europaeus" = "#E3DB71", "Salix aurita" ="green3", "Festuca arundinacea" = "steelblue")
 
 
-P1a <-plot(P1, colors = "orange") +
-  labs(
-    x = "Average wind speed (m/s)",
-    y = "Reduction in reconstructed canopy height from Max (m)",
-    title = "Predicted reduction in reconstructed canopy \n heights with increased wind speed \n all data"
-  ) + scale_y_reverse()+
-  theme_fancy()+theme(legend.position = c(0.3, 0.8)) 
-P1a
-
-ggplot2::ggsave(
-  P1a,
-  # filename = "/plots/test.png",
-  filename = paste0("output_data/full_model/linear_model_wind_summary_RDCHM_reverse.jpg"),
-  width = 16,
-  height = 16,
-  units = "cm"
-) 
-
-# Basic wind linear model - chm
-
-modchm <- lm(Mn_chm~ Wind_Av ,data = df_wind)
-#summary(mod)
-P1chm <-ggpredict(modchm, 
-                  terms = c("Wind_Av"))# |>  plot()
-
-
-P1chm2 <-plot(P1chm, colors = "orange") +
-  labs(
-    x = "Average wind speed (m/s)",
-    y = "Reconstructed canopy height from Max (m)",
-    title = "Predicted reconstructed canopy \n heights with increased wind speed \n all data"
-  )+ theme_fancy()+theme(legend.position = c(0.3, 0.8)) 
-P1chm2
-
-ggplot2::ggsave(
-  P1chm2,
-  # filename = "/plots/test.png",
-  filename = paste0("output_data/full_model/linear_model_wind_summary_CHM.jpg"),
-  width = 16,
-  height = 16,
-  units = "cm"
-) 
-
-P_All2_basic <- ggarrange(P1chm2,P1a, ncol = 2, nrow = 1)
-plot(P_All2_basic)
-
-ggplot2::ggsave(
-  P_All2_basic,
-  # filename = "/plots/test.png",
-  filename = paste0("output_data/full_model/Combined figure_basic linear_model_CHM_RDCHM.jpg"),
-  width = 16,
-  height = 10,
-  units = "cm"
-) 
 
 ##11. Full GLMER model for Wind with Plot Genus as fixed effect and Sun Elevation Sun percent and plot as random effects
 
@@ -202,17 +144,18 @@ wind_model11 <-lme4::glmer(RDCHM ~  Wind_Av * PlotGenus.x + (1+Sun_Elev_calc+Sun
 P11a<-plot(P11) +
   labs(
     x = "Average wind speed (m/s)",
-    y = "Reduction in reconstructed canopy height from Max (m)",
+    y = "Reduction in RCH from Max (m)",
     title = "",
     fill = "Plot Genus"
-      )+ scale_y_reverse()+ theme_fancy()+theme(legend.position = c(0.33, 0.2))+
+      ) +  coord_cartesian(ylim = c(0.31, 0)) +scale_y_reverse()+ theme_fancy()+
+theme(legend.position = c(0.33, 0.2))+
   theme(legend.title = element_blank())+scale_color_viridis(discrete = TRUE) 
 P11a
 
 ggplot2::ggsave(
   P11a,
   # filename = "/plots/test.png",
-  filename = paste0("output_data/full_model/glmer_RDCHM_Wind.jpg"),
+  filename = paste0("output_data/full_model/glmer_RDCHM_Wind_B.jpg"),
   width = 16,
   height = 16,
   units = "cm"
@@ -231,21 +174,22 @@ wind_model8 <-lme4::glmer(RDCHM ~  Wind_Av + (1+Sun_Elev_calc+Sun_Percent|plot),
 #wind_model8 <- wind_model11
 
 (P8 <-ggpredict(wind_model8 , 
-                terms = c("Wind_Av")) |>  plot(colors = "orange"))
+                terms = c("Wind_Av")) |>  plot(colors = "black"))
 
-P8a<-plot(P8,colors = "orange") +
+P8a<-plot(P8,colors = "black") +
   labs(
     x = "Average wind speed (m/s)",
-    y = "Reduction in reconstructed canopy height from Max (m)",
-    title = ""
-  )+ scale_y_reverse()+ theme_fancy()+
+    y = "Reduction in RCH from Max (m)",
+    title = "")+
+  coord_cartesian(ylim = c(0.1, 0)) +scale_y_reverse()+ theme_fancy()+
   theme(legend.title = element_blank())
+
 P8a
 
 ggplot2::ggsave(
   P8a,
   # filename = "/plots/test.png",
-  filename = paste0("output_data/full_model/glmer_RDCHM_Wind_no_species.jpg"),
+  filename = paste0("output_data/full_model/glmer_RDCHM_Wind_no_species_A.jpg"),
   width = 16,
   height = 16,
   units = "cm"
@@ -255,13 +199,18 @@ summary(wind_model8)
 
 # Panel with two main wind effect plots
 
-P_All2_wind <- ggarrange(P8a,P11a, ncol = 2, nrow = 1)
-plot(P_All2_wind)
+#P_All2_wind <- ggarrange(P8a,P11a, ncol = 2, nrow = 1)
+#plot(P_All2_wind)
+patchwork1 <- (P8a + P11a)
+P_All2_wind<- patchwork1 + plot_annotation(tag_levels = 'A') & 
+  theme(plot.tag = element_text(size = 10))
+
+P_All2_wind
 
 ggplot2::ggsave(
   P_All2_wind,
   # filename = "/plots/test.png",
-  filename = paste0("output_data/full_model/Combined figure_wind models_RDCHM.jpg"),
+  filename = paste0("output_data/full_model/Combined figure_wind models_RDCHM_AB.jpg"),
   width = 16,
   height = 10,
   units = "cm"
@@ -283,7 +232,7 @@ P12
 P12a<-plot(P12) +
   labs(
     x = "Sun Elevation (degrees)",
-    y = "Reduction in reconstructed canopy height from Max (m)",
+    y = "Reduction in RCH from Max (m)",
     title = "",
     fill = "Sun Percent"
   )+ scale_y_reverse()+ theme_fancy()+theme(legend.position = c(0.1, 0.1))
@@ -301,65 +250,7 @@ ggplot2::ggsave(
 ) 
 
 
-##20 Now Wind and Plant Height
 
-wind_model20 <-lme4::glmer(RDCHM ~  Wind_Av * PlotGenus.x * CHM_MEAN + (1+Sun_Elev_calc+Sun_Percent|plot),
-                           data = df_wind,
-                           family = gaussian(link = "log"))#,
-                           #control=glmerControl(optimizer="bobyqa",optCtrl=list(maxfun=2e5)))
-#P20 <-ggpredict(wind_model20 , 
-#                terms = c("Wind_Av", "PlotGenus.x ","CHM_MEAN"))# |>  plot()
-P20 <-ggpredict(wind_model20 , 
-                terms = c("Wind_Av","CHM_MEAN [0.1:2.1, by=0.75]"))# |>  plot()
-
-
-P20a <-plot(P20) +
-  labs(
-    x = "Average wind speed m/s",
-    y = "Reduction in reconstructed canopy height from Max recorded",
-    title = "Predicted effect of wind speed reconstructed canopy heights \n interaction with plant height",
-    colour = "Plant Height (m)"
-  )+theme_fancy()+theme(legend.position = c(0.2, 0.8))+ scale_y_reverse()
-
-P20a 
-ggplot2::ggsave(
-  P20a,
-  # filename = "/plots/test.png",
-  filename = paste0("output_data/full_model/glmer_wind_plant height_RDCHM.jpg"),
-  width = 8,
-  height = 10,
-  units = "cm"
-) 
-
-# Wind - Species - Mn CHM
-
-
-wind_model21 <-lme4::glmer(Mn_chm ~  Wind_Av * PlotGenus.x + (1+Sun_Elev_calc+Sun_Percent|plot),
-                           data = df_wind,
-                           family = gaussian(link = "log"))#,
-#control=glmerControl(optimizer="bobyqa",optCtrl=list(maxfun=2e5)))
-
-(P21 <-ggpredict(wind_model21 , 
-                 terms = c("Wind_Av","PlotGenus.x")) |>  plot())
-
-P21a<-plot(P21) +
-  labs(
-    x = "Average wind speed (m/s)",
-    y = "Reconstructed canopy height (m)",
-    title = "",
-    fill = "Plot Genus"
-  )+ theme_fancy()+
-  theme(legend.title = element_blank())+scale_color_viridis(discrete = TRUE) 
-P21a
-
-ggplot2::ggsave(
-  P21a,
-  # filename = "/plots/test.png",
-  filename = paste0("output_data/full_model/glmer_Mn_CHM_Wind_genus.jpg"),
-  width = 16,
-  height = 16,
-  units = "cm"
-) 
 
 #Influence of plant height on the effect of wind on RDCHM
 
@@ -376,8 +267,8 @@ P30 <-ggpredict(wind_model30 ,
 P30a <-plot(P30) +
   labs(
     x = "Average wind speed m/s",
-    y = "Reduction in reconstructed canopy height from Max recorded",
-    title = "",#Predicted effect of wind speed reconstructed canopy heights \n interaction with plant height",
+    y = "Reduction in RCH from Max recorded",
+    title = "",#Predicted effect of wind speed RCHs \n interaction with plant height",
     colour = "Plant Height (m)"
   )+theme_fancy()+ scale_y_reverse()+ theme(legend.position = c(0.2, 0.2))
 
@@ -403,7 +294,7 @@ P22
 P22a<-plot(P22) +
   labs(
     x = "Sun Percent",
-    y = "Reduction in reconstructed canopy height from Max (m)",
+    y = "Reduction in RCH from Max (m)",
     title = ""
   )+ scale_y_reverse()+ theme_fancy()+theme(legend.position = c(0.2, 0.2))
 P22a
@@ -425,15 +316,15 @@ sun_model23<-lme4::glmer(RDCHM ~   Sun_Percent+ (1+Wind_Av+Sun_Elev_calc|plot),
                          data = df_wind,
                          family = gaussian(link = "log"))
 P23 <-ggpredict(sun_model23 , 
-                terms = c("Sun_Percent")) |>  plot(colors = "green")
+                terms = c("Sun_Percent")) |>  plot(colors = "black")
 P23
 
-P23a<-plot(P23,colors = "green") +
+P23a<-plot(P23,colors = "black") +
   labs(
     x = "Sun Percent",
-    y = "Reduction in reconstructed canopy height from Max (m)",
+    y = "Reduction in RCH from Max (m)",
     title = ""
-  )+ scale_y_reverse()+ theme_fancy()
+  )+coord_cartesian(ylim = c(0.1, 0))+ scale_y_reverse()+ theme_fancy()
 P23a
 
 summary(sun_model23)
@@ -453,20 +344,23 @@ sun_model24<-lme4::glmer(RDCHM ~   Sun_Elev_calc+ (1+Wind_Av+Sun_Percent|plot),
                          data = df_wind,
                          family = gaussian(link = "log"))
 P24 <-ggpredict(sun_model24 , 
-                terms = c("Sun_Elev_calc")) |>  plot(colors = "green")
+                terms = c("Sun_Elev_calc")) |>  plot(colors = "black")
+
 P24
 
-P24a<-plot(P24,colors = "green") +
+P24a<-plot(P24,colors = "black") +
   labs(
     x = "Sun Elevation",
-    y = "Reduction in reconstructed canopy height from Max (m)",
+    y = "Reduction in RCH from Max (m)",
     title = ""
-  )+scale_y_reverse()+ theme_fancy()
+  )+  coord_cartesian(ylim = c(0.1, 0))+coord_cartesian(ylim = c(0.1, 0))+scale_y_reverse()+ theme_fancy()
 #+ coord_fixed(xlim=c(20,56),ylim=c(0,1))
 
 P24a
 
 summary(sun_model24)
+
+
 
 ggplot2::ggsave(
   P24a,
@@ -476,6 +370,27 @@ ggplot2::ggsave(
   height = 16,
   units = "cm"
 ) 
+
+## Sun Elevation - sunny surveys only
+sun_model94<-lme4::glmer(RDCHM ~   Sun_Elev_calc+ (1+Wind_Av+Sun_Percent|plot),
+                         data = df_wind_sun,
+                         family = gaussian(link = "log"))
+P94 <-ggpredict(sun_model94 , 
+                terms = c("Sun_Elev_calc")) |>  plot(colors = "black")
+
+P94
+
+P94a<-plot(P94,colors = "black") +
+  labs(
+    x = "Sun Elevation",
+    y = "Reduction in RCH from Max (m)",
+    title = ""
+  )+  coord_cartesian(ylim = c(0.1, 0))+coord_cartesian(ylim = c(0.1, 0))+scale_y_reverse()+ theme_fancy()
+#+ coord_fixed(xlim=c(20,56),ylim=c(0,1))
+
+P94a
+
+summary(sun_model94)
 
 P_All2_illumination <- ggarrange(P24a,P23a, ncol = 2, nrow = 1)
 plot(P_All2_illumination)
@@ -490,6 +405,8 @@ ggplot2::ggsave(
 ) 
 
 
+
+
 #Effect on Sun Percent on RDCHM - with Genus
 sun_model53<-lme4::glmer(RDCHM ~   Sun_Percent  * PlotGenus.x + (1+Wind_Av+Sun_Elev_calc|plot),
                          data = df_wind,
@@ -502,8 +419,8 @@ P53
 P53a<-plot(P53) +
   labs(
     x = "Sun Percent",
-    y = "Reduction in reconstructed canopy height from Max (m)",
-    title = "")+
+    y = "Reduction in RCH from Max (m)",
+    title = "")+ coord_cartesian(ylim = c(0.18, 0))+
     scale_y_reverse()+ theme_fancy()+theme(legend.position = c(0.33, 0.2))+
       theme(legend.title = element_blank())+scale_color_viridis(discrete = TRUE) 
 P53a
@@ -519,33 +436,21 @@ ggplot2::ggsave(
   units = "cm"
 ) 
 
+#patchwork2 <- (P24a + P94a)/(P23a+P53a)
+patchwork2 <- (P24a + P94a)/(P23a+P53a)
 
-# Investigating why Genus should interact with sun percent - plot sizes
+P_All4_illumination<- patchwork2 + plot_annotation(tag_levels = 'A') & 
+  theme(plot.tag = element_text(size = 10))
 
-df_plotsize<-summarise(group_by(plot, PlotGenus),
-               Side_MEAN=mean(plot_side_length))              
-
-write_xlsx(df_plotsize,"output_data/summary_plot_size.xlsx")
-group.colors <- c("Betula" = "#333BFF", "Ulex europaeus" = "#CC6600", "Salix aurita" ="palegreen2", "Festuca arundinacea" = "#E3DB71")
-
-BP_plot_size <- ggplot(data = plot, mapping = aes (x=reorder(PlotGenus, Field_max_height), y=plot_side_length, group=PlotGenus, fill= PlotGenus))+ 
-  xlab("Plot Number") + stat_boxplot(lwd=0.3,outlier.shape = NA)+ scale_x_discrete()+
-  ylab("Plot side length (m)") + ggtitle("") + 
-  scale_fill_manual(values=group.colors)+
-  theme(plot.title = element_text(hjust = 0.5)) + stat_boxplot(geom = "errorbar", coef=NULL, width = 0.3, lwd=0.3)+ theme_fancy()+
-  theme(
-    legend.position = c(0.3, 0.9),
-    legend.justification = c("right", "top"),
-    legend.box.just = "right",
-    legend.margin = margin(6, 6, 6, 6),legend.title=element_blank()
-  )
-BP_plot_size
+P_All4_illumination
 
 ggplot2::ggsave(
-  BP_plot_size,
+  P_All4_illumination,
   # filename = "/plots/test.png",
-  filename = paste0("output_data/Boxplot_plot_side_length_Genus.jpg"),
-  width = 14,
-  height = 10,
+  filename = paste0("output_data/full_model/4_panel_illumination.jpg"),
+  width = 16,
+  height = 16,
   units = "cm"
 ) 
+
+
