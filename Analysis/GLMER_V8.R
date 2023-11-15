@@ -267,7 +267,7 @@ P30 <-ggpredict(wind_model30 ,
 P30a <-plot(P30) +
   labs(
     x = "Average wind speed m/s",
-    y = "Reduction in RCH from Max recorded",
+    y = "Reduction in RCH from Max recorded (m)",
     title = "",#Predicted effect of wind speed RCHs \n interaction with plant height",
     colour = "Plant Height (m)"
   )+theme_fancy()+ scale_y_reverse()+ theme(legend.position = c(0.2, 0.2))
