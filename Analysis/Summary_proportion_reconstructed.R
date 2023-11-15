@@ -679,11 +679,20 @@ PcompareMN <- ggplot(df_temp2) +
   scale_color_identity() +
   theme_fancy() +
   #add title and labels
-  ggtitle(paste0("Mean Plot Data - all surveys"))+
+  ggtitle(paste0(""))+
   theme(aspect.ratio=1)+
-  xlab('CHM Mean Canopy Height (m)')+
-  ylab('IDW Mean Canopy Height (m)')+
+  xlab('Uninterpolated RCH (m)')+
+  ylab('IDW interpolated RCH (m)')+
   coord_equal(ratio=1)+
   coord_fixed(xlim=c(0,4),ylim=c(0,4))
 #plot(  (paste0("P",i,"_w")))
 plot(PcompareMN)  
+
+ggsave(
+  PcompareMN,
+  # filename = "/plots/test.png",
+  filename = "output_data/full_model/chm_vs_idw_summary.png",
+  width = 8,
+  height = 8,
+  units = "cm"
+)  
