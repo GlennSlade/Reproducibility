@@ -257,12 +257,13 @@ ggplot2::ggsave(
 wind_model30 <-lme4::glmer(RDCHM ~  Wind_Av * CHM_MEAN + (1+ PlotGenus.x+Sun_Elev_calc+Sun_Percent|plot),
                            data = df_wind,
                            family = gaussian(link = "log"))#,
-#control=glmerControl(optimizer="bobyqa",optCtrl=list(maxfun=2e5)))
+                        #  control=glmerControl(optimizer="bobyqa",optCtrl=list(maxfun=2e5)))
 #P30 <-ggpredict(wind_model30 , 
 #                terms = c("Wind_Av", "PlotGenus.x ","CHM_MEAN"))# |>  plot()
 P30 <-ggpredict(wind_model30 , 
                 terms = c("Wind_Av","CHM_MEAN [0.1:2.1, by=0.65]"))# |>  plot()
 
+summary (wind_model30)
 
 P30a <-plot(P30) +
   labs(

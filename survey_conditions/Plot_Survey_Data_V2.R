@@ -93,7 +93,79 @@ ggsave(
   units = "cm"
 )
   
+#simplified version of above 
 
+(figurex1 <- SD %>% 
+    ggplot(aes(x=Sun_Elev_calc,
+               y=Wind_Av)) + 
+    geom_point(aes()) +
+    labs(x = "Sun Elevation (degrees)",
+         y = expression("Mean Wind speed (m s"^"-1"*")"),
+         title = "") +  
+    theme_fancy()+ scale_x_continuous(expand = c(0, 0), limits = c(18, 56)) + 
+    scale_y_continuous(expand = c(0, 0), limits = c(0, 3.5) )+ geom_errorbar(aes(ymin=Wind_Av-Wind_SD, ymax=Wind_Av+Wind_SD))
+)
+
+#+coord_cartesian(xlim = c(20, 56), ylim = c(0,2.6))+
+
+(figurex2 <- SD %>% 
+    ggplot(aes(x=Sun_Percent,
+               y=Wind_Av)) + 
+    geom_point(aes()) +
+    labs(x = "Sun Percent during survey %",
+         y = expression("Mean Wind speed (m s"^"-1"*")"),
+         title = "")+ scale_x_continuous(expand = c(0, 0), limits = c(-2, 102)) + 
+    scale_y_continuous(expand = c(0, 0), limits = c(0, 2.6))+
+    theme_fancy()
+)
+
+
+patchwork2 <- (figurex1 +figurex2)
+
+P_All2_survey<- patchwork2 + plot_annotation(tag_levels = 'A') & 
+  theme(plot.tag = element_text(size = 10))
+
+P_All2_survey
+
+ggplot2::ggsave(
+  P_All2_survey,
+  # filename = "/plots/test.png",
+  filename = paste0("output_data/full_model/2_panel_survey_conditions.jpg"),
+  width = 16,
+  height = 10,
+  units = "cm"
+) 
+
+(figurex3 <- SD %>% 
+    ggplot(aes(x=Sun_Elev_calc,
+               y=Sun_Percent)) + 
+    geom_point(aes()) +
+    labs(x = "Sun Elevation (degrees)",
+         y = expression("Sun Percent during survey %"),
+         title = "") +  
+    theme_fancy()+ scale_x_continuous(expand = c(0, 0), limits = c(18, 56)) + 
+    scale_y_continuous(expand = c(0, 0), limits = c(-2, 102)) 
+)
+
+
+patchwork3 <- (figurex3 +figurex2)/figurex1
+
+P_All3_survey<- patchwork3 + plot_annotation(tag_levels = 'A') & 
+  theme(plot.tag = element_text(size = 10))
+
+P_All3_survey
+
+ggplot2::ggsave(
+  P_All3_survey,
+  # filename = "/plots/test.png",
+  filename = paste0("output_data/full_model/3_panel_survey_conditions.jpg"),
+  width = 16,
+  height = 16,
+  units = "cm"
+) 
+
+
+#+coord_cartesian(xlim = c(0, 101), ylim = c(0,2.6))
 #Max wind speed vs Sun Elevation
 #SD %>% ggplot(aes (x=Sun_Elev_calc, y=Wind_Max, colour = Sky_Code))+ geom_point((aes (colour =Sky_Code )) + scale_color_manual(values = c("7" = "purple",6"= "orange",
 #                                                                                                                                           "5"="red")) ) 
