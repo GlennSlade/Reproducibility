@@ -331,11 +331,11 @@ P4 <- ggplot(df_temp2) +
   #add title and labels
   ggtitle(paste0(""))+
   theme(aspect.ratio=1)+
-  xlab('Uninterpolated RCH (m)')+
+  xlab('Un-interpolated RCH (m)')+
   ylab('IDW interpolated RCH (m)')+
   coord_equal(ratio=1)+
-  scale_x_continuous(expand = c(0, 0), limits = c(0, 4)) + 
-  scale_y_continuous(expand = c(0, 0), limits = c(0, 4))+geom_abline(slope=1, intercept = 0,linetype="dashed", linewidth = 1)
+  scale_x_continuous(expand = c(0, 0), limits = c(0, 3.5)) + 
+  scale_y_continuous(expand = c(0, 0), limits = c(0, 3.5))+geom_abline(slope=1, intercept = 0,linetype="dashed", linewidth = 1)
 #coord_fixed(xlim=c(0.39,2.55),ylim=c(0,1.2))
 #plot(  (paste0("P",i,"_w")))
 plot(P4)
@@ -343,9 +343,9 @@ plot(P4)
 ggsave(
   P4,
   # filename = "/plots/test.png",
-  filename = "output_data/full_model/comparison_chm_idw_v2.png",
-  width = 8,
-  height = 8,
+  filename = "output_data/full_model/comparison_chm_idw_v3.png",
+  width = 12,
+  height = 12,
   units = "cm"
 )
 
@@ -485,7 +485,7 @@ PcompareS <- ggplot(df_temp2) +
   xlab('Uninterpolated RCH (m)')+
   ylab('IDW interpolated RCH (m)')+
   coord_equal(ratio=1)+
-  coord_fixed(xlim=c(0,3),ylim=c(0,3))+geom_abline(slope=1, intercept = 0,linetype="dashed", linewidth = 1)
+  coord_fixed(xlim=c(0,3.5),ylim=c(0,3.5))+geom_abline(slope=1, intercept = 0,linetype="dashed", linewidth = 1)
 #plot(  (paste0("P",i,"_w")))
 plot(PcompareS)
 

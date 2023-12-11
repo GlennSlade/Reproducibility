@@ -74,6 +74,8 @@ df3<-summarise(group_by(df2, survey),
                Wind=mean(Wind_Av),RDCHM = mean(RDCHM),RDCHM_Percent = mean(RDCHM_Percent),Sun = mean(Sun_Elev_calc), SunP = mean(Sun_Percent), Empty = mean(empty_prop),Wind_SD = mean (Wind_SD), Wind_Max = mean (Wind_Max))              
 
 
+write_xlsx(df3,"output_data/summary_survey_statistics.xlsx")
+
 df<- df3
 
 #Plotting
@@ -854,3 +856,57 @@ ggplot2::ggsave(
 P_All4species <- ggarrange(P1betula, P1salix,P1u,P1f, ncol = 2, nrow = 2)
 plot(P_All4species)
 
+
+# Assign Average wind to X and Mean Canopy height to Y
+
+x <- as.vector(df3$Wind_SD)
+y <- as.vector(df3$RDCHM)
+df_temp <- data.frame(x = x, y = y,
+                      d = densCols(x, y, colramp = colorRampPalette(rev(c('yellow','orange','turquoise4','dodgerblue4')))))#colorRampPalette(rev(rainbow(10, end = 4/6)))))
+# Calculate Total Least Squares Regression (extracted from base-R PCA function)
+pca <- prcomp(~x+y,df_temp)
+
+tls_slp <- with(pca, rotation[2,1] / rotation[1,1]) # compute slope
+tls_int <- with(pca, center[2] - tls_slp*center[1]) # compute y-intercept
+equation <- paste("y = ", round(tls_int, 3), "+", round(tls_slp, 3), "x") # equation for printing
+
+# Compute the Lin's  correlation concordance coefficient
+# ccc_result <- CCC(x, y, ci = "z-transform",conf.level = 0.95)
+#ccc <- paste("CCC = ", round(ccc_result$rho.c[1], 3))
+
+MADval <- mean(abs(x-y))
+MADrel <- MADval/mean(x)*100
+lmres <- lm(y~x)
+r2val <- summary(lmres)$r.squared
+
+#Plot the graph
+
+#(paste0("P",i,"_w")) <- ggplot(df_temp) +
+P15 <- ggplot(df_temp) +
+  geom_smooth(aes(x, y,col='black',weight=0.01),method='lm',formula=y ~ x,se=FALSE) +
+  geom_point(aes(x, y), alpha=0.3, size = 1) +
+  #add the statistics
+  geom_text(aes(x=0.0,y=0.5),label=paste0('MAD: ',round(MADval,3)),hjust='left',size=2.0)+
+  geom_text(aes(x=0.0,y=0.47),label=paste0('R2: ',round(r2val,2)),hjust='left',size=2.0)+
+  #geom_text(aes(x=0.0,y=0.44),label=ccc,hjust='left', size=2.0)+
+  geom_text(aes(x=0.0,y=0.41),label=equation,hjust='left', size=2.0)+
+  #theme(text = element_text(size=20))+
+  scale_color_identity() +
+  theme_fancy() +
+  #add title and labels
+  ggtitle(paste0("Comparison of Wind speed SD and RDCHM mean values from surveys"))+
+  #theme(aspect.ratio=1)+
+  xlab('Wind Speed SD')+
+  ylab('RDCHM - Mean all plots')
+#coord_equal(ratio=1)
+#coord_fixed(xlim=c(0,0.8),ylim=c(0,0.8))
+#plot(  (paste0("P",i,"_w")))
+plot(P15)
+ggplot2::ggsave(
+  P15,
+  # filename = "/plots/test.png",
+  filename = paste0("output_data/full_model/summary_windSD_RDCHM.jpg"),
+  width = 10,
+  height = 10,
+  units = "cm"
+) 

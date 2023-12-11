@@ -238,7 +238,7 @@ ggsave(
     xlab('CHM Mean Canopy Height (m)')+
     ylab('IDW Mean Canopy Height (m)')+
     coord_equal(ratio=1)+
-  coord_fixed(xlim=c(0,3),ylim=c(0,3))
+  coord_fixed(xlim=c(0,3.5),ylim=c(0,3.5))
   #plot(  (paste0("P",i,"_w")))
   plot(PcompareS)
 
@@ -362,7 +362,7 @@ ggsave(
   ggsave(
     Panel4,
     # filename = "/plots/test.png",
-    filename = "output_data/plots/chm_vs_idw_species_v2.png",
+    filename = "output_data/full_model/chm_vs_idw_species_v2.png",
     width = 16,
     height = 16,
     units = "cm"

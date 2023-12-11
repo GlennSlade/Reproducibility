@@ -80,6 +80,8 @@ master_df <- full_join (df2, df4, by = "plot")
 master_df <- master_df %>% mutate(RDCHM = Mn_chm - MEANCHMGCP )
 master_df <- master_df %>% mutate(RDGNSS = Mn_chm - GNSS )
 
+write_xlsx(master_df,paste0("C:/Workspace/R_Scripts/Reproducibility/data/mean_GCP_recon_master.xlsx"))
+
 # Look at Plot of difference over surveys
 
 # GCP 1
@@ -219,7 +221,7 @@ plot(p13)
 
 p14 <- ggplot(data = master_df, mapping = aes (x=survey, y=RDCHM, group = survey))+ 
   stat_boxplot(fill="steelblue",outlier.shape = NA)+
-  xlab("Survey Number") + ylab("Reconstructed Height - difference from mean (m)")+theme_fancy()+ 
+  xlab("Survey Number") + ylab("Reconstructed Height - difference from GNSS measurement (m)")+theme_fancy()+ 
   ggtitle("Ground Control Point Reconstructed Height - difference all surveys and all GCPs") + 
   geom_hline(yintercept=0, linetype="dashed", color = "grey")
 plot (p14)
@@ -228,9 +230,9 @@ plot (p14)
 ggplot2::ggsave(
   p14,
   # filename = "/plots/test.png",
-  filename = paste0("C:/Workspace/R_Scripts/Reproducibility/output_data/GCP_reconstructed_height.jpg"),
+  filename = paste0("C:/Workspace/R_Scripts/Reproducibility/output_data/GCP_reconstructed_height_difference from GNSS.jpg"),
   width = 16,
-  height = 16,
+  height = 8,
   units = "cm"
 ) 
 
@@ -250,4 +252,9 @@ ggplot2::ggsave(
   height = 16,
   units = "cm"
 ) 
+
+df3<-summarise(group_by(master_df, survey),
+               CHM=mean(Mn_chm),
+               Wind=mean(Wind_Av),Mean_dif_GCP = mean(RDCHM))              
+write_xlsx(df3,"output_data/summary_survey_GCP_reconstruction.xlsx")
 

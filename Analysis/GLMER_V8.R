@@ -110,7 +110,7 @@ df4 <- df4  %>% mutate(binary_skycode = case_when(Sky_Code <= 5 ~ 1,
 #                             TRUE ~ NA_real_))
 
 
-df_wind <- df4 %>% dplyr::select (survey,RDCHM_Percent,plot,Mn_chm,Wind_Av,Sun_Elev_calc, Sun_Percent, empty_prop, PlotGenus.x,RDCHM,illumination,binary_skycode,CHM_MEAN)
+df_wind <- df4 %>% dplyr::select (survey,Max_chm,Sd_chm,RDCHM_Percent,plot,Mn_chm,Wind_Av,Sun_Elev_calc, Sun_Percent, empty_prop, PlotGenus.x,RDCHM,illumination,binary_skycode,CHM_MEAN)
 
 
 df_wind <- df_wind %>% na.omit(df_wind)# get rid of any na rows belonging to surveys not processed yet
@@ -186,6 +186,8 @@ P8a<-plot(P8,colors = "black") +
 
 P8a
 
+summary(wind_model8)
+
 ggplot2::ggsave(
   P8a,
   # filename = "/plots/test.png",
@@ -195,7 +197,7 @@ ggplot2::ggsave(
   units = "cm"
 ) 
 
-summary(wind_model8)
+
 
 # Panel with two main wind effect plots
 
@@ -455,3 +457,189 @@ ggplot2::ggsave(
 ) 
 
 
+
+
+# Sun elevation predictions plotted on one plot
+
+Predict_Sunny <-ggpredict(sun_model94 , 
+                          terms = c("Sun_Elev_calc [20:55]")) # sunny data only
+
+
+Predict_All <-ggpredict(sun_model24 , 
+                        terms = c("Sun_Elev_calc [20:55]")) # all data
+
+# Predict_All2 <- Predict_All%>% dplyr::mutate(model = "All data",.keep = "all") # 2 = all data
+# Predict_All3 <- Predict_All %>% add_column(model = "All Data")
+# 
+# Predict_All4 <-ggpredict(sun_model24 , 
+#                         terms = c("Sun_Elev_calc [20:55]"))|>dplyr::mutate(model = "All data")
+
+Predict_All5 <- tibble::as_tibble(Predict_All)|> dplyr::mutate(model="All data")
+
+
+
+Predict_Sunny5 <-  tibble::as_tibble(Predict_Sunny)|> dplyr::mutate(model="Cloud free data")
+P_Join <-dplyr::full_join(Predict_Sunny5, Predict_All5)
+
+P <-ggplot(P_Join, aes(x, predicted, colour = model, fill = model)) +
+  geom_line() +
+  geom_ribbon(aes(ymin = conf.low, ymax = conf.high), linetype=0,alpha = 0.1) +
+  labs(x = "Sun Elevation")
+P
+
+theme_fancy3 <- function() {
+  theme_bw() +
+    theme(
+      text = element_text(family = "Helvetica"),
+      axis.text = element_text(size = 6, color = "black"),
+      axis.title = element_text(size = 6, color = "black"),
+      axis.line.x = element_line(size = 0.3, color = "black"),
+      axis.line.y = element_line(size = 0.3, color = "black"),
+      axis.ticks = element_line(size = 0.3, color = "black"),
+      panel.border = element_blank(),
+      panel.grid.major.x = element_blank(),
+      panel.grid.minor.x = element_blank(),
+      panel.grid.minor.y = element_blank(),
+      panel.grid.major.y = element_blank(),
+      plot.margin = unit(c(0.5, 0.5, 0.5, 0.5), units = , "cm"),
+      plot.title = element_text(
+        size = 8,
+        vjust = 1,
+        hjust = 0.5,
+        color = "black"
+      ),
+      legend.text = element_text(size = 6, color = "black"),
+      legend.title = element_text(size = 6, color = "black"),
+      #      legend.position = c(0.9, 0.9),
+      legend.key.size = unit(0.9, "line"),
+      legend.background = element_rect(
+        color = "black",
+        fill = "transparent",
+        size = 2,
+        linetype = "blank"
+      )
+    )
+}
+
+PCombined<-plot(P) +
+  labs(
+    x = "Sun Elevation",
+    y = "Reduction in RCH from Max (m)"
+  )+  coord_cartesian(ylim = c(0.1, 0))+coord_cartesian(ylim = c(0.1, 0))+scale_y_reverse()+ theme_fancy3()+
+  theme(legend.position = c(0.38, 0.12))+theme(legend.key.size = unit (3,"mm"))
+
+PCombined
+
+
+P23b <-plot(P23a)+theme_fancy3()+theme(legend.key.size = unit (3,"mm"))
+P53b <-plot(P53a)+theme_fancy3()+theme(legend.position = c(0.45, 0.15))+
+  theme(legend.title = element_blank())+theme(legend.key.size = unit (3,"mm"))
+
+patchwork2 <- PCombined+P23b+P53b
+
+P_All3_illumination<- patchwork2 + plot_annotation(tag_levels = 'A') & 
+  theme(plot.tag = element_text(size = 10))
+
+
+P_All3_illumination
+
+
+ggplot2::ggsave(
+  P_All3_illumination,
+  # filename = "/plots/test.png",
+  filename = paste0("output_data/full_model/3_panel_illumination.jpg"),
+  width = 16,
+  height = 8,
+  units = "cm"
+) 
+
+# Sun and plant height model
+
+
+sun_model92<-lme4::glmer(RDCHM ~   Sun_Percent * CHM_MEAN + (1+Wind_Av+Sun_Elev_calc+PlotGenus.x|plot),
+                         data = df_wind,
+                         family = gaussian(link = "log"))
+P92 <-ggpredict(sun_model92 , 
+                terms = c("Sun_Percent","CHM_MEAN [0:2, by=0.6]")) |>  plot()
+P92
+
+P92a<-plot(P92) +
+  labs(
+    x = "Sun Percent",
+    y = "Reduction in RCH from Max (m)",
+    title = "",
+    colours = "Plant Height"
+  )+ scale_y_reverse()+ theme_fancy()+theme(legend.position = c(0.1, 0.1))
+P92a
+
+summary(sun_model92)
+
+ggplot2::ggsave(
+  P92a,
+  # filename = "/plots/test.png",
+  filename = paste0("output_data/full_model/glmer_RDCHM_sun_percent_plant height.jpg"),
+  width = 8,
+  height = 10,
+  units = "cm"
+) 
+
+# GLMER model for max RCH
+
+wind_model111 <-lme4::glmer(Max_chm ~  Wind_Av * PlotGenus.x + (1+Sun_Elev_calc+Sun_Percent|plot),
+                           data = df_wind,
+                           family = gaussian(link = "log"),
+                           control=glmerControl(optimizer="bobyqa",optCtrl=list(maxfun=2e5)))
+
+(P111 <-ggpredict(wind_model111 , 
+                 terms = c("Wind_Av","PlotGenus.x")) |>  plot())
+
+P111a<-plot(P111) +
+  labs(
+    x = "Average wind speed (m/s)",
+    y = "Max reconstructed CH (m)",
+    title = "",
+    fill = "Plot Genus"
+  ) +  coord_cartesian(ylim = c(0, 3)) + theme_fancy()+
+  theme(legend.position = c(0.15, 0.1))+
+  theme(legend.title = element_blank())+scale_color_viridis(discrete = TRUE) 
+P111a
+
+ggplot2::ggsave(
+  P111a,
+  # filename = "/plots/test.png",
+  filename = paste0("output_data/full_model/glmer_MaxRCH_Wind_B.jpg"),
+  width = 8,
+  height = 10,
+  units = "cm"
+) 
+
+# as above but with SD of RCH
+
+wind_model112 <-lme4::glmer(Sd_chm ~  Wind_Av * PlotGenus.x + (1+Sun_Elev_calc+Sun_Percent|plot),
+                            data = df_wind,
+                            family = gaussian(link = "log"),
+                            control=glmerControl(optimizer="bobyqa",optCtrl=list(maxfun=2e5)))
+
+(P112 <-ggpredict(wind_model112 , 
+                  terms = c("Wind_Av","PlotGenus.x")) |>  plot())
+
+P112a<-plot(P112) +
+  labs(
+    x = "Average wind speed (m/s)",
+    y = "SD of reconstructed CH (m)",
+    title = "",
+    fill = "Plot Genus"
+  ) +  coord_cartesian(ylim = c(0, 0.5)) + theme_fancy()+
+  theme(legend.position = c(0.15, 0.1))+
+  theme(legend.title = element_blank())+scale_color_viridis(discrete = TRUE) 
+P112a
+
+  ggplot2::ggsave(
+  P112a,
+  # filename = "/plots/test.png",
+  filename = paste0("output_data/full_model/glmer_SDRCH_Wind_B.jpg"),
+  width = 8,
+  height = 10,
+  units = "cm"
+) 
+  
