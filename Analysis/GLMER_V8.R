@@ -1,4 +1,4 @@
-# Develpoment script for GLMM
+# Development script for GLMM
 
 library(tidyverse)
 library(viridis)
@@ -8,14 +8,13 @@ library(DescTools)
 library(lme4)
 library(nlme)
 library(arm)
-library(dplyr)
 library(ggeffects)
 library(splines)
 library(emmeans)
 library(qqplotr)
 library(marginaleffects)
 library(see)
-library (cowplot)
+library(cowplot)
 library(ggpubr)
 library(patchwork)
 
