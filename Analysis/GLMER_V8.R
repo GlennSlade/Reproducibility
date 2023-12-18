@@ -162,6 +162,11 @@ ggplot2::ggsave(
 ) 
 
 summary(wind_model11)
+broom.mixed::tidy(wind_model11)
+marginaleffects::avg_predictions(wind_model11)
+marginaleffects::predictions(wind_model11)
+marginaleffects::avg_slopes(wind_model11, variables="Wind_Av", by="PlotGenus.x")
+marginaleffects::avg_slopes(wind_model11)
 
 #8. As above but predictiing for Wind only 
 
@@ -187,6 +192,9 @@ P8a<-plot(P8,colors = "black") +
 P8a
 
 summary(wind_model8)
+broom.mixed::tidy(wind_model8)
+marginaleffects::avg_slopes(wind_model8)
+marginaleffects::avg_predictions(wind_model8)
 
 ggplot2::ggsave(
   P8a,
@@ -331,6 +339,8 @@ P23a<-plot(P23,colors = "black") +
 P23a
 
 summary(sun_model23)
+marginaleffects::avg_slopes(sun_model23)
+
 
 ggplot2::ggsave(
   P23a,
@@ -363,7 +373,7 @@ P24a
 
 summary(sun_model24)
 
-
+marginaleffects::avg_slopes(sun_model24)
 
 ggplot2::ggsave(
   P24a,
@@ -394,6 +404,9 @@ P94a<-plot(P94,colors = "black") +
 P94a
 
 summary(sun_model94)
+marginaleffects::avg_slopes(sun_model94)
+
+
 
 P_All2_illumination <- ggarrange(P24a,P23a, ncol = 2, nrow = 1)
 plot(P_All2_illumination)
@@ -429,6 +442,8 @@ P53a<-plot(P53) +
 P53a
 
 summary(sun_model53)
+marginaleffects::avg_slopes(sun_model53, variables="Sun_Percent", by = "PlotGenus.x")
+
 
 ggplot2::ggsave(
   P53a,
@@ -642,4 +657,41 @@ P112a
   height = 10,
   units = "cm"
 ) 
+  
+  
+  # Repeat model for max canopy height
+  
+  
+  wind_model_max <-lme4::glmer(Max_chm ~  Wind_Av + (1+Sun_Elev_calc+Sun_Percent|plot),
+                            data = df_wind,
+                            family = gaussian(link = "log"))
+  #family = gaussian(link = "log"),
+  # control=glmerControl(optimizer="bobyqa",optCtrl=list(maxfun=2e5)))
+  
+  #wind_model8 <- wind_model11
+  
+  (P8Max <-ggpredict(wind_model_max , 
+                  terms = c("Wind_Av")) |>  plot(colors = "black"))
+  
+  P8Maxa<-plot(P8Max,colors = "black") +
+    labs(
+      x = "Average wind speed (m/s)",
+      y = "Max RCH (m)",
+      title = "")+
+    coord_cartesian(ylim = c(0, 2)) + theme_fancy()+
+    theme(legend.title = element_blank())
+  
+  P8Maxa
+  
+  marginaleffects::avg_slopes(wind_model_max)
+  
+  ggplot2::ggsave(
+    P8Maxa,
+    # filename = "/plots/test.png",
+    filename = paste0("output_data/full_model/glmer_Max_chm_Wind.jpg"),
+    width = 8,
+    height = 10,
+    units = "cm"
+  ) 
+  
   

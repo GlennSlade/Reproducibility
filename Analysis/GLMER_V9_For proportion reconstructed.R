@@ -172,7 +172,7 @@ ggplot2::ggsave(
 summary(wind_model8)
 
 
-
+marginaleffects::avg_slopes(wind_model8)
 
 
 ## Model just sun percent no Genus
@@ -194,7 +194,7 @@ P23a<-plot(P23,colors = "black") +
 P23a
 
 summary(sun_model23)
-
+marginaleffects::avg_slopes(sun_model23)
 ggplot2::ggsave(
   P23a,
   # filename = "/plots/test.png",
@@ -227,6 +227,7 @@ P24a
 
 summary(sun_model24)
 
+marginaleffects::avg_slopes(sun_model24)
 
 
 ggplot2::ggsave(
@@ -531,3 +532,50 @@ ggplot2::ggsave(
 ) 
 
 summary(wind_model11)
+
+# modelling the influence of proportion on RDCHM
+
+prop_model24<-lme4::glmer(RDCHM ~  prop + (1|plot),
+                         data = df_wind,
+                         family = gaussian(link = "log"),
+                         control=glmerControl(optimizer="bobyqa",optCtrl=list(maxfun=2e5)))
+Pp4 <-ggpredict(prop_model24 , 
+                terms = c("prop")) |>  plot(colors = "black")
+
+Pp4
+
+Pp4a<-plot(Pp4,colors = "black") +
+  labs(
+    x = "Proportion reconstructed",
+    y = "RDCHM",
+    title = ""
+  )+  coord_cartesian()+scale_y_reverse()+ scale_x_reverse()+theme_fancy()
+#+ coord_fixed(xlim=c(20,56),ylim=c(0,1))
+
+Pp4a
+
+
+Pp4b<-plot(Pp4,colors = "black") +
+  labs(
+    x = "Proportion of plot reconstructed",
+    y = "Reduction in RCH from Max (m)",
+    title = ""
+  )+  coord_cartesian(ylim = c(0.4, 0),xlim = c(1, 0.5), ) +scale_y_reverse()+ scale_x_reverse()+theme_fancy()
+#+ coord_fixed(xlim=c(20,56),ylim=c(0,1))
+
+Pp4b
+
+coord_cartesian(ylim = c(0.4, 0),xlim = c(1, 0.5), ) +scale_y_reverse()+
+
+summary(prop_model24)
+
+marginaleffects::avg_slopes(prop_model24)
+
+ggplot2::ggsave(
+  Pp4b,
+  # filename = "/plots/test.png",
+  filename = paste0("output_data/full_model/glmer_prop_RDCHM.jpg"),
+  width = 7,
+  height = 8,
+  units = "cm"
+) 
