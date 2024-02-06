@@ -8,7 +8,7 @@ We captured 61 UAV SfM surveys at the same study area under a range of wind/sun/
 
 ### This Repo contains the following folders:  
 "Manuscript_Scripts" folder contains the final GLMER models and other analysis with plots and annotation developed to produce figures for the Manuscript.  
-"metashape_automation" contains the python scripts used to automate the processing of raw drone image data into point clouds using  Agisoft Metashape software. 
+"metashape_automation" contains the python scripts used to automate the processing of raw drone image data into point clouds using  Agisoft Metashape software. These scripts have been adapted to ensure the RTK enhanced location data is used during image processing.  
 "HAG" folder contains scripts used to calculate DTMs and Canopy Heights for each plot and each survey.  
 "survey_conditions" folder contains scripts used to investigate and plot survey conditions.    
 "data" folder contains survey, plot and, extracted canopy height data.  
