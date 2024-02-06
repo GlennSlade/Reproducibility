@@ -1,4 +1,4 @@
-# Empty cells in reconstruction compared to wind speed and sun angle
+# Summary plot statistics
 
 
 # Libraries

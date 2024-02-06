@@ -1,3 +1,4 @@
+# Comparison script for CH derived from un-interpolated data and IDW interpolated data
 # Libraries
 library(tidyverse)
 library(viridis)
