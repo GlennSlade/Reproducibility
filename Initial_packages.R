@@ -1,3 +1,5 @@
+# Initial collection of packages used in this repo
+
 library (tidyverse)                                                             # Because AC likes it
 library(devtools)                                                               #
 library(viridis)                                                                # For friendly colour palettes.
@@ -26,3 +28,18 @@ library(performance)                                                            
 library(see) 
 library(ggplot2)
 library (suncalc)
+library(nlme)
+library(arm)
+library(ggeffects)
+library(splines)
+library(emmeans)
+library(qqplotr)
+library(marginaleffects)
+library(see)
+library(cowplot)
+library(ggpubr)
+library(patchwork)
+library(viridis)
+library(readxl)
+library(writexl)
+library(DescTools)
