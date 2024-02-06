@@ -5,7 +5,7 @@ How do wind speed and solar illumination affect the reconstruction of canopy hei
 
 We captured 61 UAV SfM surveys at the same study area under a range of wind/sun/cloud conditions over a 24-day period during 2021 and used generalised linear mixed effects models to test how the structural reconstructions varied with environmental conditions. 
 
-
+![readme figure](https://github.com/TESS-Laboratory/Reproducibility/assets/71012708/787487fa-9f22-4b8e-bdf0-002d7b14a067)
 
 This Repo contains:
 /HAG/ folder contains scripts used to calculate DTMs and Canopy Heights for each plot and each survey
