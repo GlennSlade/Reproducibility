@@ -1,6 +1,6 @@
 # Reproducibility
 ## Project investigating the reproducibility of canopy heights derived from drone acquired structure-from-motion photogrammetry.
-Project aims to answer the research question:  
+This project aims to answer the research question:  
 How do wind speed and solar illumination affect the reconstruction of canopy height and prediction of aboveground biomass with structure-from-motion photogrammetry?    
 We captured 61 UAV SfM surveys at the same study area under a range of wind/sun/cloud conditions over a 24-day period during 2021 and used generalised linear mixed effects models to test how the structural reconstructions varied with environmental conditions. 
 
@@ -18,5 +18,5 @@ We captured 61 UAV SfM surveys at the same study area under a range of wind/sun/
 
 Analysis and results submitted for publication in Remote Sensing for Ecology and Conservation:    
 ### Repeated drone photogrammetry surveys demonstrate that reconstructed canopy heights are sensitive to wind speed but relatively insensitive to illumination conditions.  
-### Contributors: Glenn Slade*, Karen Anderson, Hugh A. Graham1, Andrew M. Cunliffe  
+### Contributors: Glenn Slade*, Karen Anderson, Hugh A. Graham, Andrew M. Cunliffe  
 
