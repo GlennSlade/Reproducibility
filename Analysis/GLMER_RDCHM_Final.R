@@ -1,4 +1,4 @@
-# Development script for GLMM
+# Script applying GLMER Models to Retreievd Canopy Height 
 
 library(tidyverse)
 library(viridis)
@@ -18,7 +18,6 @@ library(cowplot)
 library(ggpubr)
 library(patchwork)
 
-#GLMM development
 
 theme_fancy <- function() {
   theme_bw() +
@@ -89,9 +88,9 @@ df4 <- df4 %>% mutate(RDCHM = CHM_MAX - Mn_chm)# GLMER Gamma needs positive numb
 df4 <- df4 %>% mutate(RDCHM_Percent = (RDCHM/CHM_MAX)* 100)# Difference as a percentage of height of plant
 
 
-# Fudge for now - GLMER gamma does not support non positive values which includes zero
+# GLMER gamma does not support negative values which includes zero
 # adding a small amount to RDCHM to ensure all values non zero
-df4 <- df4 %>% mutate(RDCHM = RDCHM+0.00001)
+df4 <- df4 %>% mutate(RDCHM = RDCHM+0.000001)
 
 
 # 3 class illumination  0=  diffuse light no shadows 1= varied shadow mixed conditions 2= direct light strong shadows 
@@ -115,14 +114,14 @@ df_wind <- df4 %>% dplyr::select (survey,Max_chm,Sd_chm,RDCHM_Percent,plot,Mn_ch
 df_wind <- df_wind %>% na.omit(df_wind)# get rid of any na rows belonging to surveys not processed yet
 
 # Produce DF for each Plot Genus
-df_windb<- filter(df_wind,PlotGenus.x == "Betula")
-df_winds<- filter(df_wind,PlotGenus.x == "Salix aurita")
-df_windu<- filter(df_wind,PlotGenus.x == "Ulex europaeus")
-df_windf<- filter(df_wind,PlotGenus.x == "Festuca arundinacea")
-df_wind_sun<- filter(df_wind,Sun_Percent >90)
-df_wind_cloud <- filter(df_wind,Sun_Percent <50)
-df_wind_low_elev <- filter(df_wind,Sun_Elev_calc <40)
-df_wind_high_elev <- filter(df_wind,Sun_Elev_calc >40)
+# df_windb<- filter(df_wind,PlotGenus.x == "Betula")
+# df_winds<- filter(df_wind,PlotGenus.x == "Salix aurita")
+# df_windu<- filter(df_wind,PlotGenus.x == "Ulex europaeus")
+# df_windf<- filter(df_wind,PlotGenus.x == "Festuca arundinacea")
+# df_wind_sun<- filter(df_wind,Sun_Percent >90)
+# df_wind_cloud <- filter(df_wind,Sun_Percent <50)
+# df_wind_low_elev <- filter(df_wind,Sun_Elev_calc <40)
+# df_wind_high_elev <- filter(df_wind,Sun_Elev_calc >40)
 
 #### ALL SPECIES
 

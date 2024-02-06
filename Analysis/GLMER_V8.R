@@ -1,4 +1,4 @@
-# Development script for GLMM
+# Development script for GLMER
 
 library(tidyverse)
 library(viridis)
