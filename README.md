@@ -24,5 +24,4 @@ We captured 61 UAV SfM surveys at the same study area under a range of wind/sun/
 "GCP" folder contains the scripts used to extract the elevation of the GCP surface from the survey point clouds and compare with GNSS measured elevation.  
 "Analysis" folder contains scripts used to analyse the relationship between reconstructed canopy height variation and wind and illumination conditions.  
 
-A static version is archived at 04
-[![DOI](https://zenodo.org/badge/377184515.svg)](https://zenodo.org/doi/10.5281/zenodo.10626899)
+A static version is archived at [![DOI](https://zenodo.org/badge/377184515.svg)](https://zenodo.org/doi/10.5281/zenodo.10626899)
