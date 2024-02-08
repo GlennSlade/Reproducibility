@@ -1,9 +1,10 @@
 # Reproducibility of Structure-from-motion photogrammetry for reconstructing vegetation canopies
 
-Data and analytical codebase of manuscript submitted for consideration for publication in Remote Sensing for Ecology and Conservation:    
-
+This repository contains summary data and the analytical codebase of manuscript 
 ### Repeated drone photogrammetry surveys demonstrate that reconstructed canopy heights are sensitive to wind speed but relatively insensitive to illumination conditions.  
-### Contributors: Glenn Slade, Karen Anderson, Hugh A. Graham, Andrew M. Cunliffe  
+### Contributors: Glenn Slade, Karen Anderson, Hugh A. Graham, and Andrew M. Cunliffe  
+Which has been submitted for consideration for publication in Remote Sensing for Ecology and Conservation.
+
 
 To explore the reproducibility of UAV-based SfM photogrammetry for vegetation monitoring, this study addressed the following research questions: 
 1) Does wind speed, during the survey, influence the reconstruction of canopy heights?
