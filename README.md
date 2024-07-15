@@ -3,7 +3,10 @@
 This repository contains summary data and the analytical codebase of manuscript:
 ### Repeated drone photogrammetry surveys demonstrate that reconstructed canopy heights are sensitive to wind speed but relatively insensitive to illumination conditions.  
 ### Contributors: Glenn Slade, Karen Anderson, Hugh A. Graham, and Andrew M. Cunliffe  
-Which has been submitted for consideration for publication in Remote Sensing for Ecology and Conservation.
+Published in International Journal of Remote Sensing.
+DOI: 10.1080/01431161.2024.2377832
+
+Original data available at https://doi.org/10.5061/dryad.s4mw6m9fq
 
 
 To explore the reproducibility of UAV-based SfM photogrammetry for vegetation monitoring, this study addressed the following research questions: 
